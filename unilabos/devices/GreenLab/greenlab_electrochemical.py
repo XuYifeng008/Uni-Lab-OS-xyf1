@@ -3,7 +3,7 @@
 """
 GreenLab 电反应仪驱动 for Uni-Lab OS
 
-支持通过Modbus RTU/TCP协议控制GreenLab电反应仪，包括：
+支持通过Modbus RTU协议控制GreenLab电反应仪，包括：
 - 6通道恒流/恒压输出控制
 - 搅拌电机控制
 - 实时电压/电流监测
@@ -14,7 +14,16 @@ import time
 import logging
 from enum import Enum
 from typing import Optional, Dict, Any, List, Tuple
-from pymodbus.client import ModbusSerialClient, ModbusTcpClient
+
+try:
+    from pymodbus.client import ModbusSerialClient
+except ImportError:
+    ModbusSerialClient = None  # type: ignore[misc, assignment]
+
+try:
+    import serial  # noqa: F401  # pyserial，Modbus RTU 依赖
+except ImportError:
+    serial = None  # type: ignore[misc, assignment]
 
 try:
     from unilabos.device_comms.universal_driver import UniversalDriver
@@ -53,6 +62,34 @@ class FaultStatus(Enum):
     CURRENT_OVER_LIMIT = 2          # 电流超限制
     COUNTDOWN_NOT_SET = 3           # 请设置倒计时时间
     VOLTAGE_OVER_OR_RESISTANCE = 4  # 电压超限或电阻过大
+
+
+class RTUModbusSerialClient(ModbusSerialClient):
+    """带 RS485 RTS 方向控制的 Modbus RTU 客户端
+
+    GreenLab 官方 Modbus Poll 配置启用了 RTSToggle，半双工 RS485 需要切换收发方向。
+    """
+
+    def __init__(self, *args, rts_toggle: bool = True, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.rts_toggle = rts_toggle
+
+    def _set_transmit_mode(self, transmit: bool) -> None:
+        if not self.rts_toggle or not self.socket:
+            return
+        # 与 Modbus Poll 配置一致: DTR=1, RTSToggle=1
+        level = transmit
+        self.socket.rts = level
+        self.socket.dtr = level
+        time.sleep(0.002)
+
+    def send(self, request: bytes, addr: tuple | None = None) -> int:
+        self._set_transmit_mode(True)
+        return super().send(request, addr)
+
+    def recv(self, size: int | None = None) -> bytes:
+        self._set_transmit_mode(False)
+        return super().recv(size)
 
 
 class GreenLabElectrochemical(UniversalDriver):
@@ -97,26 +134,38 @@ class GreenLabElectrochemical(UniversalDriver):
     REG_SPEED_READ = 68              # 当前转速
 
     def __init__(self,
-                 port: Optional[str] = None,
-                 ip: Optional[str] = None,
-                 modbus_port: int = 502,
-                 baudrate: int = 9600,
+                 port: str = 'COM8',
+                 baudrate: int = 115200,
                  slave_id: int = 1,
-                 timeout: int = 3):
+                 timeout: int = 3,
+                 rts_toggle: bool = True,
+                 inter_frame_delay: float = 0.05):
         """初始化GreenLab电反应仪驱动
 
         Args:
-            port: 串口端口 (用于Modbus RTU)，例如 'COM3' 或 '/dev/ttyUSB0'
-            ip: IP地址 (用于Modbus TCP)
-            modbus_port: Modbus TCP端口，默认502
-            baudrate: 串口波特率，默认9600 (可选: 2400/4800/9600/19200/57600/115200)
+            port: 串口端口 (Modbus RTU)，例如 'COM3' 或 '/dev/ttyUSB0'
+            baudrate: 串口波特率，默认115200 (可选: 2400/4800/9600/19200/57600/115200)
             slave_id: Modbus从站地址，默认1
             timeout: 通信超时时间(秒)，默认3
+            rts_toggle: RS485 半双工方向控制，默认True（与官方 Modbus Poll 配置一致）
+            inter_frame_delay: 帧间延迟(秒)，默认0.05
         """
         super().__init__()
 
+        if ModbusSerialClient is None:
+            raise ImportError("未安装 pymodbus，请执行: pip install pymodbus")
+
+        if serial is None:
+            raise ImportError("未安装 pyserial，请执行: pip install pyserial")
+
+        if not port:
+            raise ValueError("必须指定 port 串口参数")
+
         self.slave_id = slave_id
         self.timeout = timeout
+        self.rts_toggle = rts_toggle
+        self.inter_frame_delay = inter_frame_delay
+        self.client = None
 
         # 状态属性
         self._status = "Disconnected"
@@ -129,54 +178,77 @@ class GreenLabElectrochemical(UniversalDriver):
         self.return_info = ""
 
         # Setup logging
-        self.logger = logging.getLogger(f"GreenLab-{ip or port}")
+        self.logger = logging.getLogger(f"GreenLab-{port}")
 
-        # 初始化Modbus客户端
-        if ip:
-            # Modbus TCP模式
-            self.client = ModbusTcpClient(ip, port=modbus_port, timeout=timeout)
-            self.logger.info(f"初始化Modbus TCP客户端: {ip}:{modbus_port}")
-        elif port:
-            # Modbus RTU模式
-            self.client = ModbusSerialClient(
+        # 初始化Modbus RTU客户端
+        try:
+            self.client = RTUModbusSerialClient(
                 port=port,
                 baudrate=baudrate,
                 parity='N',
                 stopbits=1,
                 bytesize=8,
-                timeout=timeout
+                timeout=timeout,
+                rts_toggle=rts_toggle,
             )
-            self.logger.info(f"初始化Modbus RTU客户端: {port}, 波特率: {baudrate}")
-        else:
-            raise ValueError("必须指定port(串口)或ip(TCP)参数")
+        except RuntimeError as e:
+            raise ImportError(
+                "Modbus RTU 需要 pyserial，请执行: pip install pyserial"
+            ) from e
+        self.logger.info(
+            f"初始化Modbus RTU客户端: {port}, 波特率: {baudrate}, "
+            f"从站: {slave_id}, RTS: {rts_toggle}"
+        )
 
         # 连接设备
         self._connect()
 
     def _connect(self):
-        """连接到设备"""
+        """连接到设备并验证 Modbus 通信"""
         try:
             self._status = "Connecting"
-            if self.client.connect():
-                self._is_connected = True
-                self._status = "Connected"
-                self.logger.info("设备连接成功")
-            else:
+            if not self.client.connect():
                 self._is_connected = False
                 self._status = "Connection Failed"
-                self.logger.error("设备连接失败")
+                self.logger.error("串口打开失败")
+                return
+
+            # 串口打开成功，进一步验证 Modbus 是否响应
+            probe = self._read_register(self.REG_OUTPUT_MODE)
+            if probe is not None:
+                self._is_connected = True
+                self._status = "Connected"
+                self.logger.info(f"设备连接成功，输出模式寄存器值: {probe[0]}")
+            else:
+                self._is_connected = False
+                self._status = "Modbus No Response"
+                self.logger.error(
+                    "串口已打开但 Modbus 无响应。请检查: "
+                    "1) 波特率(默认115200); "
+                    "2) 从站地址(默认1); "
+                    "3) RS485 A/B 接线; "
+                    "4) rts_toggle 参数(自动方向转换器可设 False)"
+                )
         except Exception as e:
             self._is_connected = False
             self._status = f"Error: {str(e)}"
             self.logger.error(f"连接异常: {e}")
 
+    def _modbus_delay(self) -> None:
+        """帧间延迟，避免连续请求过快"""
+        if self.inter_frame_delay > 0:
+            time.sleep(self.inter_frame_delay)
+
     def disconnect(self):
         """断开设备连接"""
-        if self.client:
-            self.client.close()
+        client = getattr(self, "client", None)
+        if client:
+            client.close()
             self._is_connected = False
             self._status = "Disconnected"
-            self.logger.info("设备已断开")
+            logger = getattr(self, "logger", None)
+            if logger:
+                logger.info("设备已断开")
 
     @property
     def status(self) -> str:
@@ -201,7 +273,10 @@ class GreenLabElectrochemical(UniversalDriver):
             寄存器值列表，失败返回None
         """
         try:
-            response = self.client.read_holding_registers(address, count, slave=self.slave_id)
+            self._modbus_delay()
+            response = self.client.read_holding_registers(
+                address, count=count, device_id=self.slave_id
+            )
             if response.isError():
                 self.logger.error(f"读取寄存器失败: 地址{address}, 错误: {response}")
                 return None
@@ -221,7 +296,10 @@ class GreenLabElectrochemical(UniversalDriver):
             成功返回True，失败返回False
         """
         try:
-            response = self.client.write_register(address, value, slave=self.slave_id)
+            self._modbus_delay()
+            response = self.client.write_register(
+                address, value, device_id=self.slave_id
+            )
             if response.isError():
                 self.logger.error(f"写入寄存器失败: 地址{address}, 值{value}")
                 return False
@@ -638,7 +716,10 @@ class GreenLabElectrochemical(UniversalDriver):
 
     def __del__(self):
         """析构函数，确保断开连接"""
-        self.disconnect()
+        try:
+            self.disconnect()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
@@ -646,10 +727,11 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="GreenLab电反应仪驱动测试")
-    parser.add_argument("--mode", choices=["rtu", "tcp"], default="tcp", help="通信模式")
-    parser.add_argument("--port", default="COM3", help="串口端口(RTU模式)")
-    parser.add_argument("--ip", default="192.168.1.100", help="IP地址(TCP模式)")
+    parser.add_argument("--port", default="COM8", help="串口端口")
+    parser.add_argument("--baudrate", type=int, default=115200, help="串口波特率")
     parser.add_argument("--slave", type=int, default=1, help="从站地址")
+    parser.add_argument("--no-rts-toggle", action="store_true",
+                        help="关闭 RS485 RTS 方向控制（自动方向转换器时使用）")
 
     args = parser.parse_args()
 
@@ -660,10 +742,12 @@ if __name__ == "__main__":
     )
 
     # 创建驱动实例
-    if args.mode == "tcp":
-        device = GreenLabElectrochemical(ip=args.ip, slave_id=args.slave)
-    else:
-        device = GreenLabElectrochemical(port=args.port, slave_id=args.slave)
+    device = GreenLabElectrochemical(
+        port=args.port,
+        baudrate=args.baudrate,
+        slave_id=args.slave,
+        rts_toggle=not args.no_rts_toggle,
+    )
 
     try:
         if device.is_connected:

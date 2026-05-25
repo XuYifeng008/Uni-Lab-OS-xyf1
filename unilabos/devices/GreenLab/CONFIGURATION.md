@@ -1,18 +1,5 @@
 # GreenLab 电反应仪设备配置示例
 
-## Modbus TCP 配置示例
-
-```yaml
-# device_config.yaml
-greenlab_reactor_1:
-  type: greenlab_electrochemical
-  config:
-    ip: "192.168.1.100"
-    modbus_port: 502
-    slave_id: 1
-    timeout: 3
-```
-
 ## Modbus RTU 配置示例
 
 ```yaml
@@ -20,9 +7,9 @@ greenlab_reactor_1:
 greenlab_reactor_1:
   type: greenlab_electrochemical
   config:
-    port: "COM3"  # Windows
+    port: "COM8"  # Windows
     # port: "/dev/ttyUSB0"  # Linux
-    baudrate: 9600
+    baudrate: 115200
     slave_id: 1
     timeout: 3
 ```
@@ -31,24 +18,27 @@ greenlab_reactor_1:
 
 ```yaml
 # device_config.yaml
-# 配置多台GreenLab设备（通过不同的从站地址）
+# 配置多台GreenLab设备（通过不同的从站地址，共享同一串口总线）
 
 greenlab_reactor_1:
   type: greenlab_electrochemical
   config:
-    ip: "192.168.1.100"
+    port: "COM8"
+    baudrate: 115200
     slave_id: 1
 
 greenlab_reactor_2:
   type: greenlab_electrochemical
   config:
-    ip: "192.168.1.100"
+    port: "COM8"
+    baudrate: 115200
     slave_id: 2
 
 greenlab_reactor_3:
   type: greenlab_electrochemical
   config:
-    ip: "192.168.1.100"
+    port: "COM8"
+    baudrate: 115200
     slave_id: 3
 ```
 
@@ -61,8 +51,8 @@ greenlab_reactor_3:
       "id": "greenlab_1",
       "type": "greenlab_electrochemical",
       "config": {
-        "ip": "192.168.1.100",
-        "modbus_port": 502,
+        "port": "COM8",
+        "baudrate": 115200,
         "slave_id": 1,
         "timeout": 3
       }
@@ -82,7 +72,8 @@ workflow:
     reactor:
       type: greenlab_electrochemical
       config:
-        ip: "192.168.1.100"
+        port: "COM8"
+        baudrate: 115200
         slave_id: 1
   
   steps:
@@ -129,8 +120,8 @@ DEVICE_CONFIG = {
     'greenlab_reactor_1': {
         'type': 'greenlab_electrochemical',
         'config': {
-            'ip': '192.168.1.100',
-            'modbus_port': 502,
+            'port': 'COM8',
+            'baudrate': 115200,
             'slave_id': 1,
             'timeout': 3
         }
@@ -146,34 +137,6 @@ EXPERIMENT_PARAMS = {
 }
 ```
 
-## 网络配置建议
-
-### 静态IP配置（推荐）
-
-为GreenLab设备配置静态IP地址，避免DHCP导致的IP变化：
-
-```
-设备IP: 192.168.1.100
-子网掩码: 255.255.255.0
-网关: 192.168.1.1
-```
-
-### 防火墙配置
-
-确保Modbus TCP端口（502）未被防火墙阻止：
-
-**Windows:**
-```powershell
-# 允许Modbus TCP端口
-netsh advfirewall firewall add rule name="Modbus TCP" dir=in action=allow protocol=TCP localport=502
-```
-
-**Linux:**
-```bash
-# 允许Modbus TCP端口
-sudo ufw allow 502/tcp
-```
-
 ## 串口配置建议
 
 ### Windows
@@ -187,7 +150,7 @@ sudo ufw allow 502/tcp
    ```python
    config = {
        'port': 'COM3',
-       'baudrate': 9600,
+       'baudrate': 115200,
        'slave_id': 1
    }
    ```
@@ -211,7 +174,7 @@ sudo ufw allow 502/tcp
    ```python
    config = {
        'port': '/dev/ttyUSB0',
-       'baudrate': 9600,
+       'baudrate': 115200,
        'slave_id': 1
    }
    ```
@@ -236,11 +199,12 @@ logging.basicConfig(
 
 ### 增加超时时间
 
-对于网络延迟较大的环境：
+对于通信不稳定的环境：
 
 ```yaml
 config:
-  ip: "192.168.1.100"
+  port: "COM8"
+  baudrate: 115200
   timeout: 10  # 增加到10秒
 ```
 
@@ -249,11 +213,7 @@ config:
 使用测试脚本验证连接：
 
 ```bash
-# TCP模式
-python test_greenlab.py --mode tcp --ip 192.168.1.100 --test connection
-
-# RTU模式
-python test_greenlab.py --mode rtu --port COM3 --test connection
+python test_greenlab.py --port COM8 --test connection
 ```
 
 ## 性能优化配置
@@ -292,19 +252,15 @@ while running:
 
 ## 安全配置建议
 
-1. **限制网络访问**
-   - 将GreenLab设备放在独立的VLAN中
-   - 只允许特定IP访问Modbus端口
-
-2. **定期备份配置**
+1. **定期备份配置**
    - 记录设备的从站地址、波特率等配置
    - 保存实验参数和校准数据
 
-3. **紧急停止按钮**
+2. **紧急停止按钮**
    - 在实验程序中实现紧急停止功能
    - 使用`emergency_stop()`方法
 
-4. **故障监测**
+3. **故障监测**
    - 定期检查通道故障状态
    - 设置电压/电流异常报警
 

@@ -1,5 +1,5 @@
 # GreenLab 电反应仪设备注册表
-# 支持6通道电化学反应控制，通过Modbus RTU/TCP通信
+# 支持6通道电化学反应控制，通过Modbus RTU通信
 
 greenlab_electrochemical:
   class:
@@ -16,20 +16,12 @@ greenlab_electrochemical:
   init_param_schema:
     port:
       type: string
-      description: "串口端口(Modbus RTU模式)，例如 'COM3' 或 '/dev/ttyUSB0'"
-      required: false
-    ip:
-      type: string
-      description: "IP地址(Modbus TCP模式)"
-      required: false
-    modbus_port:
-      type: integer
-      description: "Modbus TCP端口"
-      default: 502
+      description: "串口端口(Modbus RTU)，例如 'COM3' 或 '/dev/ttyUSB0'"
+      required: true
     baudrate:
       type: integer
       description: "串口波特率"
-      default: 9600
+      default: 115200
       enum: [2400, 4800, 9600, 19200, 57600, 115200]
     slave_id:
       type: integer
@@ -41,6 +33,10 @@ greenlab_electrochemical:
       type: integer
       description: "通信超时时间(秒)"
       default: 3
+    rts_toggle:
+      type: boolean
+      description: "RS485半双工RTS方向控制（官方Modbus Poll默认开启）"
+      default: true
 
   # 设备状态属性（会被自动发布为ROS2 Topic）
   status_types:

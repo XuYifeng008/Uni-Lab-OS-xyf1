@@ -318,18 +318,14 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="GreenLab电反应仪驱动测试")
-    parser.add_argument("--mode", choices=["rtu", "tcp"], default="tcp",
-                       help="通信模式 (默认: tcp)")
-    parser.add_argument("--port", default="COM3",
-                       help="串口端口 (RTU模式，默认: COM3)")
-    parser.add_argument("--ip", default="192.168.1.100",
-                       help="IP地址 (TCP模式，默认: 192.168.1.100)")
-    parser.add_argument("--modbus-port", type=int, default=502,
-                       help="Modbus TCP端口 (默认: 502)")
-    parser.add_argument("--baudrate", type=int, default=9600,
-                       help="串口波特率 (默认: 9600)")
+    parser.add_argument("--port", default="COM8",
+                       help="串口端口 (默认: COM8)")
+    parser.add_argument("--baudrate", type=int, default=115200,
+                       help="串口波特率 (默认: 115200)")
     parser.add_argument("--slave", type=int, default=1,
                        help="从站地址 (默认: 1)")
+    parser.add_argument("--no-rts-toggle", action="store_true",
+                       help="关闭 RS485 RTS 方向控制")
     parser.add_argument("--test", choices=[
         "connection", "output_mode", "channel", "stirrer",
         "fault", "advanced", "all_status", "all"
@@ -344,21 +340,18 @@ def main():
     )
 
     # 创建设备实例
-    print(f"连接模式: {args.mode.upper()}")
-    if args.mode == "tcp":
-        print(f"IP地址: {args.ip}:{args.modbus_port}")
-        device = GreenLabElectrochemical(
-            ip=args.ip,
-            modbus_port=args.modbus_port,
-            slave_id=args.slave
-        )
-    else:
-        print(f"串口: {args.port}, 波特率: {args.baudrate}")
+    print(f"串口: {args.port}, 波特率: {args.baudrate}")
+    device = None
+    try:
         device = GreenLabElectrochemical(
             port=args.port,
             baudrate=args.baudrate,
-            slave_id=args.slave
+            slave_id=args.slave,
+            rts_toggle=not args.no_rts_toggle,
         )
+    except (ImportError, ValueError) as e:
+        print(f"\n初始化失败: {e}")
+        sys.exit(1)
 
     try:
         # 运行测试
@@ -389,9 +382,10 @@ def main():
         sys.exit(1)
     finally:
         # 确保断开连接
-        print("\n断开设备连接...")
-        device.disconnect()
-        print("完成")
+        if device is not None:
+            print("\n断开设备连接...")
+            device.disconnect()
+            print("完成")
 
 
 if __name__ == "__main__":

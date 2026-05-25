@@ -2,7 +2,7 @@
 
 ## 概述
 
-GreenLab 电反应仪驱动支持通过 Modbus RTU/TCP 协议控制 GreenLab 6通道电化学反应仪。
+GreenLab 电反应仪驱动支持通过 Modbus RTU 协议控制 GreenLab 6通道电化学反应仪。
 
 ## 功能特性
 
@@ -16,29 +16,18 @@ GreenLab 电反应仪驱动支持通过 Modbus RTU/TCP 协议控制 GreenLab 6�
 
 ## 硬件连接
 
-### Modbus RTU 模式（串口）
+### Modbus RTU（串口）
 
 ```
 PC ──[USB转RS485]── GreenLab电反应仪
 ```
 
 **连接参数：**
-- 波特率：9600（默认，可选：2400/4800/9600/19200/57600/115200）
+- 波特率：115200（默认，可选：2400/4800/9600/19200/57600/115200）
 - 数据位：8
 - 停止位：1
 - 校验位：无
 - 从站地址：1（默认，可在设备上修改为1-254）
-
-### Modbus TCP 模式（以太网）
-
-```
-PC ──[以太网]── GreenLab电反应仪
-```
-
-**连接参数：**
-- IP地址：根据设备配置（例如：192.168.1.100）
-- 端口：502（Modbus标准端口）
-- 从站地址：1
 
 ## 安装依赖
 
@@ -53,11 +42,8 @@ pip install pymodbus
 ```python
 from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode, StirrerControl
 
-# Modbus TCP模式
-device = GreenLabElectrochemical(ip="192.168.1.100", slave_id=1)
-
-# 或 Modbus RTU模式
-# device = GreenLabElectrochemical(port="COM3", baudrate=9600, slave_id=1)
+# Modbus RTU 模式
+device = GreenLabElectrochemical(port="COM3", baudrate=115200, slave_id=1)
 
 # 启动通道1恒压反应
 result = device.start_reaction(
@@ -88,8 +74,8 @@ device.disconnect()
       "id": "greenlab_1",
       "type": "greenlab_electrochemical",
       "config": {
-        "ip": "192.168.1.100",
-        "modbus_port": 502,
+        "port": "COM8",
+        "baudrate": 115200,
         "slave_id": 1
       }
     }
@@ -281,13 +267,12 @@ device.emergency_stop()
 ### 连接失败
 
 1. **检查物理连接**
-   - RTU模式：确认USB转RS485适配器已正确连接
-   - TCP模式：确认网线连接，设备IP地址正确
+   - 确认 USB 转 RS485 适配器已正确连接
+   - 确认串口端口号正确（Windows: COMx，Linux: /dev/ttyUSB0）
 
 2. **检查通信参数**
-   - 波特率是否匹配（默认9600）
+   - 波特率是否匹配（默认115200）
    - 从站地址是否正确（默认1）
-   - TCP端口是否正确（默认502）
 
 3. **检查设备电源**
    - 确认设备已上电
@@ -305,8 +290,8 @@ device.emergency_stop()
    - 转速：200-1000 rpm
 
 3. **检查通信超时**
-   - 增加timeout参数值
-   - 检查网络延迟
+   - 增加 timeout 参数值
+   - 检查串口线缆与 RS485 接线
 
 ### 通道无输出
 
@@ -329,7 +314,7 @@ device.emergency_stop()
 from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode
 import time
 
-device = GreenLabElectrochemical(ip="192.168.1.100")
+device = GreenLabElectrochemical(port="COM8", baudrate=115200)
 
 # 启动恒压电解
 device.start_reaction(
@@ -355,7 +340,7 @@ device.disconnect()
 ```python
 from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode
 
-device = GreenLabElectrochemical(port="COM3", baudrate=9600)
+device = GreenLabElectrochemical(port="COM3", baudrate=115200)
 
 # 启动恒流充电
 device.start_reaction(
@@ -386,9 +371,9 @@ device.disconnect()
 ### 示例3：多通道并行实验
 
 ```python
-from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode
+from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode, StirrerControl
 
-device = GreenLabElectrochemical(ip="192.168.1.100")
+device = GreenLabElectrochemical(port="COM8", baudrate=115200)
 
 # 设置恒压模式
 device.set_output_mode(OutputMode.CONSTANT_VOLTAGE)

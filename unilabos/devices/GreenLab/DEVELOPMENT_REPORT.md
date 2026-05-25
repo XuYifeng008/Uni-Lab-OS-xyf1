@@ -2,14 +2,14 @@
 
 ## 项目概述
 
-为 Uni-Lab OS 开发了 GreenLab 6通道电反应仪的完整驱动程序，支持通过 Modbus RTU/TCP 协议进行设备控制和数据采集。
+为 Uni-Lab OS 开发了 GreenLab 6通道电反应仪的完整驱动程序，支持通过 Modbus RTU 协议进行设备控制和数据采集。
 
 ## 已完成的工作
 
 ### 1. 核心驱动程序
 **文件**: `greenlab_electrochemical.py`
 
-- ✅ 完整的 Modbus RTU/TCP 通信支持
+- ✅ 完整的 Modbus RTU 通信支持
 - ✅ 6通道独立控制（恒流/恒压模式）
 - ✅ 搅拌电机控制（正转/反转，200-1000 rpm）
 - ✅ 实时电压/电流监测（精度：0.01V / 0.1mA）
@@ -68,7 +68,7 @@ class GreenLabElectrochemical(UniversalDriver):
 
 包含：
 - ✅ 功能特性说明
-- ✅ 硬件连接指南（RTU/TCP）
+- ✅ 硬件连接指南（RTU）
 - ✅ 快速开始教程
 - ✅ 完整的 API 参考
 - ✅ 参数范围说明
@@ -81,7 +81,6 @@ class GreenLabElectrochemical(UniversalDriver):
 
 包含：
 - ✅ 多种配置格式示例（YAML/JSON/Python）
-- ✅ 网络配置建议
 - ✅ 串口配置建议（Windows/Linux）
 - ✅ 故障排查配置
 - ✅ 性能优化建议
@@ -120,9 +119,8 @@ class GreenLabElectrochemical(UniversalDriver):
 
 ### 3. 灵活的通信支持
 - Modbus RTU（串口）
-- Modbus TCP（以太网）
 - 可配置的超时和重试
-- 支持多从站地址
+- 支持多从站地址（同一 RS485 总线）
 
 ### 4. 完善的文档
 - 中文文档，易于理解
@@ -156,7 +154,7 @@ unilabos/registry/devices/
 from unilabos.devices.GreenLab import GreenLabElectrochemical, OutputMode
 
 # 连接设备
-device = GreenLabElectrochemical(ip="192.168.1.100")
+device = GreenLabElectrochemical(port="COM8", baudrate=115200, slave_id=1)
 
 # 启动反应
 device.start_reaction(
@@ -180,7 +178,8 @@ device.stop_reaction(1)
 greenlab_1:
   type: greenlab_electrochemical
   config:
-    ip: "192.168.1.100"
+    port: "COM8"
+    baudrate: 115200
     slave_id: 1
 ```
 
@@ -188,17 +187,12 @@ greenlab_1:
 
 ### 运行完整测试
 ```bash
-python test_greenlab.py --mode tcp --ip 192.168.1.100
+python test_greenlab.py --port COM8 --baudrate 115200
 ```
 
 ### 运行单个测试
 ```bash
-python test_greenlab.py --mode tcp --ip 192.168.1.100 --test connection
-```
-
-### 串口模式测试
-```bash
-python test_greenlab.py --mode rtu --port COM3 --baudrate 9600
+python test_greenlab.py --port COM8 --test connection
 ```
 
 ## 依赖项
@@ -217,7 +211,7 @@ pymodbus>=3.0.0
 ## 性能指标
 
 - 连接建立时间: < 1秒
-- 单次读写延迟: < 100ms (TCP) / < 200ms (RTU)
+- 单次读写延迟: < 200ms (RTU)
 - 支持并发通道数: 6
 - 最大采样频率: 10 Hz (推荐 1 Hz)
 
