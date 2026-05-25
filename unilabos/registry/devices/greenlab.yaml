@@ -1,0 +1,291 @@
+# GreenLab 电反应仪设备注册表
+# 支持6通道电化学反应控制，通过Modbus RTU/TCP通信
+
+greenlab_electrochemical:
+  class:
+    module: unilabos.devices.GreenLab.greenlab_electrochemical:GreenLabElectrochemical
+    type: python
+
+  description: "GreenLab 6通道电反应仪，支持恒流/恒压输出、搅拌控制、实时监测"
+
+  category:
+    - electrochemical
+    - reactor
+
+  # 初始化参数
+  init_param_schema:
+    port:
+      type: string
+      description: "串口端口(Modbus RTU模式)，例如 'COM3' 或 '/dev/ttyUSB0'"
+      required: false
+    ip:
+      type: string
+      description: "IP地址(Modbus TCP模式)"
+      required: false
+    modbus_port:
+      type: integer
+      description: "Modbus TCP端口"
+      default: 502
+    baudrate:
+      type: integer
+      description: "串口波特率"
+      default: 9600
+      enum: [2400, 4800, 9600, 19200, 57600, 115200]
+    slave_id:
+      type: integer
+      description: "Modbus从站地址"
+      default: 1
+      minimum: 1
+      maximum: 254
+    timeout:
+      type: integer
+      description: "通信超时时间(秒)"
+      default: 3
+
+  # 设备状态属性（会被自动发布为ROS2 Topic）
+  status_types:
+    status:
+      type: string
+      description: "设备连接状态"
+    is_connected:
+      type: boolean
+      description: "是否已连接"
+
+  # 设备动作映射（会被自动注册为ROS2 Action）
+  action_value_mappings:
+    # 输出模式控制
+    set_output_mode:
+      description: "设置输出模式(恒压/恒流)"
+      parameters:
+        mode:
+          type: integer
+          description: "输出模式 (0=恒压, 1=恒流)"
+          enum: [0, 1]
+      returns:
+        type: boolean
+
+    set_alternate_mode:
+      description: "设置交替模式"
+      parameters:
+        mode:
+          type: integer
+          description: "交替模式 (0=无交替, 1=低频交替, 2=高频交替)"
+          enum: [0, 1, 2]
+        low_freq_time:
+          type: integer
+          description: "低频交替时间(秒)"
+          default: 0
+        high_freq_time:
+          type: integer
+          description: "高频交替时间(毫秒)"
+          default: 0
+      returns:
+        type: boolean
+
+    # 通道控制
+    set_channel_switch:
+      description: "设置通道开关"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+        enable:
+          type: boolean
+          description: "True=打开, False=关闭"
+      returns:
+        type: boolean
+
+    set_channel_voltage:
+      description: "设置通道电压(恒压模式)"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+        voltage:
+          type: number
+          description: "电压值(V)，范围0-30V"
+          minimum: 0
+          maximum: 30
+      returns:
+        type: boolean
+
+    set_channel_current:
+      description: "设置通道电流(恒流模式)"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+        current:
+          type: number
+          description: "电流值(mA)，范围0-100mA"
+          minimum: 0
+          maximum: 100
+      returns:
+        type: boolean
+
+    get_channel_voltage:
+      description: "读取通道当前电压"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+      returns:
+        type: number
+        description: "电压值(V)"
+
+    get_channel_current:
+      description: "读取通道当前电流"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+      returns:
+        type: number
+        description: "电流值(mA)"
+
+    get_channel_fault_status:
+      description: "读取通道故障状态"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+      returns:
+        type: object
+
+    reset_channel_fault:
+      description: "复位通道故障状态"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+      returns:
+        type: boolean
+
+    # 搅拌控制
+    set_stirrer:
+      description: "设置搅拌电机"
+      parameters:
+        control:
+          type: integer
+          description: "搅拌控制 (0=关闭, 1=正转, 2=反转)"
+          enum: [0, 1, 2]
+        speed:
+          type: integer
+          description: "转速(rpm)，范围200-1000"
+          default: 500
+          minimum: 200
+          maximum: 1000
+      returns:
+        type: boolean
+
+    get_stirrer_speed:
+      description: "读取当前搅拌转速"
+      returns:
+        type: integer
+        description: "转速(rpm)"
+
+    # 高级功能
+    start_reaction:
+      description: "启动电化学反应"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+        mode:
+          type: integer
+          description: "输出模式 (0=恒压, 1=恒流)"
+          enum: [0, 1]
+        voltage:
+          type: number
+          description: "电压值(V)"
+          default: 0.0
+        current:
+          type: number
+          description: "电流值(mA)"
+          default: 0.0
+        stirrer_speed:
+          type: integer
+          description: "搅拌转速(rpm)，0表示不启动搅拌"
+          default: 0
+      returns:
+        type: object
+        description: "包含操作结果的字典"
+
+    stop_reaction:
+      description: "停止电化学反应"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+        stop_stirrer:
+          type: boolean
+          description: "是否同时停止搅拌"
+          default: true
+      returns:
+        type: object
+
+    get_channel_status:
+      description: "获取通道完整状态"
+      parameters:
+        channel:
+          type: integer
+          description: "通道号(1-6)"
+          minimum: 1
+          maximum: 6
+      returns:
+        type: object
+        description: "包含通道状态的字典"
+
+    get_all_channels_status:
+      description: "获取所有通道状态"
+      returns:
+        type: array
+        description: "包含所有通道状态的列表"
+
+    emergency_stop:
+      description: "紧急停止所有通道"
+      returns:
+        type: boolean
+
+    disconnect:
+      description: "断开设备连接"
+      returns:
+        type: null
+
+  # 前端显示配置
+  schema:
+    properties:
+      status:
+        type: string
+        title: "设备状态"
+      is_connected:
+        type: boolean
+        title: "连接状态"
+
+  # 设备图标（可选）
+  icon: "⚡"
+
+  # 标签
+  tags:
+    - electrochemical
+    - modbus
+    - multi-channel
+    - stirrer
