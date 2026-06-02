@@ -121,8 +121,8 @@ class HeatingStation:
 
 
 @device(
-    id="virtual_workbench",
-    display_name="虚拟工作台",
+    id="AI4M_virtual_workbench",
+    display_name="AI4M 虚拟工作台",
     category=["virtual_device"],
     description="Virtual Workbench with 1 robotic arm and 3 heating stations for concurrent material processing",
 )
@@ -158,7 +158,7 @@ class VirtualWorkbench:
         初始化虚拟工作台。
 
         Args:
-            device_id[设备ID]: 工作台设备实例 ID，默认使用 virtual_workbench。
+            device_id[设备ID]: 工作台设备实例 ID，默认使用 AI4M_virtual_workbench。
             config[设备配置]: 可包含 arm_operation_time、heating_time、num_heating_stations。
         """
         # 处理可能的不同调用方式
@@ -167,7 +167,7 @@ class VirtualWorkbench:
         if config is None and "config" in kwargs:
             config = kwargs.pop("config")
 
-        self.device_id = device_id or "virtual_workbench"
+        self.device_id = device_id or "AI4M_virtual_workbench"
         self.config = config or {}
 
         self.logger = logging.getLogger(f"VirtualWorkbench.{self.device_id}")
