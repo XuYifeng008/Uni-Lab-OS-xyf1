@@ -593,12 +593,12 @@ class OpcUaClientWithSubscription(BaseOpcUaClient):
                 }
                 return value
         
-        # 检查缓存
+        # 检查缓存（订阅与按需读取均受 cache_timeout 约束，避免长期返回过期值）
         if use_cache and chinese_name in self._node_values:
             cache_entry = self._node_values[chinese_name]
             cache_age = time.time() - cache_entry['timestamp']
             
-            if cache_entry.get('source') == 'subscription' or cache_age < self._cache_timeout:
+            if cache_age < self._cache_timeout:
                 logger.debug(f"从缓存读取: {chinese_name} = {cache_entry['value']} (age: {cache_age:.2f}s, source: {cache_entry.get('source', 'unknown')})")
                 return cache_entry['value']
         

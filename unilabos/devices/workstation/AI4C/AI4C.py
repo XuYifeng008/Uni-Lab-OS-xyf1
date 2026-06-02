@@ -6,13 +6,21 @@ AI4C 设备驱动
 import json
 import time
 import traceback
-from typing import Optional
+from typing import Any, Dict, Optional
 import os
 import threading
 
 # 导入日志类
 from unilabos.utils.log import logger
 import logging
+from unilabos.registry.decorators import (
+    ActionInputHandle,
+    DataSource,
+    action,
+    device,
+    not_action,
+    topic_config,
+)
 
 # 导入通讯基类
 from unilabos.devices.workstation.AI4M.base_opcua_client import OpcUaClientWithSubscription
@@ -1601,18 +1609,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 True"""
+        """等待布尔节点变为 True（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 True...")
+        logger.info(f"等待 {desc} 变为 True（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 True")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 True（{desc}）")
+            if value:
+                logger.info(f"✓ {desc} 已变为 True（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1624,18 +1634,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 False"""
+        """等待布尔节点变为 False（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 False...")
+        logger.info(f"等待 {desc} 变为 False（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if not self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 False")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 False（{desc}）")
+            if not value:
+                logger.info(f"✓ {desc} 已变为 False（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1650,7 +1662,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         start = time.time()
         while True:
             all_met = all(
-                self.get_node_value(name, use_cache=True) == target
+                self.get_node_value(name, force_read=True) == target
                 for name, target in conditions.items()
             )
             if all_met:
@@ -1662,11 +1674,156 @@ class AI4CDevice(OpcUaClientWithSubscription):
             time.sleep(interval)
 
 
+@device(
+    id="AI4C_station",
+    category=["AI4C_station"],
+    description="AI4C 水合工作站，通过 OPC UA 控制初始化与孔板上料架抓取动作",
+    display_name="AI4C 水合工作站",
+)
+class AI4CStationDriver:
+    """Uni-Lab-OS 注册层驱动，仅暴露当前已开发完成的 AI4C 动作。"""
+
+    def __init__(
+        self,
+        device_id: Optional[str] = None,
+        config: Optional[Dict[str, Any]] = None,
+        url: Optional[str] = None,
+        csv_path: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        use_subscription: bool = True,
+        cache_timeout: float = 5.0,
+        subscription_interval: int = 500,
+        **kwargs,
+    ):
+        """
+        初始化 AI4C 注册驱动。
+
+        Args:
+            device_id[设备ID]: 设备实例 ID。
+            config[设备配置]: 可配置 url、csv_path、username、password、use_subscription、cache_timeout 和 subscription_interval。
+            url[OPC UA 地址]: OPC UA 服务地址，默认 opc.tcp://127.0.0.1:49320。
+            csv_path[节点CSV路径]: OPC UA 节点 CSV，默认使用同目录 ai4c_sim_updated_local.csv。
+        """
+        self.device_id = device_id or "AI4C_station"
+        self.config = config or {}
+        config_data = self.config.get("data") if isinstance(self.config.get("data"), dict) else self.config
+
+        module_dir = os.path.dirname(os.path.abspath(__file__))
+        default_csv_path = os.path.join(module_dir, "ai4c_sim_updated_local.csv")
+
+        self.url = url or kwargs.get("url") or config_data.get("url") or "opc.tcp://127.0.0.1:49320"
+        self.csv_path = csv_path or kwargs.get("csv_path") or config_data.get("csv_path") or default_csv_path
+        self.username = username or kwargs.get("username") or config_data.get("username")
+        self.password = password or kwargs.get("password") or config_data.get("password")
+        self.use_subscription = config_data.get("use_subscription", use_subscription)
+        self.cache_timeout = config_data.get("cache_timeout", cache_timeout)
+        self.subscription_interval = config_data.get("subscription_interval", subscription_interval)
+
+        self.data: Dict[str, Any] = {
+            "status": "connecting",
+            "initialized": False,
+        }
+        self._operation_lock = threading.Lock()
+        self._ros_node = None
+
+        self._controller = AI4CDevice(
+            url=self.url,
+            csv_path=self.csv_path,
+            username=self.username,
+            password=self.password,
+            use_subscription=self.use_subscription,
+            cache_timeout=self.cache_timeout,
+            subscription_interval=self.subscription_interval,
+        )
+        self.data["status"] = "idle"
+        self.data["registered_nodes"] = len(self._controller.get_node_registry())
+
+    @not_action
+    def post_init(self, ros_node: Any) -> None:
+        """ROS 节点就绪后保存引用，便于后续扩展资源注册。"""
+        self._ros_node = ros_node
+
+    @action(description="初始化 AI4C 水合工作站")
+    def initialize(self) -> Dict[str, Any]:
+        """初始化 AI4C 水合工作站。"""
+        with self._operation_lock:
+            self.data["status"] = "initializing"
+            result = self._controller.init_workstation()
+            success = bool(result.get("success"))
+            self.data["initialized"] = success
+            self.data["status"] = "idle" if success else "error"
+            return {
+                **result,
+                "device_id": self.device_id,
+                "initialized": self.data["initialized"],
+                "status": self.data["status"],
+            }
+
+    @action(
+        description="从上料架指定位置抓取孔板",
+        handles=[
+            ActionInputHandle(
+                key="loading_rack_position_input",
+                data_type="ai4c_loading_rack_position",
+                label="上料架位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+            ),
+        ],
+        goal_default={"position": 1},
+    )
+    def pick_well_plate_from_loading_rack(self, position: int = 1) -> Dict[str, Any]:
+        """
+        从上料架指定位置抓取孔板。
+
+        Args:
+            position[上料架位置]: 上料架孔板位置，范围 1-8。
+        """
+        if position < MIN_RACK_POSITION or position > MAX_RACK_POSITION:
+            return {
+                "success": False,
+                "message": f"上料架位置错误，必须在范围[{MIN_RACK_POSITION}, {MAX_RACK_POSITION}]内",
+                "position": position,
+            }
+
+        with self._operation_lock:
+            self.data["status"] = "picking_well_plate"
+            result = self._controller.pick_well_plate_from_loading_rack(position)
+            self.data["status"] = "idle" if result.get("success") else "error"
+            return {
+                **result,
+                "device_id": self.device_id,
+                "position": position,
+                "status": self.data["status"],
+            }
+
+    @property
+    @topic_config()
+    def status(self) -> str:
+        return self.data.get("status", "unknown")
+
+    @property
+    @topic_config()
+    def initialized(self) -> bool:
+        return bool(self.data.get("initialized", False))
+
+    @not_action
+    def disconnect(self) -> None:
+        """断开底层 OPC UA 连接。"""
+        self._controller.disconnect()
+        self.data["status"] = "disconnected"
+
+
 if __name__ == '__main__':
     # 调试用法
     A4 = AI4CDevice(
-        url="opc.tcp://192.168.1.88:4840",
-        csv_path=os.path.dirname(os.path.abspath(__file__)) + "/ai4c_sim_updated.csv"
+        # url="opc.tcp://192.168.1.88:4840",
+        url="opc.tcp://127.0.0.1:49320",
+        # url="opc.tcp://172.17.80.1:49320",
+        # csv_path=os.path.dirname(os.path.abspath(__file__)) + "/ai4c_sim_updated.csv",
+        csv_path=os.path.dirname(os.path.abspath(__file__)) + "/ai4c_sim_updated_local.csv"
+
     )
 
     # 启动心跳
