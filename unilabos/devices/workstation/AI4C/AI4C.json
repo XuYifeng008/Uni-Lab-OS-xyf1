@@ -1,0 +1,31 @@
+{
+    "nodes": [
+        {
+            "id": "AI4C_station",
+            "name": "AI4C_station",
+            "children": [],
+            "parent": null,
+            "type": "device",
+            "class": "AI4C_station",
+            "position": {
+                "x": 250,
+                "y": 0,
+                "z": 0
+            },
+            "pose": {
+                "size": {
+                    "width": 1217,
+                    "height": 1580,
+                    "depth": 2670
+                }
+            },
+            "config": {
+                "url": "opc.tcp://jdht1471820.bohrium.tech:50003",
+                "csv_path": "ai4c_sim_updated.csv",
+                "use_subscription": true
+            },
+            "data": {}
+        }
+    ],
+    "links": []
+}
