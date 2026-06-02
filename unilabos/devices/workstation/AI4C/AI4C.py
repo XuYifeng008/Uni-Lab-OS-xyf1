@@ -13,6 +13,7 @@ import threading
 # 导入日志类
 from unilabos.utils.log import logger
 import logging
+from unilabos.registry.decorators import ActionInputHandle, DataSource, action, device, not_action
 
 # 导入通讯基类
 from unilabos.devices.workstation.AI4M.base_opcua_client import OpcUaClientWithSubscription
@@ -62,6 +63,13 @@ MAX_SOLID_WEIGHING_STACK_POSITION = 25
 
 # 定义 AI4C 设备通信类
 # 包含一个固态称量、一个移液站、一个磁搅、一个 HPLC 工站
+@device(
+    id="AI4C_station",
+    display_name="AI4C 工作站",
+    category=["workstation"],
+    description="AI4C 水合工作站，仅开放初始化、上料取板、固态称量开门、孔板放入固态称量四个步骤",
+    icon="AI4C.webp",
+)
 class AI4CDevice(OpcUaClientWithSubscription):
     """
     AI4M 设备类
@@ -111,6 +119,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         self.m_initialized = False
 
     # 初始化工站
+    @action(auto_prefix=True, description="步骤1：初始化 AI4C 工站")
     def init_workstation(self) -> dict:
         """
         初始化工作站函数：
@@ -161,6 +170,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
             }
 
         
+    @not_action
     def is_robotic_arm_initialization_complete(self)-> bool:
         """
         检查机械臂是否初始化完成
@@ -170,6 +180,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Robotic_Arm_Initialization_Complete")
     
+    @not_action
     def is_solid_weighing_initialization_complete(self)-> bool:
         """
         检查固体称量是否初始化完成
@@ -179,6 +190,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Solid_Weighing_Initialization_Complete")
     
+    @not_action
     def is_pipetting_station_initialization_complete(self)-> bool:
         """
         检查移液站是否初始化完成
@@ -188,6 +200,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Pipetting_Station_Initialization_Complete")
     
+    @not_action
     def is_magnetic_stirrer_initialization_complete(self)-> bool:
         """
         检查磁搅是否初始化完成
@@ -197,6 +210,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Magnetic_Stirrer_Initialization_Complete")
     
+    @not_action
     def is_hplc_workstation_initialization_complete(self)-> bool:
         """
         检查HPLC工站是否初始化完成
@@ -206,6 +220,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("HPLC_Workstation_Initialization_Complete")
 
+    @not_action
     def is_robotic_arm_idle(self) -> bool:
         """
         检查机械臂是否空闲
@@ -215,6 +230,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Robotic_Arm_Idle")
 
+    @not_action
     def is_solid_weighing_occupied(self) -> bool:
         """
         检查固体称量是否占位
@@ -224,6 +240,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Solid_Weighing_Occupied")
     
+    @not_action
     def is_powder_position_in_solid_weighing_occupied(self) -> bool:
         """
         检查粉末头是否在固体称量中占位
@@ -233,6 +250,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Powder_In_Solid_Weighing_Occupied")
     
+    @not_action
     def is_pipetting_station_occupied(self) -> bool:
         """
         检查移液站是否占位
@@ -242,6 +260,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Pipetting_Station_Occupied")
 
+    @not_action
     def is_magnetic_stirrer_occupied(self) -> bool:
         """
         检查磁搅是否占位
@@ -251,6 +270,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("Magnetic_Stirrer_Occupied")
     
+    @not_action
     def is_hplc_workstation_occupied(self) -> bool:
         """
         检查HPLC工站是否占位
@@ -260,6 +280,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         """
         return self.get_node_value("HPLC_Pool_Occupied")
     
+    @not_action
     def is_loading_rack_position_occupied(self, position: int) -> bool:
         """
         检查上料架位置是否占位
@@ -278,6 +299,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         nodeId = f"Well_Plate_Loading_Rack_InPut[{position_index}]"
         return self.get_node_value(nodeId)
     
+    @not_action
     def is_unloading_rack_position_occupied(self, position: int) -> bool:
         """
         检查下料架位置是否占位
@@ -296,6 +318,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         nodeId = f"Well_Plate_Unloading_Rack_InPut[{position_index}]"
         return self.get_node_value(nodeId)
 
+    @not_action
     def is_solid_weighing_stack_position_occupied(self, position: int) -> bool:
         """
         检查固体称量堆栈位置是否占位
@@ -314,7 +337,21 @@ class AI4CDevice(OpcUaClientWithSubscription):
         nodeId = f"Powder_Cylinder_InPut[{position_index}]"
         return self.get_node_value(nodeId)
 
-    def pick_well_plate_from_loading_rack(self, position: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤2：从上料架抓取孔板",
+        handles=[
+            ActionInputHandle(
+                key="loading_rack_position",
+                data_type="ai4c_loading_rack_position",
+                label="上料架位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="孔板所在上料架位置，范围 1-8",
+            )
+        ],
+    )
+    def pick_well_plate_from_loading_rack(self, position: int = 1) -> dict:
         """
         从上料架抓取孔板：
         - 检查机械臂是否空闲
@@ -374,6 +411,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从上料架抓取孔板失败，机械臂动作未完成",
             }
         
+    @action(auto_prefix=True, description="步骤4：将孔板放置到固态称量")
     def place_well_plate_to_solid_weighing(self) -> dict:
         """
         将孔板放置到称重区：
@@ -426,6 +464,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到固态称重失败，机械臂动作未完成",
             }
         
+    @not_action
     def pick_powder_cylinder_from_stack(self, position: int) -> dict:
         """
         从固体称量堆栈中取粉桶：
@@ -488,6 +527,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固体称量堆栈中取粉桶失败，机械臂动作未完成",
             }
         
+    @not_action
     def place_powder_cylinder_to_solid_weighing(self) -> dict:
         """
         将粉桶放置到固态称量：
@@ -540,6 +580,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将粉桶放置到固态称量失败，机械臂动作未完成",
             }
 
+    @not_action
     def pick_powder_cylinder_from_solid_weighing(self) -> dict:
         """
         从固态称量中取粉桶：
@@ -592,6 +633,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固态称量中取粉桶失败，机械臂动作未完成",
             }
         
+    @not_action
     def place_powder_cylinder_to_solid_weighing_stack(self, position: int) -> dict:
         """
         将粉桶放置到固态称量堆栈：
@@ -654,6 +696,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将粉桶放置到固态称量堆栈失败，机械臂动作未完成",
             }
     
+    @not_action
     def pick_well_plate_from_solid_weighing(self) -> dict:
         """
         从固态称量中取孔板：
@@ -706,6 +749,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固态称量中取孔板失败，机械臂动作未完成",
             }
         
+    @not_action
     def place_well_plate_to_pipetting_station(self) -> dict:
         """
         将孔板放置到移液站：
@@ -758,6 +802,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到移液站失败，机械臂动作未完成",
             }
 
+    @not_action
     def pick_well_plate_from_pipetting_station(self) -> dict:
         """
         从移液站取孔板：
@@ -810,6 +855,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从移液站取孔板失败，机械臂动作未完成",
             }
     
+    @not_action
     def place_well_plate_to_magnetic_stirrer(self) -> dict:
         """
         将孔板放置到磁搅：
@@ -862,6 +908,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到磁搅失败，机械臂动作未完成",
             }
         
+    @not_action
     def pick_well_plate_from_magnetic_stirrer(self) -> dict:
         """
         从磁搅取孔板：
@@ -914,6 +961,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从磁搅取孔板失败，机械臂动作未完成",
             }
     
+    @not_action
     def place_well_plate_to_hplc_station(self) -> dict:
         """
         将孔板放置到 HPLC 站：
@@ -966,6 +1014,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到 HPLC 站失败，机械臂动作未完成",
             }
     
+    @not_action
     def pick_well_plate_from_hplc_station(self) -> dict:
         """
         从 HPLC 站取孔板：
@@ -1018,6 +1067,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从 HPLC 站取孔板失败，机械臂动作未完成",
             }
         
+    @not_action
     def place_well_plate_to_unloading_rack(self, position: int) -> dict:
         """
         将孔板放置到下料架：
@@ -1080,6 +1130,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到下料架失败，机械臂动作未完成",
             }
 
+    @action(auto_prefix=True, description="步骤3：打开固态称量门")
     def open_solid_weighing_door(self) -> dict:
         """
         打开固态称重门：
@@ -1106,6 +1157,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固态称重门打开失败",
             }
         
+    @not_action
     def close_solid_weighing_door(self) -> dict:
         """
         关闭固态称重门：
@@ -1132,6 +1184,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固态称重门关闭失败",
             }
         
+    @not_action
     def trigger_solid_weighing(self, gram: int, tolerance: int, slot: int) -> dict:
         """
         触发固体称重：
@@ -1191,6 +1244,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固体称重失败，动作超时",
             }
         
+    @not_action
     def trigger_magnetic_stirrer(self, speed: int, temperature: int, mins: int) -> dict:
         """
         触发磁力搅拌：
@@ -1254,6 +1308,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "搅拌失败，动作超时",
             }
 
+    @not_action
     def trigger_pipetting(self, param: int) -> dict:
         """
         触发移液：
@@ -1329,6 +1384,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
             }
         '''
         
+    @not_action
     def trigger_hplc(self, param: int) -> dict:
         """
         触发 HPLC：
@@ -1405,6 +1461,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
             }
         '''
     
+    @not_action
     def trigger_heart_beat(self) -> None:
         """
         写入心跳
@@ -1435,6 +1492,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
             timer.daemon = True
             timer.start()
     
+    @not_action
     def start_heart_beat(self) -> None:
         """
         启动心跳
@@ -1445,6 +1503,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         timer.start()
         self.heartbeat_on = True
     
+    @not_action
     def stop_heart_beat(self) -> None:
         """
         停止心跳
@@ -1453,6 +1512,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         self.set_node_value("Heart_Beat", False)
         self.heartbeat_on = False
         
+    @not_action
     def trigger_all_process(self) -> dict:
         """
         触发所有加工，从1号上料架抓取孔板后完成整个流程，最后放置在1号下料架上，
@@ -1601,18 +1661,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 True"""
+        """等待布尔节点变为 True（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 True...")
+        logger.info(f"等待 {desc} 变为 True（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 True")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 True（{desc}）")
+            if value:
+                logger.info(f"✓ {desc} 已变为 True（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1624,18 +1686,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 False"""
+        """等待布尔节点变为 False（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 False...")
+        logger.info(f"等待 {desc} 变为 False（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if not self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 False")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 False（{desc}）")
+            if not value:
+                logger.info(f"✓ {desc} 已变为 False（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1650,7 +1714,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         start = time.time()
         while True:
             all_met = all(
-                self.get_node_value(name, use_cache=True) == target
+                self.get_node_value(name, force_read=True) == target
                 for name, target in conditions.items()
             )
             if all_met:
@@ -1665,7 +1729,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
 if __name__ == '__main__':
     # 调试用法
     A4 = AI4CDevice(
-        url="opc.tcp://192.168.1.88:4840",
+        url="opc.tcp://jdht1471820.bohrium.tech:50003",
         csv_path=os.path.dirname(os.path.abspath(__file__)) + "/ai4c_sim_updated.csv"
     )
 
