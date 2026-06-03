@@ -9,6 +9,7 @@ from unilabos.registry.ast_registry_scanner import scan_directory  # noqa: E402
 from unilabos.devices.workstation.AI4C.AI4C_plc import AI4CPLCDevice  # noqa: E402
 
 
+<<<<<<< HEAD
 def test_ai4c_plc_get_variables_defaults_to_all_loaded_csv_nodes():
     plc = AI4CPLCDevice.__new__(AI4CPLCDevice)
     plc._variables_to_find = {
@@ -90,6 +91,8 @@ def test_ai4c_plc_registers_only_plc_actions_and_status_variables():
     }
 
 
+=======
+>>>>>>> hydration_01
 def test_ai4c_station_registers_first_twenty_five_step_actions():
     ai4c_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C.py"
 

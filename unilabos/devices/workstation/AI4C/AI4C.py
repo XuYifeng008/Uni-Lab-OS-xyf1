@@ -1784,18 +1784,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 True"""
+        """等待布尔节点变为 True（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 True...")
+        logger.info(f"等待 {desc} 变为 True（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 True")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 True（{desc}）")
+            if value:
+                logger.info(f"✓ {desc} 已变为 True（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1807,18 +1809,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
         interval: float = 0.2,
         description: str = None
     ) -> bool:
-        """等待布尔节点变为 False"""
+        """等待布尔节点变为 False（轮询时强制从 OPC UA 服务器读取，避免订阅缓存过期）"""
         desc = description or node_name
-        logger.info(f"等待 {desc} 变为 False...")
+        logger.info(f"等待 {desc} 变为 False（轮询节点: {node_name}）...")
         
         start = time.time()
         while True:
-            if not self.get_node_value(node_name, use_cache=True):
-                logger.info(f"✓ {desc} 已变为 False")
+            value = self.get_node_value(node_name, force_read=True)
+            logger.debug(f"轮询节点 [{node_name}] = {value!r}，目标 False（{desc}）")
+            if not value:
+                logger.info(f"✓ {desc} 已变为 False（节点 [{node_name}]）")
                 return True
             
             if time.time() - start >= timeout:
-                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒）")
+                logger.error(f"✗ 等待 {desc} 超时（{timeout}秒，节点 [{node_name}] 仍为 {value!r}）")
                 return False
             
             time.sleep(interval)
@@ -1833,7 +1837,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
         start = time.time()
         while True:
             all_met = all(
-                self.get_node_value(name, use_cache=True) == target
+                self.get_node_value(name, force_read=True) == target
                 for name, target in conditions.items()
             )
             if all_met:
