@@ -464,8 +464,21 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到固态称重失败，机械臂动作未完成",
             }
         
-    @not_action
-    def pick_powder_cylinder_from_stack(self, position: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤5：从固体称量堆栈抓取粉桶",
+        handles=[
+            ActionInputHandle(
+                key="powder_stack_position",
+                data_type="ai4c_powder_stack_position",
+                label="粉桶堆栈位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="粉桶所在堆栈位置，范围 1-25",
+            )
+        ],
+    )
+    def pick_powder_cylinder_from_stack(self, position: int = 6) -> dict:
         """
         从固体称量堆栈中取粉桶：
         - 检查机械臂是否空闲
@@ -527,7 +540,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固体称量堆栈中取粉桶失败，机械臂动作未完成",
             }
         
-    @not_action
+    @action(auto_prefix=True, description="步骤6：将粉桶放置到固态称量")
     def place_powder_cylinder_to_solid_weighing(self) -> dict:
         """
         将粉桶放置到固态称量：
@@ -580,7 +593,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将粉桶放置到固态称量失败，机械臂动作未完成",
             }
 
-    @not_action
+    @action(auto_prefix=True, description="步骤10：从固态称量取回粉桶")
     def pick_powder_cylinder_from_solid_weighing(self) -> dict:
         """
         从固态称量中取粉桶：
@@ -633,8 +646,21 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固态称量中取粉桶失败，机械臂动作未完成",
             }
         
-    @not_action
-    def place_powder_cylinder_to_solid_weighing_stack(self, position: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤11：将粉桶放回固态称量堆栈",
+        handles=[
+            ActionInputHandle(
+                key="powder_stack_return_position",
+                data_type="ai4c_powder_stack_position",
+                label="粉桶放回堆栈位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="粉桶放回的堆栈位置，范围 1-25",
+            )
+        ],
+    )
+    def place_powder_cylinder_to_solid_weighing_stack(self, position: int = 6) -> dict:
         """
         将粉桶放置到固态称量堆栈：
         - 检查机械臂是否空闲
@@ -696,7 +722,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将粉桶放置到固态称量堆栈失败，机械臂动作未完成",
             }
     
-    @not_action
+    @action(auto_prefix=True, description="步骤12：从固态称量取回孔板")
     def pick_well_plate_from_solid_weighing(self) -> dict:
         """
         从固态称量中取孔板：
@@ -749,7 +775,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从固态称量中取孔板失败，机械臂动作未完成",
             }
         
-    @not_action
+    @action(auto_prefix=True, description="步骤14/20：将孔板放置到移液站")
     def place_well_plate_to_pipetting_station(self) -> dict:
         """
         将孔板放置到移液站：
@@ -802,7 +828,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到移液站失败，机械臂动作未完成",
             }
 
-    @not_action
+    @action(auto_prefix=True, description="步骤16/21：从移液站取回孔板")
     def pick_well_plate_from_pipetting_station(self) -> dict:
         """
         从移液站取孔板：
@@ -855,7 +881,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从移液站取孔板失败，机械臂动作未完成",
             }
     
-    @not_action
+    @action(auto_prefix=True, description="步骤17：将孔板放置到磁搅")
     def place_well_plate_to_magnetic_stirrer(self) -> dict:
         """
         将孔板放置到磁搅：
@@ -908,7 +934,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到磁搅失败，机械臂动作未完成",
             }
         
-    @not_action
+    @action(auto_prefix=True, description="步骤19：从磁搅取回孔板")
     def pick_well_plate_from_magnetic_stirrer(self) -> dict:
         """
         从磁搅取孔板：
@@ -961,7 +987,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从磁搅取孔板失败，机械臂动作未完成",
             }
     
-    @not_action
+    @action(auto_prefix=True, description="步骤22：将孔板放置到 HPLC 站")
     def place_well_plate_to_hplc_station(self) -> dict:
         """
         将孔板放置到 HPLC 站：
@@ -1014,7 +1040,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到 HPLC 站失败，机械臂动作未完成",
             }
     
-    @not_action
+    @action(auto_prefix=True, description="步骤24：从 HPLC 站取回孔板")
     def pick_well_plate_from_hplc_station(self) -> dict:
         """
         从 HPLC 站取孔板：
@@ -1067,8 +1093,21 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "从 HPLC 站取孔板失败，机械臂动作未完成",
             }
         
-    @not_action
-    def place_well_plate_to_unloading_rack(self, position: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤25：将孔板放置到下料架",
+        handles=[
+            ActionInputHandle(
+                key="unloading_rack_position",
+                data_type="ai4c_unloading_rack_position",
+                label="下料架位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="孔板放置的下料架位置，范围 1-8",
+            )
+        ],
+    )
+    def place_well_plate_to_unloading_rack(self, position: int = 1) -> dict:
         """
         将孔板放置到下料架：
         - 检查机械臂是否空闲
@@ -1130,7 +1169,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "将孔板放置到下料架失败，机械臂动作未完成",
             }
 
-    @action(auto_prefix=True, description="步骤3：打开固态称量门")
+    @action(auto_prefix=True, description="步骤3/9：打开固态称量门")
     def open_solid_weighing_door(self) -> dict:
         """
         打开固态称重门：
@@ -1157,7 +1196,7 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固态称重门打开失败",
             }
         
-    @not_action
+    @action(auto_prefix=True, description="步骤7/13：关闭固态称量门")
     def close_solid_weighing_door(self) -> dict:
         """
         关闭固态称重门：
@@ -1184,8 +1223,37 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固态称重门关闭失败",
             }
         
-    @not_action
-    def trigger_solid_weighing(self, gram: int, tolerance: int, slot: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤8：触发固体称量",
+        handles=[
+            ActionInputHandle(
+                key="solid_weighing_gram",
+                data_type="ai4c_solid_weighing_gram",
+                label="称重目标值",
+                data_key="gram",
+                data_source=DataSource.HANDLE,
+                description="固体称量目标值",
+            ),
+            ActionInputHandle(
+                key="solid_weighing_tolerance",
+                data_type="ai4c_solid_weighing_tolerance",
+                label="称重误差",
+                data_key="tolerance",
+                data_source=DataSource.HANDLE,
+                description="固体称量允许误差",
+            ),
+            ActionInputHandle(
+                key="solid_weighing_slot",
+                data_type="ai4c_solid_weighing_slot",
+                label="称量槽位",
+                data_key="slot",
+                data_source=DataSource.HANDLE,
+                description="固体称量槽位",
+            ),
+        ],
+    )
+    def trigger_solid_weighing(self, gram: int = 10, tolerance: int = 1, slot: int = 1) -> dict:
         """
         触发固体称重：
         - 检查固态称重是否已占位
@@ -1244,8 +1312,37 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "固体称重失败，动作超时",
             }
         
-    @not_action
-    def trigger_magnetic_stirrer(self, speed: int, temperature: int, mins: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤18：触发磁力搅拌",
+        handles=[
+            ActionInputHandle(
+                key="magnetic_stirrer_speed",
+                data_type="ai4c_magnetic_stirrer_speed",
+                label="搅拌速度",
+                data_key="speed",
+                data_source=DataSource.HANDLE,
+                description="磁力搅拌速度",
+            ),
+            ActionInputHandle(
+                key="magnetic_stirrer_temperature",
+                data_type="ai4c_magnetic_stirrer_temperature",
+                label="搅拌温度",
+                data_key="temperature",
+                data_source=DataSource.HANDLE,
+                description="磁力搅拌温度",
+            ),
+            ActionInputHandle(
+                key="magnetic_stirrer_minutes",
+                data_type="ai4c_magnetic_stirrer_minutes",
+                label="搅拌时间",
+                data_key="mins",
+                data_source=DataSource.HANDLE,
+                description="磁力搅拌时间，单位分钟",
+            ),
+        ],
+    )
+    def trigger_magnetic_stirrer(self, speed: int = 100, temperature: int = 30, mins: int = 1) -> dict:
         """
         触发磁力搅拌：
         - 等待磁力搅拌请求加工信号
@@ -1308,7 +1405,20 @@ class AI4CDevice(OpcUaClientWithSubscription):
                 "message": "搅拌失败，动作超时",
             }
 
-    @not_action
+    @action(
+        auto_prefix=True,
+        description="步骤15：触发移液",
+        handles=[
+            ActionInputHandle(
+                key="pipetting_param",
+                data_type="ai4c_pipetting_param",
+                label="移液参数",
+                data_key="param",
+                data_source=DataSource.HANDLE,
+                description="移液站参数",
+            )
+        ],
+    )
     def trigger_pipetting(self, param: int) -> dict:
         """
         触发移液：
@@ -1384,8 +1494,21 @@ class AI4CDevice(OpcUaClientWithSubscription):
             }
         '''
         
-    @not_action
-    def trigger_hplc(self, param: int) -> dict:
+    @action(
+        auto_prefix=True,
+        description="步骤23：触发 HPLC",
+        handles=[
+            ActionInputHandle(
+                key="hplc_param",
+                data_type="ai4c_hplc_param",
+                label="HPLC 参数",
+                data_key="param",
+                data_source=DataSource.HANDLE,
+                description="HPLC 加工参数",
+            )
+        ],
+    )
+    def trigger_hplc(self, param: int = 1) -> dict:
         """
         触发 HPLC：
         - 等待 HPLC 请求加工信号
