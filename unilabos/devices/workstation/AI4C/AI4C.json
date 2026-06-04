@@ -57,9 +57,7 @@
                 "y": 0,
                 "z": 0
             },
-            "config": {
-                "plc_device_id": "AI4C_plc"
-            },
+            "config": {},
             "data": {}
         }
     ],
