@@ -294,7 +294,7 @@ def test_ai4c_plc_status_properties_match_runtime_methods():
     assert set(plc_meta["status_properties"]) <= runtime_methods
 
 
-def test_ai4c_plc_get_variable_status_action_registered():
+def test_ai4c_plc_check_variable_status_action_registered():
     ai4c_plc_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C_plc.py"
 
     with ThreadPoolExecutor(max_workers=1) as executor:
@@ -306,11 +306,11 @@ def test_ai4c_plc_get_variable_status_action_registered():
         )
 
     plc_meta = result["devices"]["AI4C_plc"]
-    assert "get_variable_status" in plc_meta["actions"]
-    assert plc_meta["actions"]["get_variable_status"]["action_args"]["description"] == "获取指定 PLC 变量的状态"
+    assert "check_variable_status" in plc_meta["actions"]
+    assert plc_meta["actions"]["check_variable_status"]["action_args"]["description"] == "获取指定 PLC 变量的状态"
 
 
-def test_ai4c_plc_get_variable_status_runtime():
+def test_ai4c_plc_check_variable_status_runtime():
     from unittest.mock import patch, MagicMock
     import unilabos.devices.workstation.base_opcua_client
     with patch("unilabos.devices.workstation.base_opcua_client.OpcUaClientWithSubscription.__init__", return_value=None):
@@ -324,14 +324,14 @@ def test_ai4c_plc_get_variable_status_runtime():
         dev.get_variables = MagicMock(return_value={"粉筒_InPut[24]": True})
         
         # Test with English name
-        res = dev.get_variable_status("Powder_Cylinder_InPut[24]")
+        res = dev.check_variable_status("Powder_Cylinder_InPut[24]")
         dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
         assert res == {"Powder_Cylinder_InPut[24]": True}
         
         # Test with Chinese name
         dev.get_variables.reset_mock()
         dev.get_variables.return_value = {"粉筒_InPut[24]": True}
-        res = dev.get_variable_status("粉筒_InPut[24]")
+        res = dev.check_variable_status("粉筒_InPut[24]")
         dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
         assert res == {"粉筒_InPut[24]": True}
 

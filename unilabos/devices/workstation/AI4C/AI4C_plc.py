@@ -4,7 +4,7 @@ AI4C PLC 设备驱动。
 只负责 OPC UA/PLC 通讯、初始化、心跳和通用状态变量访问。
 具体机械臂、固态称量、移液、磁搅、HPLC action 不放在这个设备里。
 """
-
+import os
 import threading
 import time
 from typing import Any, Optional
@@ -67,7 +67,6 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
         )
 
         if csv_path:
-            import os
             if not os.path.isabs(csv_path):
                 current_dir = os.path.dirname(os.path.abspath(__file__))
                 csv_path = os.path.join(current_dir, csv_path)
@@ -153,7 +152,7 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
         return result
 
     @action(auto_prefix=True, description="获取指定 PLC 变量的状态")
-    def get_variable_status(self, variable_name: str) -> dict:
+    def check_variable_status(self, variable_name: str) -> dict:
         """
         获取指定 PLC 变量的状态。
 
