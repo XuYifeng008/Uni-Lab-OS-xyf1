@@ -166,39 +166,39 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
             logger.info(f"磁搅当前步骤更新: {self.m_magnetic_stirrer_current_step}")
 
     @topic_config(period=1.0)
-    def get_robotic_arm_idle(self) -> bool:
+    def robotic_arm_idle(self) -> bool:
         return bool(self.read_variable("Robotic_Arm_Idle", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_solid_weighing_occupied(self) -> bool:
+    def solid_weighing_occupied(self) -> bool:
         return bool(self.read_variable("Solid_Weighing_Occupied", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_powder_in_solid_weighing_occupied(self) -> bool:
+    def powder_in_solid_weighing_occupied(self) -> bool:
         return bool(self.read_variable("Powder_In_Solid_Weighing_Occupied", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_pipetting_station_occupied(self) -> bool:
+    def pipetting_station_occupied(self) -> bool:
         return bool(self.read_variable("Pipetting_Station_Occupied", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_magnetic_stirrer_occupied(self) -> bool:
+    def magnetic_stirrer_occupied(self) -> bool:
         return bool(self.read_variable("Magnetic_Stirrer_Occupied", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_hplc_workstation_occupied(self) -> bool:
+    def hplc_workstation_occupied(self) -> bool:
         return bool(self.read_variable("HPLC_Pool_Occupied", use_cache=False))
 
     @topic_config(period=1.0)
-    def get_robotic_arm_current_step(self) -> int:
+    def robotic_arm_current_step(self) -> int:
         return int(self.read_variable("Robotic_Arm_Current_Step", use_cache=False) or 0)
 
     @topic_config(period=1.0)
-    def get_solid_weighing_current_step(self) -> int:
+    def solid_weighing_current_step(self) -> int:
         return int(self.read_variable("Solid_Weighing_Current_Step", use_cache=False) or 0)
 
     @topic_config(period=1.0)
-    def get_magnetic_stirrer_current_step(self) -> int:
+    def magnetic_stirrer_current_step(self) -> int:
         return int(self.read_variable("Magnetic_Stirrer_Current_Step", use_cache=False) or 0)
 
     def _wait_until_true(
