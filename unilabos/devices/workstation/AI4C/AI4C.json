@@ -44,6 +44,23 @@
                 "use_subscription": true
             },
             "data": {}
+        },
+        {
+            "id": "AI4C_robot_arm",
+            "name": "AI4C_robot_arm",
+            "children": [],
+            "parent": null,
+            "type": "device",
+            "class": "AI4C_robot_arm",
+            "position": {
+                "x": 120,
+                "y": 0,
+                "z": 0
+            },
+            "config": {
+                "plc_device_id": "AI4C_plc"
+            },
+            "data": {}
         }
     ],
     "links": []
