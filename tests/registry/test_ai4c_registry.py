@@ -292,3 +292,68 @@ def test_ai4c_plc_status_properties_match_runtime_methods():
     runtime_methods = {node.name for node in plc_class.body if isinstance(node, ast.FunctionDef)}
 
     assert set(plc_meta["status_properties"]) <= runtime_methods
+
+
+def test_ai4c_plc_get_variable_status_action_registered():
+    ai4c_plc_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C_plc.py"
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        result = scan_directory(
+            ai4c_plc_file.parent,
+            python_path=REPO_ROOT,
+            executor=executor,
+            include_files=[ai4c_plc_file],
+        )
+
+    plc_meta = result["devices"]["AI4C_plc"]
+    assert "get_variable_status" in plc_meta["actions"]
+    assert plc_meta["actions"]["get_variable_status"]["action_args"]["description"] == "获取指定 PLC 变量的状态"
+
+
+def test_ai4c_plc_get_variable_status_runtime():
+    from unittest.mock import patch, MagicMock
+    import unilabos.devices.workstation.base_opcua_client
+    with patch("unilabos.devices.workstation.base_opcua_client.OpcUaClientWithSubscription.__init__", return_value=None):
+        from unilabos.devices.workstation.AI4C.AI4C_plc import AI4CPLCDevice
+        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840")
+        dev._name_mapping = {"Powder_Cylinder_InPut[24]": "粉筒_InPut[24]"}
+        dev._reverse_mapping = {"粉筒_InPut[24]": "Powder_Cylinder_InPut[24]"}
+        dev._variables_to_find = {"粉筒_InPut[24]": {}}
+        
+        # Mock get_variables
+        dev.get_variables = MagicMock(return_value={"粉筒_InPut[24]": True})
+        
+        # Test with English name
+        res = dev.get_variable_status("Powder_Cylinder_InPut[24]")
+        dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
+        assert res == {"Powder_Cylinder_InPut[24]": True}
+        
+        # Test with Chinese name
+        dev.get_variables.reset_mock()
+        dev.get_variables.return_value = {"粉筒_InPut[24]": True}
+        res = dev.get_variable_status("粉筒_InPut[24]")
+        dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
+        assert res == {"粉筒_InPut[24]": True}
+
+
+def test_ai4c_plc_csv_path_resolution():
+    from unittest.mock import patch
+    import os
+    with patch("unilabos.devices.workstation.base_opcua_client.OpcUaClientWithSubscription.__init__", return_value=None), \
+         patch("unilabos.devices.workstation.AI4C.AI4C_plc.AI4CPLCDevice.load_nodes_from_csv") as mock_load:
+        from unilabos.devices.workstation.AI4C.AI4C_plc import AI4CPLCDevice
+        import unilabos.devices.workstation.AI4C.AI4C_plc as AI4C_plc
+        
+        # Test absolute path
+        abs_path = "/tmp/test.csv"
+        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840", csv_path=abs_path)
+        mock_load.assert_called_once_with(abs_path)
+        
+        # Test relative path / filename
+        mock_load.reset_mock()
+        filename = "ai4c_sim_updated.csv"
+        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840", csv_path=filename)
+        current_dir = os.path.dirname(os.path.abspath(AI4C_plc.__file__))
+        expected_path = os.path.join(current_dir, filename)
+        mock_load.assert_called_once_with(expected_path)
+
