@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+import ast
 import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -270,3 +271,24 @@ def test_ai4c_pick_plate_action_exports_loading_rack_position_handle():
         ],
         "output": [],
     }
+
+
+def test_ai4c_plc_status_properties_match_runtime_methods():
+    ai4c_plc_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C_plc.py"
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        result = scan_directory(
+            ai4c_plc_file.parent,
+            python_path=REPO_ROOT,
+            executor=executor,
+            include_files=[ai4c_plc_file],
+        )
+
+    plc_meta = result["devices"]["AI4C_plc"]
+    module = ast.parse(ai4c_plc_file.read_text())
+    plc_class = next(
+        node for node in module.body if isinstance(node, ast.ClassDef) and node.name == plc_meta["class_name"]
+    )
+    runtime_methods = {node.name for node in plc_class.body if isinstance(node, ast.FunctionDef)}
+
+    assert set(plc_meta["status_properties"]) <= runtime_methods
