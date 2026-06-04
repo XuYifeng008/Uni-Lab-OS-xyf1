@@ -4,7 +4,7 @@ AI4C PLC 设备驱动。
 只负责 OPC UA/PLC 通讯、初始化、心跳和通用状态变量访问。
 具体机械臂、固态称量、移液、磁搅、HPLC action 不放在这个设备里。
 """
-
+import os
 import threading
 import time
 from typing import Any, Optional
@@ -67,6 +67,9 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
         )
 
         if csv_path:
+            if not os.path.isabs(csv_path):
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                csv_path = os.path.join(current_dir, csv_path)
             self.load_nodes_from_csv(csv_path)
 
         self.m_initialized = False
@@ -147,6 +150,29 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
                     "error": str(exc),
                 }
         return result
+
+    @action(auto_prefix=True, description="获取指定 PLC 变量的状态")
+    def check_variable_status(self, variable_name: str) -> dict:
+        """
+        获取指定 PLC 变量的状态。
+
+        Args:
+            variable_name[变量名称]: CSV 文件中的变量名称（支持中文名或英文名）。
+        """
+        # 1. 尝试将英文名映射为注册的中文名
+        real_name = self._name_mapping.get(variable_name, variable_name)
+
+        # 2. 调用 get_variables 获取状态
+        res = self.get_variables([real_name], use_cache=False)
+
+        # 3. 确保返回的 key 尽量与前端传进来的 variable_name 一致
+        final_res = {}
+        for k, v in res.items():
+            if k == real_name:
+                final_res[variable_name] = v
+            else:
+                final_res[k] = v
+        return final_res
 
     @not_action
     def _refresh_current_steps(self) -> None:
