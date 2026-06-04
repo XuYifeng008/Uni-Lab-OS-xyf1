@@ -16,6 +16,7 @@ from unilabos.devices.workstation.AI4M.base_opcua_client import OpcUaClientWithS
 
 AI4C_PLC_STATUS_NODES = {
     "robotic_arm_idle": "Robotic_Arm_Idle",
+    "robotic_arm_action_complete": "Robotic_Arm_Action_Complete",
     "solid_weighing_occupied": "Solid_Weighing_Occupied",
     "powder_in_solid_weighing_occupied": "Powder_In_Solid_Weighing_Occupied",
     "pipetting_station_occupied": "Pipetting_Station_Occupied",
@@ -130,9 +131,9 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
         return self.get_node_value(node_name, use_cache=use_cache)
 
     @not_action
-    def write_variable(self, node_name: str, value: Any) -> None:
+    def write_variable(self, node_name: str, value: Any) -> bool:
         """对外提供 PLC 变量写入函数，供其他设备实例调用。"""
-        self.set_node_value(node_name, value)
+        return bool(self.set_node_value(node_name, value))
 
     @not_action
     def get_variables(self, node_names: Optional[list[str]] = None, use_cache: bool = True) -> dict:
@@ -195,6 +196,19 @@ class AI4CPLCDevice(OpcUaClientWithSubscription):
     @topic_config(period=1.0)
     def robotic_arm_idle(self) -> bool:
         return bool(self.read_variable("Robotic_Arm_Idle", use_cache=False))
+
+    @topic_config(period=0.2)
+    def robotic_arm_action_complete(self) -> bool:
+        return bool(self.read_variable("Robotic_Arm_Action_Complete", use_cache=True))
+
+    @topic_config(period=0.5)
+    def loading_rack_occupied(self) -> dict:
+        return {
+            str(position): bool(
+                self.read_variable(f"Well_Plate_Loading_Rack_InPut[{position - 1}]", use_cache=True)
+            )
+            for position in range(1, 9)
+        }
 
     @topic_config(period=1.0)
     def solid_weighing_occupied(self) -> bool:
