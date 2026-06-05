@@ -112,6 +112,21 @@ class AI4CRobotArmDevice:
         self._set_plc_state("loading_rack_occupied", json.loads(msg.data))
 
     @not_action
+    @subscribe("/devices/AI4C_plc/pipetting_station_occupied", msg_type=Bool)
+    def on_pipetting_station_occupied(self, msg: Bool) -> None:
+        self._set_plc_state("pipetting_station_occupied", bool(msg.data))
+
+    @not_action
+    @subscribe("/devices/AI4C_plc/magnetic_stirrer_occupied", msg_type=Bool)
+    def on_magnetic_stirrer_occupied(self, msg: Bool) -> None:
+        self._set_plc_state("magnetic_stirrer_occupied", bool(msg.data))
+
+    @not_action
+    @subscribe("/devices/AI4C_plc/hplc_workstation_occupied", msg_type=Bool)
+    def on_hplc_workstation_occupied(self, msg: Bool) -> None:
+        self._set_plc_state("hplc_workstation_occupied", bool(msg.data))
+
+    @not_action
     def _wait_future(self, future, timeout: float, description: str):
         done = threading.Event()
         future.add_done_callback(lambda _future: done.set())
@@ -185,7 +200,6 @@ class AI4CRobotArmDevice:
     @not_action
     def _wait_plc_bool(
         self,
-        state_key: str,
         node_name: str,
         expected: bool,
         timeout: float = 300.0,
@@ -196,7 +210,7 @@ class AI4CRobotArmDevice:
         logger.info(f"等待 {desc} 变为 {expected}...")
         start = time.time()
         while True:
-            if self._read_bool_with_topic_fallback(state_key, node_name) is expected:
+            if bool(self._read_plc_variable(node_name, use_cache=False)) is expected:
                 logger.info(f"✓ {desc} 已变为 {expected}")
                 return True
             if time.time() - start >= timeout:
@@ -221,6 +235,74 @@ class AI4CRobotArmDevice:
             node_name = f"Well_Plate_Loading_Rack_InPut[{position - 1}]"
             logger.warning(f"上料架订阅状态不可用，改为强制读取 PLC 节点: {node_name}")
             return bool(self._read_plc_variable(node_name, use_cache=False))
+
+    @not_action
+    def is_unloading_rack_position_occupied(self, position: int) -> bool:
+        if position < MIN_RACK_POSITION or position > MAX_RACK_POSITION:
+            logger.error(f"下料架位置错误，必须在范围[{MIN_RACK_POSITION}, {MAX_RACK_POSITION}]内")
+            return False
+
+        node_name = f"Well_Plate_Unloading_Rack_InPut[{position - 1}]"
+        return bool(self._read_plc_variable(node_name, use_cache=False))
+
+    @not_action
+    def is_pipetting_station_occupied(self) -> bool:
+        return self._read_bool_with_topic_fallback("pipetting_station_occupied", "Pipetting_Station_Occupied")
+
+    @not_action
+    def is_magnetic_stirrer_occupied(self) -> bool:
+        return self._read_bool_with_topic_fallback("magnetic_stirrer_occupied", "Magnetic_Stirrer_Occupied")
+
+    @not_action
+    def is_hplc_workstation_occupied(self) -> bool:
+        return self._read_bool_with_topic_fallback("hplc_workstation_occupied", "HPLC_Pool_Occupied")
+
+    @not_action
+    def _run_robot_arm_action(
+        self,
+        target_position: RoboticArmTargetPosition,
+        pick_place_code: int,
+        arm_action: RoboticArmAction,
+        description: str,
+        success_message: str,
+        reset_description: str = None,
+    ) -> dict:
+        failure_message = (
+            f"{success_message[:-2]}失败" if success_message.endswith("完成") else f"{success_message}失败"
+        )
+        self._write_plc_variable("Robotic_Arm_Target_Position_Code", target_position.value)
+        self._write_plc_variable("Robotic_Arm_Target_Pick_Place_Code", pick_place_code)
+        self._write_plc_variable("Robotic_Arm_Action_Code", arm_action.value)
+        self._write_plc_variable("Robotic_Arm_Action_Trigger", True)
+
+        if self._wait_plc_bool(
+            "Robotic_Arm_Action_Complete",
+            True,
+            description=description,
+        ):
+            self._write_plc_variable("Robotic_Arm_Action_Trigger", False)
+            if self._wait_plc_bool(
+                "Robotic_Arm_Action_Complete",
+                False,
+                description=reset_description or description,
+            ):
+                logger.info(success_message)
+                return {
+                    "success": True,
+                    "message": success_message,
+                }
+
+            logger.error(failure_message)
+            return {
+                "success": False,
+                "message": f"{failure_message}，完成复位超时",
+            }
+
+        logger.error(failure_message)
+        return {
+            "success": False,
+            "message": f"{failure_message}，机械臂动作未完成",
+        }
 
     @action(
         auto_prefix=True,
@@ -260,38 +342,205 @@ class AI4CRobotArmDevice:
             }
 
         logger.info(f"从上料架位置{position}抓取孔板...")
-        self._write_plc_variable("Robotic_Arm_Target_Position_Code", RoboticArmTargetPosition.PLATE_LOADING_RACK.value)
-        self._write_plc_variable("Robotic_Arm_Target_Pick_Place_Code", position)
-        self._write_plc_variable("Robotic_Arm_Action_Code", RoboticArmAction.PICK.value)
-        self._write_plc_variable("Robotic_Arm_Action_Trigger", True)
-
-        if self._wait_plc_bool(
-            "robotic_arm_action_complete",
-            "Robotic_Arm_Action_Complete",
-            True,
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.PLATE_LOADING_RACK,
+            position,
+            RoboticArmAction.PICK,
             description="从上料架抓取孔板完成",
-        ):
-            self._write_plc_variable("Robotic_Arm_Action_Trigger", False)
-            if self._wait_plc_bool(
-                "robotic_arm_action_complete",
-                "Robotic_Arm_Action_Complete",
-                False,
-                description="机械臂完成信号复位",
-            ):
-                logger.info("从上料架抓取孔板完成")
-                return {
-                    "success": True,
-                    "message": "从上料架抓取孔板完成",
-                }
+            success_message="从上料架抓取孔板完成",
+        )
 
-            logger.error("从上料架抓取孔板失败")
+    @action(auto_prefix=True, description="步骤14/20：将孔板放置到移液站")
+    def place_well_plate_to_pipetting_station(self) -> dict:
+        logger.info("将孔板放置到移液站...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
             return {
                 "success": False,
-                "message": "从上料架抓取孔板失败，完成复位超时",
+                "message": "机械臂不在空闲状态",
             }
 
-        logger.error("从上料架抓取孔板失败")
-        return {
-            "success": False,
-            "message": "从上料架抓取孔板失败，机械臂动作未完成",
-        }
+        if self.is_pipetting_station_occupied():
+            logger.error("移液站位置已有孔板")
+            return {
+                "success": False,
+                "message": "移液站位置已有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.PIPETTING_STATION,
+            1,
+            RoboticArmAction.PLACE,
+            description="将孔板放置到移液站完成",
+            success_message="将孔板放置到移液站完成",
+        )
+
+    @action(auto_prefix=True, description="步骤16/21：从移液站取回孔板")
+    def pick_well_plate_from_pipetting_station(self) -> dict:
+        logger.info("从移液站取孔板...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_pipetting_station_occupied():
+            logger.error("移液站位置没有孔板")
+            return {
+                "success": False,
+                "message": "移液站位置没有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.PIPETTING_STATION,
+            1,
+            RoboticArmAction.PICK,
+            description="从移液站取孔板完成",
+            success_message="从移液站取孔板完成",
+        )
+
+    @action(auto_prefix=True, description="步骤17：将孔板放置到磁搅")
+    def place_well_plate_to_magnetic_stirrer(self) -> dict:
+        logger.info("将孔板放置到磁搅...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if self.is_magnetic_stirrer_occupied():
+            logger.error("磁搅位置已有孔板")
+            return {
+                "success": False,
+                "message": "磁搅位置已有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.MAGNETIC_STIRRER,
+            1,
+            RoboticArmAction.PLACE,
+            description="将孔板放置到磁搅完成",
+            success_message="将孔板放置到磁搅完成",
+        )
+
+    @action(auto_prefix=True, description="步骤19：从磁搅取回孔板")
+    def pick_well_plate_from_magnetic_stirrer(self) -> dict:
+        logger.info("从磁搅取孔板...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_magnetic_stirrer_occupied():
+            logger.error("磁搅位置没有孔板")
+            return {
+                "success": False,
+                "message": "磁搅位置没有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.MAGNETIC_STIRRER,
+            1,
+            RoboticArmAction.PICK,
+            description="从磁搅取孔板完成",
+            success_message="从磁搅取孔板完成",
+        )
+
+    @action(auto_prefix=True, description="步骤22：将孔板放置到 HPLC 站")
+    def place_well_plate_to_hplc_station(self) -> dict:
+        logger.info("将孔板放置到 HPLC 站...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if self.is_hplc_workstation_occupied():
+            logger.error("HPLC 站位置已有孔板")
+            return {
+                "success": False,
+                "message": "HPLC 站位置已有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.HPLC_STATION,
+            1,
+            RoboticArmAction.PLACE,
+            description="将孔板放置到 HPLC 站完成",
+            success_message="将孔板放置到 HPLC 站完成",
+        )
+
+    @action(auto_prefix=True, description="步骤24：从 HPLC 站取回孔板")
+    def pick_well_plate_from_hplc_station(self) -> dict:
+        logger.info("从 HPLC 站取孔板...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_hplc_workstation_occupied():
+            logger.error("HPLC 站位置没有孔板")
+            return {
+                "success": False,
+                "message": "HPLC 站位置没有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.HPLC_STATION,
+            1,
+            RoboticArmAction.PICK,
+            description="从 HPLC 站取孔板完成",
+            success_message="从 HPLC 站取孔板完成",
+        )
+
+    @action(
+        auto_prefix=True,
+        description="步骤25：将孔板放置到下料架",
+        handles=[
+            ActionInputHandle(
+                key="unloading_rack_position",
+                data_type="ai4c_unloading_rack_position",
+                label="下料架位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="孔板放置的下料架位置，范围 1-8",
+            )
+        ],
+    )
+    def place_well_plate_to_unloading_rack(self, position: int = 1) -> dict:
+        logger.info("将孔板放置到下料架...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if position < MIN_RACK_POSITION or position > MAX_RACK_POSITION:
+            logger.error("下料架位置超出范围")
+            return {
+                "success": False,
+                "message": "下料架位置超出范围",
+            }
+
+        if self.is_unloading_rack_position_occupied(position):
+            logger.error("下料架位置已有孔板")
+            return {
+                "success": False,
+                "message": "下料架位置已有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.PLATE_UNLOADING_RACK,
+            position,
+            RoboticArmAction.PLACE,
+            description="将孔板放置到下料架完成",
+            success_message="将孔板放置到下料架完成",
+        )
