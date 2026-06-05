@@ -59,6 +59,23 @@
             },
             "config": {},
             "data": {}
+        },
+        {
+            "id": "AI4C_solid_weighing",
+            "name": "AI4C 固态称量",
+            "children": [],
+            "parent": null,
+            "type": "device",
+            "class": "AI4C_solid_weighing",
+            "position": {
+                "x": 500,
+                "y": 0,
+                "z": 0
+            },
+            "config": {
+                "plc_device_id": "AI4C_plc"
+            },
+            "data": {}
         }
     ],
     "links": []
