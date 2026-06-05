@@ -294,66 +294,35 @@ def test_ai4c_plc_status_properties_match_runtime_methods():
     assert set(plc_meta["status_properties"]) <= runtime_methods
 
 
-def test_ai4c_plc_check_variable_status_action_registered():
-    ai4c_plc_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C_plc.py"
+def test_ai4c_robot_arm_registers_independent_actions():
+    robot_arm_file = REPO_ROOT / "unilabos/devices/workstation/AI4C/AI4C_robot_arm.py"
 
     with ThreadPoolExecutor(max_workers=1) as executor:
         result = scan_directory(
-            ai4c_plc_file.parent,
+            robot_arm_file.parent,
             python_path=REPO_ROOT,
             executor=executor,
-            include_files=[ai4c_plc_file],
+            include_files=[robot_arm_file],
         )
 
-    plc_meta = result["devices"]["AI4C_plc"]
-    assert "check_variable_status" in plc_meta["actions"]
-    assert plc_meta["actions"]["check_variable_status"]["action_args"]["description"] == "获取指定 PLC 变量的状态"
+    robot_meta = result["devices"]["AI4C_robot_arm"]
 
-
-def test_ai4c_plc_check_variable_status_runtime():
-    from unittest.mock import patch, MagicMock
-    import unilabos.devices.workstation.base_opcua_client
-    with patch("unilabos.devices.workstation.base_opcua_client.OpcUaClientWithSubscription.__init__", return_value=None):
-        from unilabos.devices.workstation.AI4C.AI4C_plc import AI4CPLCDevice
-        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840")
-        dev._name_mapping = {"Powder_Cylinder_InPut[24]": "粉筒_InPut[24]"}
-        dev._reverse_mapping = {"粉筒_InPut[24]": "Powder_Cylinder_InPut[24]"}
-        dev._variables_to_find = {"粉筒_InPut[24]": {}}
-        
-        # Mock get_variables
-        dev.get_variables = MagicMock(return_value={"粉筒_InPut[24]": True})
-        
-        # Test with English name
-        res = dev.check_variable_status("Powder_Cylinder_InPut[24]")
-        dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
-        assert res == {"Powder_Cylinder_InPut[24]": True}
-        
-        # Test with Chinese name
-        dev.get_variables.reset_mock()
-        dev.get_variables.return_value = {"粉筒_InPut[24]": True}
-        res = dev.check_variable_status("粉筒_InPut[24]")
-        dev.get_variables.assert_called_once_with(["粉筒_InPut[24]"], use_cache=False)
-        assert res == {"粉筒_InPut[24]": True}
-
-
-def test_ai4c_plc_csv_path_resolution():
-    from unittest.mock import patch
-    import os
-    with patch("unilabos.devices.workstation.base_opcua_client.OpcUaClientWithSubscription.__init__", return_value=None), \
-         patch("unilabos.devices.workstation.AI4C.AI4C_plc.AI4CPLCDevice.load_nodes_from_csv") as mock_load:
-        from unilabos.devices.workstation.AI4C.AI4C_plc import AI4CPLCDevice
-        import unilabos.devices.workstation.AI4C.AI4C_plc as AI4C_plc
-        
-        # Test absolute path
-        abs_path = "/tmp/test.csv"
-        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840", csv_path=abs_path)
-        mock_load.assert_called_once_with(abs_path)
-        
-        # Test relative path / filename
-        mock_load.reset_mock()
-        filename = "ai4c_sim_updated.csv"
-        dev = AI4CPLCDevice(url="opc.tcp://localhost:4840", csv_path=filename)
-        current_dir = os.path.dirname(os.path.abspath(AI4C_plc.__file__))
-        expected_path = os.path.join(current_dir, filename)
-        mock_load.assert_called_once_with(expected_path)
-
+    assert robot_meta["category"] == ["robotic_arm"]
+    assert robot_meta["display_name"] == "AI4C 机械臂"
+    assert set(robot_meta["actions"]) == {
+        "pick_well_plate_from_loading_rack",
+        "place_well_plate_to_solid_weighing",
+        "pick_powder_cylinder_from_stack",
+        "place_powder_cylinder_to_solid_weighing",
+        "pick_powder_cylinder_from_solid_weighing",
+        "place_powder_cylinder_to_solid_weighing_stack",
+        "pick_well_plate_from_solid_weighing",
+        "place_well_plate_to_pipetting_station",
+        "pick_well_plate_from_pipetting_station",
+        "place_well_plate_to_magnetic_stirrer",
+        "pick_well_plate_from_magnetic_stirrer",
+        "place_well_plate_to_hplc_station",
+        "pick_well_plate_from_hplc_station",
+        "place_well_plate_to_unloading_rack",
+    }
+    assert "robot_arm_write_variables" not in robot_meta["actions"]

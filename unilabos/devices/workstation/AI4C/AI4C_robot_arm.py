@@ -41,6 +41,8 @@ class RoboticArmAction(int, Enum):
 
 MIN_RACK_POSITION = 1
 MAX_RACK_POSITION = 8
+MIN_SOLID_WEIGHING_STACK_POSITION = 1
+MAX_SOLID_WEIGHING_STACK_POSITION = 25
 
 
 @device(
@@ -110,6 +112,16 @@ class AI4CRobotArmDevice:
     @subscribe("/devices/AI4C_plc/loading_rack_occupied", msg_type=String)
     def on_loading_rack_occupied(self, msg: String) -> None:
         self._set_plc_state("loading_rack_occupied", json.loads(msg.data))
+
+    @not_action
+    @subscribe("/devices/AI4C_plc/solid_weighing_occupied", msg_type=Bool)
+    def on_solid_weighing_occupied(self, msg: Bool) -> None:
+        self._set_plc_state("solid_weighing_occupied", bool(msg.data))
+
+    @not_action
+    @subscribe("/devices/AI4C_plc/powder_in_solid_weighing_occupied", msg_type=Bool)
+    def on_powder_in_solid_weighing_occupied(self, msg: Bool) -> None:
+        self._set_plc_state("powder_in_solid_weighing_occupied", bool(msg.data))
 
     @not_action
     @subscribe("/devices/AI4C_plc/pipetting_station_occupied", msg_type=Bool)
@@ -246,6 +258,29 @@ class AI4CRobotArmDevice:
         return bool(self._read_plc_variable(node_name, use_cache=False))
 
     @not_action
+    def is_solid_weighing_occupied(self) -> bool:
+        return self._read_bool_with_topic_fallback("solid_weighing_occupied", "Solid_Weighing_Occupied")
+
+    @not_action
+    def is_powder_in_solid_weighing_occupied(self) -> bool:
+        return self._read_bool_with_topic_fallback(
+            "powder_in_solid_weighing_occupied",
+            "Powder_In_Solid_Weighing_Occupied",
+        )
+
+    @not_action
+    def is_powder_stack_position_occupied(self, position: int) -> bool:
+        if position < MIN_SOLID_WEIGHING_STACK_POSITION or position > MAX_SOLID_WEIGHING_STACK_POSITION:
+            logger.error(
+                f"固体称量堆栈位置错误，必须在范围"
+                f"[{MIN_SOLID_WEIGHING_STACK_POSITION}, {MAX_SOLID_WEIGHING_STACK_POSITION}]内"
+            )
+            return False
+
+        node_name = f"Powder_Cylinder_InPut[{position - 1}]"
+        return bool(self._read_plc_variable(node_name, use_cache=False))
+
+    @not_action
     def is_pipetting_station_occupied(self) -> bool:
         return self._read_bool_with_topic_fallback("pipetting_station_occupied", "Pipetting_Station_Occupied")
 
@@ -348,6 +383,196 @@ class AI4CRobotArmDevice:
             RoboticArmAction.PICK,
             description="从上料架抓取孔板完成",
             success_message="从上料架抓取孔板完成",
+        )
+
+    @action(auto_prefix=True, description="步骤4：将孔板放置到固态称量")
+    def place_well_plate_to_solid_weighing(self) -> dict:
+        logger.info("将孔板放置到固态称量...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if self.is_solid_weighing_occupied():
+            logger.error("固态称重已占位")
+            return {
+                "success": False,
+                "message": "固态称重已占位",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING,
+            1,
+            RoboticArmAction.PLACE,
+            description="将孔板放置到固态称重完成",
+            success_message="将孔板放置到固态称重完成",
+        )
+
+    @action(
+        auto_prefix=True,
+        description="步骤5：从固体称量堆栈抓取粉桶",
+        handles=[
+            ActionInputHandle(
+                key="powder_stack_position",
+                data_type="ai4c_powder_stack_position",
+                label="粉桶堆栈位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="粉桶所在堆栈位置，范围 1-25",
+            )
+        ],
+    )
+    def pick_powder_cylinder_from_stack(self, position: int = 6) -> dict:
+        logger.info("从固体称量堆栈取粉桶...")
+        if position < MIN_SOLID_WEIGHING_STACK_POSITION or position > MAX_SOLID_WEIGHING_STACK_POSITION:
+            logger.error("粉桶位置不在有效范围内")
+            return {
+                "success": False,
+                "message": "粉桶位置不在有效范围内",
+            }
+
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_powder_stack_position_occupied(position):
+            logger.error(f"固体称量堆栈位置{position}没有粉桶")
+            return {
+                "success": False,
+                "message": f"固体称量堆栈位置{position}没有粉桶",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING_STACK,
+            position,
+            RoboticArmAction.PICK,
+            description="从固体称量堆栈中取粉桶完成",
+            success_message="从固体称量堆栈中取粉桶完成",
+        )
+
+    @action(auto_prefix=True, description="步骤6：将粉桶放置到固态称量")
+    def place_powder_cylinder_to_solid_weighing(self) -> dict:
+        logger.info("将粉桶放置到固态称量...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if self.is_powder_in_solid_weighing_occupied():
+            logger.error("固态称量粉桶位置已经有粉桶")
+            return {
+                "success": False,
+                "message": "固态称量粉桶位置已经有粉桶",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING,
+            1,
+            RoboticArmAction.ON_POWDER_HEAD,
+            description="将粉桶放置到固态称量完成",
+            success_message="将粉桶放置到固态称量完成",
+        )
+
+    @action(auto_prefix=True, description="步骤10：从固态称量取回粉桶")
+    def pick_powder_cylinder_from_solid_weighing(self) -> dict:
+        logger.info("从固态称量取粉桶...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_powder_in_solid_weighing_occupied():
+            logger.error("固态称量粉桶位置没有粉桶")
+            return {
+                "success": False,
+                "message": "固态称量粉桶位置没有粉桶",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING,
+            1,
+            RoboticArmAction.OFF_POWDER_HEAD,
+            description="从固态称量中取粉桶完成",
+            success_message="从固态称量中取粉桶完成",
+        )
+
+    @action(
+        auto_prefix=True,
+        description="步骤11：将粉桶放回固态称量堆栈",
+        handles=[
+            ActionInputHandle(
+                key="powder_stack_return_position",
+                data_type="ai4c_powder_stack_position",
+                label="粉桶放回堆栈位置",
+                data_key="position",
+                data_source=DataSource.HANDLE,
+                description="粉桶放回的堆栈位置，范围 1-25",
+            )
+        ],
+    )
+    def place_powder_cylinder_to_solid_weighing_stack(self, position: int = 6) -> dict:
+        logger.info("将粉桶放回固态称量堆栈...")
+        if position < MIN_SOLID_WEIGHING_STACK_POSITION or position > MAX_SOLID_WEIGHING_STACK_POSITION:
+            logger.error(f"固态称量堆栈位置 {position} 超出范围")
+            return {
+                "success": False,
+                "message": f"固态称量堆栈位置 {position} 超出范围",
+            }
+
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if self.is_powder_stack_position_occupied(position):
+            logger.error(f"固态称量堆栈位置 {position} 已有粉桶")
+            return {
+                "success": False,
+                "message": f"固态称量堆栈位置 {position} 已有粉桶",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING_STACK,
+            position,
+            RoboticArmAction.PLACE,
+            description="将粉桶放置到固态称量堆栈完成",
+            success_message="将粉桶放置到固态称量堆栈完成",
+        )
+
+    @action(auto_prefix=True, description="步骤12：从固态称量取回孔板")
+    def pick_well_plate_from_solid_weighing(self) -> dict:
+        logger.info("从固态称量取孔板...")
+        if not self.is_robotic_arm_idle():
+            logger.error("机械臂不在空闲状态")
+            return {
+                "success": False,
+                "message": "机械臂不在空闲状态",
+            }
+
+        if not self.is_solid_weighing_occupied():
+            logger.error("固态称量位置没有孔板")
+            return {
+                "success": False,
+                "message": "固态称量位置没有孔板",
+            }
+
+        return self._run_robot_arm_action(
+            RoboticArmTargetPosition.SOLID_WEIGHING,
+            1,
+            RoboticArmAction.PICK,
+            description="从固态称量中取孔板完成",
+            success_message="从固态称量中取孔板完成",
         )
 
     @action(auto_prefix=True, description="步骤14/20：将孔板放置到移液站")
