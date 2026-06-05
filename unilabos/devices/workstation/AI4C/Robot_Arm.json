@@ -1,0 +1,768 @@
+{
+  "target_lab_uuid": "58bbbb72-d88c-4bf0-ac3b-fc2b4a0c6644",
+  "name": "Robot_Arm",
+  "data": {
+    "workflow_uuid": "6429a386-deec-46b2-8d05-226481288c50",
+    "workflow_name": "Robot_Arm",
+    "nodes": [
+      {
+        "uuid": "cd7d16d8-faca-44d4-a2bc-dd9814afa505",
+        "parent_uuid": "",
+        "name": "auto-pick_well_plate_from_loading_rack",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": -250.30898,
+            "y": 80.52302,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "position": 1
+        },
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "d34f7059-79c6-48f1-96cd-97558bc85685",
+        "template_name": "auto-pick_well_plate_from_loading_rack",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "7625edce-9bbe-4841-951a-b776a4beb02a",
+        "parent_uuid": "",
+        "name": "auto-place_well_plate_to_solid_weighing",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 231.14903,
+            "y": 70.18852,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "da733912-a5da-4c27-b339-cf339e04e9c8",
+        "template_name": "auto-place_well_plate_to_solid_weighing",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "fda68b70-e7b6-4777-9e64-f060eef1e4a3",
+        "parent_uuid": "",
+        "name": "auto-pick_powder_cylinder_from_stack",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": -261.4674,
+            "y": 367.8165,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "position": 6
+        },
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "0ec4035a-bb7c-4d9b-8b22-c790548c12f0",
+        "template_name": "auto-pick_powder_cylinder_from_stack",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "cdf430e1-383d-4ba0-925d-5da0b8a571f8",
+        "parent_uuid": "",
+        "name": "auto-place_powder_cylinder_to_solid_weighing",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 256.3975,
+            "y": 385.30005,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "e3cec5ff-67f4-4639-8de5-e716809df803",
+        "template_name": "auto-place_powder_cylinder_to_solid_weighing",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "346c33d7-1c3a-43d6-b619-febd0cd9fa45",
+        "parent_uuid": "",
+        "name": "auto-pick_powder_cylinder_from_solid_weighing",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": -359.2048,
+            "y": 707.7007,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "7c12f94f-2482-4482-920a-05195b717e0f",
+        "template_name": "auto-pick_powder_cylinder_from_solid_weighing",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "ccdb062a-b0e8-4a41-9643-6cfaabd80cc2",
+        "parent_uuid": "",
+        "name": "auto-place_powder_cylinder_to_solid_weighing_stack",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 270.7956,
+            "y": 712.30066,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "position": 6
+        },
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "71c24ffc-e8f8-4575-ab24-a767bd7603a2",
+        "template_name": "auto-place_powder_cylinder_to_solid_weighing_stack",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "0074f78b-b105-4e39-ba53-af9e93f45a17",
+        "parent_uuid": "",
+        "name": "auto-pick_well_plate_from_solid_weighing",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 700.2864,
+            "y": 83.85413,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "b1060f5f-d8f6-4537-997e-65b68653f464",
+        "template_name": "auto-pick_well_plate_from_solid_weighing",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "37dacb14-3901-499a-a542-790f2a962d8a",
+        "parent_uuid": "",
+        "name": "auto-place_well_plate_to_pipetting_station",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1171.031,
+            "y": 38.748474,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "a39a4fda-37fc-44f7-836d-112e6a0abbc4",
+        "template_name": "auto-place_well_plate_to_pipetting_station",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "120b86da-e895-4ef1-8723-83a4009af8ee",
+        "parent_uuid": "",
+        "name": "auto-pick_well_plate_from_pipetting_station",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 747.53485,
+            "y": 345.01608,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "f0c07784-8b9d-4510-9469-c0a2710ead7a",
+        "template_name": "auto-pick_well_plate_from_pipetting_station",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "617065e8-54da-460c-b1a6-81c69ac642af",
+        "parent_uuid": "",
+        "name": "auto-place_well_plate_to_magnetic_stirrer",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1241.54,
+            "y": 334.60696,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "cb1b1ae3-91d0-4dcd-9178-a02c413db4b8",
+        "template_name": "auto-place_well_plate_to_magnetic_stirrer",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "0728e6f8-2622-4994-9daa-d4597f5bf6d6",
+        "parent_uuid": "",
+        "name": "auto-pick_well_plate_from_magnetic_stirrer",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 778.28613,
+            "y": 616.6694,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "e18236e9-c0e4-4721-a74f-60860cdcc508",
+        "template_name": "auto-pick_well_plate_from_magnetic_stirrer",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "0fc3ccd0-769d-414c-9c7a-7c3a452f1d17",
+        "parent_uuid": "",
+        "name": "auto-place_well_plate_to_hplc_station",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1277.4332,
+            "y": 601.4602,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "d2d7d510-1673-4f82-8720-3a4227f2c043",
+        "template_name": "auto-place_well_plate_to_hplc_station",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "67ac9478-6a55-47e9-ae6f-095ebab51369",
+        "parent_uuid": "",
+        "name": "auto-pick_well_plate_from_hplc_station",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1687.3076,
+            "y": 579.1419,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "d34f7059-79c6-48f1-96cd-97558bc85685",
+        "template_name": "auto-pick_well_plate_from_hplc_station",
+        "resource_name": "AI4C_station"
+      },
+      {
+        "uuid": "54f0b60c-d6a8-4203-811e-606aa2409f88",
+        "parent_uuid": "",
+        "name": "auto-place_well_plate_to_unloading_rack",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1687.9584,
+            "y": 32.742085,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "position": 1
+        },
+        "footer": "",
+        "device_name": "AI4C_station",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "92b07a47-f04c-40a2-94b5-222026afa9d6",
+        "template_name": "auto-place_well_plate_to_unloading_rack",
+        "resource_name": "AI4C_station"
+      }
+    ],
+    "edges": [
+      {
+        "source_node_uuid": "cd7d16d8-faca-44d4-a2bc-dd9814afa505",
+        "target_node_uuid": "7625edce-9bbe-4841-951a-b776a4beb02a",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "7625edce-9bbe-4841-951a-b776a4beb02a",
+        "target_node_uuid": "fda68b70-e7b6-4777-9e64-f060eef1e4a3",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "fda68b70-e7b6-4777-9e64-f060eef1e4a3",
+        "target_node_uuid": "cdf430e1-383d-4ba0-925d-5da0b8a571f8",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "cdf430e1-383d-4ba0-925d-5da0b8a571f8",
+        "target_node_uuid": "346c33d7-1c3a-43d6-b619-febd0cd9fa45",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "346c33d7-1c3a-43d6-b619-febd0cd9fa45",
+        "target_node_uuid": "ccdb062a-b0e8-4a41-9643-6cfaabd80cc2",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "ccdb062a-b0e8-4a41-9643-6cfaabd80cc2",
+        "target_node_uuid": "0074f78b-b105-4e39-ba53-af9e93f45a17",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "0074f78b-b105-4e39-ba53-af9e93f45a17",
+        "target_node_uuid": "37dacb14-3901-499a-a542-790f2a962d8a",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "37dacb14-3901-499a-a542-790f2a962d8a",
+        "target_node_uuid": "120b86da-e895-4ef1-8723-83a4009af8ee",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "120b86da-e895-4ef1-8723-83a4009af8ee",
+        "target_node_uuid": "617065e8-54da-460c-b1a6-81c69ac642af",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "617065e8-54da-460c-b1a6-81c69ac642af",
+        "target_node_uuid": "0728e6f8-2622-4994-9daa-d4597f5bf6d6",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "0728e6f8-2622-4994-9daa-d4597f5bf6d6",
+        "target_node_uuid": "0fc3ccd0-769d-414c-9c7a-7c3a452f1d17",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "0fc3ccd0-769d-414c-9c7a-7c3a452f1d17",
+        "target_node_uuid": "67ac9478-6a55-47e9-ae6f-095ebab51369",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "67ac9478-6a55-47e9-ae6f-095ebab51369",
+        "target_node_uuid": "54f0b60c-d6a8-4203-811e-606aa2409f88",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      }
+    ]
+  }
+}
