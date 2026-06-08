@@ -1,0 +1,278 @@
+{
+  "target_lab_uuid": "70e35440-5c77-4d26-b489-6eda9612d9ca",
+  "name": "SolidWeighing",
+  "data": {
+    "workflow_uuid": "e835ed59-08e6-4f4a-a67c-7bfc0edcc0d7",
+    "workflow_name": "SolidWeighing",
+    "nodes": [
+      {
+        "uuid": "9d5a46af-ce64-48d8-a046-b9c6aff08d2c",
+        "parent_uuid": "",
+        "name": "auto-start_heart_beat",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 80,
+            "y": 80,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_plc",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "a77c21e1-971d-419e-b2c4-c4784a17fb75",
+        "template_name": "auto-start_heart_beat",
+        "resource_name": "AI4C_plc"
+      },
+      {
+        "uuid": "e7cb2faf-5185-4826-9bd6-9655be5eada8",
+        "parent_uuid": "",
+        "name": "auto-open_solid_weighing_door",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 434,
+            "y": 202,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_solid_weighing",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "602f7ffc-0cf5-466b-9ac7-778c4e0b16b2",
+        "template_name": "auto-open_solid_weighing_door",
+        "resource_name": "AI4C_solid_weighing"
+      },
+      {
+        "uuid": "8487458e-ee90-4151-967e-88d6023131bb",
+        "parent_uuid": "",
+        "name": "auto-trigger_solid_weighing",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 839.039,
+            "y": 224.91612,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "gram": 10,
+          "slot": 1,
+          "tolerance": 1
+        },
+        "footer": "",
+        "device_name": "AI4C_solid_weighing",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "8adfb2c1-a1ed-4cf9-9643-cc883ab2011b",
+        "template_name": "auto-trigger_solid_weighing",
+        "resource_name": "AI4C_solid_weighing"
+      },
+      {
+        "uuid": "2b50017d-8aef-4df1-8ce6-628f6ec6859f",
+        "parent_uuid": "",
+        "name": "auto-close_solid_weighing_door",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1218.8298,
+            "y": 266.86423,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_solid_weighing",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "ae2d7087-c1be-4c0a-ae2a-aa8cd6fa2066",
+        "template_name": "auto-close_solid_weighing_door",
+        "resource_name": "AI4C_solid_weighing"
+      },
+      {
+        "uuid": "269cda24-0456-4704-b9f9-908bc3a82e6a",
+        "parent_uuid": "",
+        "name": "auto-stop_heart_beat",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 1645.9531,
+            "y": 263.98746,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_plc",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "55771d5e-944a-4da9-b40c-9eee5cf3de0a",
+        "template_name": "auto-stop_heart_beat",
+        "resource_name": "AI4C_plc"
+      }
+    ],
+    "edges": [
+      {
+        "source_node_uuid": "9d5a46af-ce64-48d8-a046-b9c6aff08d2c",
+        "target_node_uuid": "e7cb2faf-5185-4826-9bd6-9655be5eada8",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "e7cb2faf-5185-4826-9bd6-9655be5eada8",
+        "target_node_uuid": "8487458e-ee90-4151-967e-88d6023131bb",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "8487458e-ee90-4151-967e-88d6023131bb",
+        "target_node_uuid": "2b50017d-8aef-4df1-8ce6-628f6ec6859f",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "2b50017d-8aef-4df1-8ce6-628f6ec6859f",
+        "target_node_uuid": "269cda24-0456-4704-b9f9-908bc3a82e6a",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      }
+    ]
+  }
+}

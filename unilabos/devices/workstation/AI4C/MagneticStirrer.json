@@ -1,0 +1,170 @@
+{
+  "target_lab_uuid": "70e35440-5c77-4d26-b489-6eda9612d9ca",
+  "name": "MagneticStirrer",
+  "data": {
+    "workflow_uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "workflow_name": "MagneticStirrer",
+    "nodes": [
+      {
+        "uuid": "11111111-1111-4111-8111-111111111101",
+        "parent_uuid": "",
+        "name": "auto-start_heart_beat",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 80,
+            "y": 80,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_plc",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "a77c21e1-971d-419e-b2c4-c4784a17fb75",
+        "template_name": "auto-start_heart_beat",
+        "resource_name": "AI4C_plc"
+      },
+      {
+        "uuid": "22222222-2222-4222-8222-222222222202",
+        "parent_uuid": "",
+        "name": "auto-trigger_magnetic_stirrer",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 434,
+            "y": 202,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {
+          "speed": 100,
+          "temperature": 30,
+          "mins": 1
+        },
+        "footer": "",
+        "device_name": "AI4C_magnetic_stirrer",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "33333333-3333-4333-8333-333333333303",
+        "template_name": "auto-trigger_magnetic_stirrer",
+        "resource_name": "AI4C_magnetic_stirrer"
+      },
+      {
+        "uuid": "44444444-4444-4444-8444-444444444404",
+        "parent_uuid": "",
+        "name": "auto-stop_heart_beat",
+        "type": "ILab",
+        "icon": "",
+        "pose": {
+          "layout": "x-y",
+          "position": {
+            "x": 839,
+            "y": 224,
+            "z": 0
+          },
+          "position_3d": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "width": 0,
+            "height": 0,
+            "depth": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "extra": null,
+          "cross_section_type": "rectangle"
+        },
+        "param": {},
+        "footer": "",
+        "device_name": "AI4C_plc",
+        "disabled": false,
+        "minimized": false,
+        "lab_node_type": "Device",
+        "template_uuid": "55771d5e-944a-4da9-b40c-9eee5cf3de0a",
+        "template_name": "auto-stop_heart_beat",
+        "resource_name": "AI4C_plc"
+      }
+    ],
+    "edges": [
+      {
+        "source_node_uuid": "11111111-1111-4111-8111-111111111101",
+        "target_node_uuid": "22222222-2222-4222-8222-222222222202",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      },
+      {
+        "source_node_uuid": "22222222-2222-4222-8222-222222222202",
+        "target_node_uuid": "44444444-4444-4444-8444-444444444404",
+        "source_handle_key": "ready",
+        "source_handle_io": "source",
+        "target_handle_key": "ready",
+        "target_handle_io": "target"
+      }
+    ]
+  }
+}
