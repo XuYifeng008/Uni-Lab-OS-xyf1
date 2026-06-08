@@ -1080,6 +1080,7 @@ class Registry:
             },
             "config_info": [],
             "description": ast_meta.get("description", ""),
+            "display_name": ast_meta.get("display_name", ""),
             "handles": handles,
             "icon": ast_meta.get("icon", ""),
             "init_param_schema": init_schema,
