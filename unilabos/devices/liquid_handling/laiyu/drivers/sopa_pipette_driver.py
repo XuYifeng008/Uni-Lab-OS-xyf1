@@ -70,7 +70,7 @@ class SOPAConfig:
     # 通信参数
     port: str = "/dev/ttyUSB0"
     baudrate: int = 115200
-    address: int = 1
+    address: int = 4
     timeout: float = 5.0
     comm_type: CommunicationType = CommunicationType.TERMINAL_DEBUG
 
@@ -202,10 +202,10 @@ class SOPAPipette:
         """
         header = self.config.comm_type.value  # '/' 或 '['
         address = str(self.config.address)    # 设备地址
-        tail = "E"                           # 尾码固定为 'E'
+        command_body = command if command.endswith("E") else f"{command}E"
 
-        # 构建基础命令字符串：头码 + 地址 + 命令 + 尾码
-        cmd_str = f"{header}{address}{command}{tail}"
+        # 构建基础命令字符串：头码 + 地址 + 命令/数据(含尾码E)
+        cmd_str = f"{header}{address}{command_body}"
         
         # 转换为字节串
         cmd_bytes = cmd_str.encode('ascii')
@@ -239,7 +239,6 @@ class SOPAPipette:
                 self.serial_port.write(full_command_bytes)
                 self.serial_port.flush()
 
-                # 等待响应
                 time.sleep(0.1)
                 return True
 
@@ -274,19 +273,60 @@ class SOPAPipette:
                     chunk = self.serial_port.read(self.serial_port.in_waiting)
                     response += chunk
 
-                    # 检查是否收到完整响应（以'E'结尾）
-                    if response.endswith(b'E') or len(response) >= 20:
+                    complete = self._extract_complete_response(response)
+                    if complete is not None:
+                        response = complete
                         break
 
                 time.sleep(0.01)
 
             if response:
-                decoded_response = response.decode('ascii', errors='ignore')
-                logger.debug(f"收到响应: {decoded_response}")
+                decoded_response = response.decode('latin1', errors='replace')
+                logger.debug(
+                    "收到响应: %s | hex=%s",
+                    decoded_response,
+                    " ".join(f"{b:02X}" for b in response),
+                )
                 return decoded_response
 
         except Exception as e:
             logger.error(f"读取响应失败: {str(e)}")
+
+        return None
+
+    def _extract_complete_response(self, data: bytes) -> Optional[bytes]:
+        """
+        从接收缓冲中提取一帧 SOPA 响应。
+
+        SOPA 响应格式为: 头码 + 地址 + 固定数据 + 尾码'E' + 校验和。
+        尾码后仍有 1 字节校验和，因此不能用 endswith(b"E") 判断完整帧。
+        """
+        if not data:
+            return None
+
+        for start in (idx for idx, b in enumerate(data) if b in (ord("/"), ord("["))):
+            frame_candidate = data[start:]
+            for tail_offset in range(2, len(frame_candidate) - 1):
+                if frame_candidate[tail_offset] != ord("E"):
+                    continue
+                frame = frame_candidate[: tail_offset + 2]
+                payload = frame[:-1]
+                checksum = frame[-1]
+                if self._calculate_checksum(payload) == checksum:
+                    return frame
+
+            # 文档中的从机回应通常是 13 字节，保留兼容路径用于调试异常校验。
+            if len(frame_candidate) >= 13 and frame_candidate[11] == ord("E"):
+                frame = frame_candidate[:13]
+                expected = self._calculate_checksum(frame[:-1])
+                if expected != frame[-1]:
+                    logger.warning(
+                        "SOPA响应校验和不匹配: expected=%02X actual=%02X frame=%s",
+                        expected,
+                        frame[-1],
+                        " ".join(f"{b:02X}" for b in frame),
+                    )
+                return frame
 
         return None
 

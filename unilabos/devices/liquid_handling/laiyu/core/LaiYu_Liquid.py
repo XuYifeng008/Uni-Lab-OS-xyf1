@@ -83,8 +83,8 @@ class LaiYuLiquidError(RuntimeError):
 class LaiYuLiquidConfig:
     """LaiYu_Liquid 设备配置"""
     port: str = "/dev/cu.usbserial-3130"  # RS485转USB端口
-    address: int = 1  # 设备地址
-    baudrate: int = 9600  # 波特率
+    address: int = 4  # SOPA移液器推荐地址
+    baudrate: int = 115200  # 推荐波特率
     timeout: float = 5.0  # 通信超时时间
     
     # 工作台尺寸
@@ -377,7 +377,9 @@ class LaiYuLiquidBackend:
                 # 初始化移液器控制器
                 self.pipette_controller = PipetteController(
                     port=self.config.port,
-                    address=self.config.address
+                    address=self.config.address,
+                    baudrate=self.config.baudrate,
+                    timeout=self.config.timeout,
                 )
                 
                 # 初始化XYZ控制器
@@ -385,6 +387,7 @@ class LaiYuLiquidBackend:
                 self.xyz_controller = XYZController(
                     port=self.config.port,
                     baudrate=self.config.baudrate,
+                    timeout=self.config.timeout,
                     machine_config=machine_config
                 )
                 

@@ -96,21 +96,25 @@ class CoordinateSystemError(Exception):
 class XYZController(XYZStepperController):
     """XYZ三轴控制器"""
     
-    def __init__(self, port: str, baudrate: int = 115200, 
+    def __init__(self, port: str, baudrate: int = 115200,
+                 timeout: float = 1.0,
                  machine_config: Optional[MachineConfig] = None,
                  config_file: str = "machine_config.json",
-                 auto_connect: bool = True):
+                 auto_connect: bool = True,
+                 response_delay: float = 0.03):
         """
         初始化XYZ控制器
         
         Args:
             port: 串口端口
             baudrate: 波特率
+            timeout: 通信超时时间
             machine_config: 机械配置参数
             config_file: 配置文件路径
             auto_connect: 是否自动连接设备
+            response_delay: Modbus发送后的响应等待时间
         """
-        super().__init__(port, baudrate)
+        super().__init__(port, baudrate, timeout=timeout, response_delay=response_delay)
         
         # 机械配置
         self.machine_config = machine_config or MachineConfig()

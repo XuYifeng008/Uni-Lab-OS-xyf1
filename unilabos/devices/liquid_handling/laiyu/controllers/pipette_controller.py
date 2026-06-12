@@ -113,19 +113,33 @@ class PipetteController:
         )
     }
 
-    def __init__(self, port: str, address: int = 4, xyz_port: Optional[str] = None):
+    def __init__(
+        self,
+        port: str,
+        address: int = 4,
+        baudrate: int = 115200,
+        timeout: float = 5.0,
+        xyz_port: Optional[str] = None,
+        xyz_baudrate: Optional[int] = None,
+        xyz_timeout: Optional[float] = None,
+    ):
         """
         初始化移液控制器
 
         Args:
             port: 移液器串口端口
             address: 移液器RS485地址
+            baudrate: 移液器串口波特率
+            timeout: 移液器通信超时时间
             xyz_port: XYZ步进电机串口端口（可选，用于枪头装载等运动控制）
+            xyz_baudrate: XYZ步进电机串口波特率
+            xyz_timeout: XYZ步进电机通信超时时间
         """
         self.config = SOPAConfig(
             port=port,
             address=address,
-            baudrate=115200
+            baudrate=baudrate,
+            timeout=timeout,
         )
         self.pipette = SOPAPipette(self.config)
         self.pipette_port = port
@@ -138,7 +152,9 @@ class PipetteController:
         # XYZ步进电机控制器（用于运动控制）
         self.xyz_controller: Optional[XYZController] = None
         self.xyz_port = xyz_port if xyz_port else port
-        self.xyz_connected = True
+        self.xyz_baudrate = xyz_baudrate if xyz_baudrate is not None else baudrate
+        self.xyz_timeout = xyz_timeout if xyz_timeout is not None else timeout
+        self.xyz_connected = False
 
         # 统计信息
         # self.tip_count = 0
@@ -157,7 +173,11 @@ class PipetteController:
             # 连接XYZ步进电机控制器（如果提供了端口）
             if self.xyz_port != self.pipette_port:
                 try:
-                    self.xyz_controller = XYZController(self.xyz_port)
+                    self.xyz_controller = XYZController(
+                        self.xyz_port,
+                        baudrate=self.xyz_baudrate,
+                        timeout=self.xyz_timeout,
+                    )
                     if self.xyz_controller.connect():
                         self.xyz_connected = True
                         logger.info(f"XYZ步进电机控制器连接成功: {self.xyz_port}")
@@ -170,9 +190,15 @@ class PipetteController:
                     self.xyz_connected = False
             else:
                 try:
-                    self.xyz_controller = XYZController(self.xyz_port, auto_connect=False)
+                    self.xyz_controller = XYZController(
+                        self.xyz_port,
+                        baudrate=self.xyz_baudrate,
+                        timeout=self.xyz_timeout,
+                        auto_connect=False,
+                    )
                     self.xyz_controller.serial_conn = self.pipette.serial_port
                     self.xyz_controller.is_connected = True
+                    self.xyz_connected = True
                 except Exception as e:
                     logger.info("未配置XYZ步进电机端口，跳过运动控制器连接")
             
@@ -188,8 +214,11 @@ class PipetteController:
                 logger.info("移液器初始化成功")
                 # 检查枪头状态
                 self._update_tip_status()
-                self.xyz_controller.home_all_axes()
-                self.xyz_controller.move_to_work_coord_safe(x=0, y=-150, z=0)
+                if self.xyz_controller and self.xyz_connected:
+                    self.xyz_controller.home_all_axes()
+                    self.xyz_controller.move_to_work_coord_safe(x=0, y=-150, z=0)
+                else:
+                    logger.warning("XYZ步进电机控制器未连接，跳过三轴回零和安全移动")
                 return True
             return False
         except Exception as e:

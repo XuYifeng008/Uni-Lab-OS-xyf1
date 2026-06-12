@@ -52,7 +52,19 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   # _pickup_method_length = 20
   _filter_length = 10
 
-  def __init__(self, num_channels: int = 8 , tip_length: float = 0 , total_height: float = 310, port: str = "/dev/ttyUSB0"):
+  def __init__(
+    self,
+    num_channels: int = 8,
+    tip_length: float = 0,
+    total_height: float = 310,
+    port: str = "/dev/ttyUSB0",
+    address: int = 4,
+    baudrate: int = 115200,
+    timeout: float = 5.0,
+    xyz_port: Optional[str] = None,
+    xyz_baudrate: Optional[int] = None,
+    xyz_timeout: Optional[float] = None,
+  ):
     """Initialize a chatter box backend."""
     super().__init__()
     self._num_channels = num_channels
@@ -62,7 +74,15 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     if not rclpy.ok():
         rclpy.init()
     self.joint_state_publisher = None
-    self.hardware_interface = PipetteController(port=port)
+    self.hardware_interface = PipetteController(
+      port=port,
+      address=address,
+      baudrate=baudrate,
+      timeout=timeout,
+      xyz_port=xyz_port,
+      xyz_baudrate=xyz_baudrate,
+      xyz_timeout=xyz_timeout,
+    )
 
   async def setup(self):
     # self.joint_state_publisher = JointStatePublisher()

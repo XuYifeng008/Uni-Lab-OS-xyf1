@@ -23,7 +23,10 @@
                 },
                 "backend": {
                     "type": "UniLiquidHandlerLaiyuBackend",
-                    "port": "/dev/ttyUSB_CH340"
+                    "port": "/dev/ttyUSB_CH340",
+                    "address": 4,
+                    "baudrate": 115200,
+                    "timeout": 5.0
                 },
                 "simulator": false,
                 "total_height": 232.5

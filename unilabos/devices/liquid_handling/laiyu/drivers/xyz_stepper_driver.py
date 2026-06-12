@@ -86,7 +86,7 @@ class StepperMotorDriver:
     REG_DEFAULT_SPEED = 0xE7
     REG_DEFAULT_ACCELERATION = 0xE8
     
-    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
+    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0, response_delay: float = 0.03):
         """
         初始化步进电机驱动器
         
@@ -98,6 +98,7 @@ class StepperMotorDriver:
         self.port = port
         self.baudrate = baudrate
         self.timeout = timeout
+        self.response_delay = response_delay
         self.serial_conn: Optional[serial.Serial] = None
         
     def connect(self) -> bool:
@@ -114,7 +115,11 @@ class StepperMotorDriver:
                 bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
                 stopbits=serial.STOPBITS_ONE,
-                timeout=self.timeout
+                timeout=self.timeout,
+                write_timeout=self.timeout,
+                xonxoff=False,
+                rtscts=False,
+                dsrdtr=False,
             )
             logger.info(f"已连接到串口: {self.port}")
             return True
@@ -182,20 +187,22 @@ class StepperMotorDriver:
         crc = self.calculate_crc(command)
         full_command = command + crc
         
-        # 清空接收缓冲区
+        # 清空缓冲区，避免上一条命令的残留响应污染本次解析。
         self.serial_conn.reset_input_buffer()
+        self.serial_conn.reset_output_buffer()
         
         # 发送命令
         self.serial_conn.write(full_command)
+        self.serial_conn.flush()
         logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
         
-        # 等待响应
-        time.sleep(0.01)  # 短暂延时
-        
-        # 读取响应
-        response = self.serial_conn.read(256)  # 最大读取256字节
+        # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
+        time.sleep(self.response_delay)
+        response = self._read_modbus_response()
         if not response:
-            raise ModbusException("未收到响应")
+            raise ModbusException(
+                f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
+            )
         
         logger.debug(f"接收响应: {' '.join(f'{b:02X}' for b in response)}")
         
@@ -208,9 +215,60 @@ class StepperMotorDriver:
         calculated_crc = self.calculate_crc(data_part)
         
         if received_crc != calculated_crc:
-            raise ModbusException(f"CRC校验失败{response}")
+            raise ModbusException(
+                "CRC校验失败: "
+                f"response={' '.join(f'{b:02X}' for b in response)}, "
+                f"expected={' '.join(f'{b:02X}' for b in calculated_crc)}, "
+                f"actual={' '.join(f'{b:02X}' for b in received_crc)}"
+            )
+        
+        if response[1] & 0x80:
+            error_code = response[2] if len(response) > 2 else None
+            raise ModbusException(f"设备返回异常响应: function=0x{response[1]:02X}, error={error_code}")
         
         return response
+
+    def _read_modbus_response(self) -> bytes:
+        """读取一帧 Modbus RTU 响应。"""
+        assert self.serial_conn is not None
+
+        response = b""
+        deadline = time.time() + self.timeout
+
+        while time.time() < deadline:
+            waiting = self.serial_conn.in_waiting
+            if waiting:
+                response += self.serial_conn.read(waiting)
+                expected_len = self._expected_response_length(response)
+                if expected_len is not None and len(response) >= expected_len:
+                    return response[:expected_len]
+            else:
+                time.sleep(0.01)
+
+        return response
+
+    @staticmethod
+    def _expected_response_length(response: bytes) -> Optional[int]:
+        """根据功能码推断响应帧长度。"""
+        if len(response) < 2:
+            return None
+
+        function_code = response[1]
+        if function_code & 0x80:
+            return 5 if len(response) >= 3 else None
+
+        if function_code == ModbusFunction.READ_HOLDING_REGISTERS.value:
+            if len(response) < 3:
+                return None
+            return 3 + response[2] + 2
+
+        if function_code in (
+            ModbusFunction.WRITE_SINGLE_REGISTER.value,
+            ModbusFunction.WRITE_MULTIPLE_REGISTERS.value,
+        ):
+            return 8
+
+        return None
     
     def read_registers(self, slave_addr: int, start_addr: int, count: int) -> list:
         """
@@ -288,7 +346,14 @@ class XYZStepperController(StepperMotorDriver):
     # 电机配置常量
     STEPS_PER_REVOLUTION = 16384  # 每圈步数
     
-    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
+    def __init__(
+        self,
+        port: str,
+        baudrate: int = 115200,
+        timeout: float = 1.0,
+        axis_addresses: Optional[Dict[MotorAxis, int]] = None,
+        response_delay: float = 0.03,
+    ):
         """
         初始化XYZ三轴步进电机控制器
         
@@ -297,12 +362,46 @@ class XYZStepperController(StepperMotorDriver):
             baudrate: 波特率
             timeout: 通信超时时间
         """
-        super().__init__(port, baudrate, timeout)
-        self.axis_addresses = {
+        super().__init__(port, baudrate, timeout, response_delay=response_delay)
+        self.axis_addresses = axis_addresses or {
             MotorAxis.X: 1,
             MotorAxis.Y: 2,
             MotorAxis.Z: 3
         }
+
+    def probe_address(self, address: int) -> Optional[MotorPosition]:
+        """探测指定 Modbus 地址是否有步进电机响应。"""
+        try:
+            values = self.read_registers(address, self.REG_STATUS, 6)
+            status = MotorStatus(values[0])
+            position_high = values[1]
+            position_low = values[2]
+            speed = values[3]
+            current = values[5]
+            position = (position_high << 16) | position_low
+            if position > 0x7FFFFFFF:
+                position -= 0x100000000
+            return MotorPosition(position, speed, current, status)
+        except Exception as e:
+            logger.debug(f"地址 {address} 探测无响应或解析失败: {e}")
+            return None
+
+    def scan_addresses(self, start: int = 1, end: int = 4) -> Dict[int, MotorPosition]:
+        """
+        扫描 Modbus 地址。
+
+        默认扫描 1-4，覆盖文档中的 X/Y/Z(1-3) 和 SOPA 推荐地址 4。
+        """
+        found: Dict[int, MotorPosition] = {}
+        for address in range(start, end + 1):
+            position = self.probe_address(address)
+            if position is not None:
+                found[address] = position
+        return found
+
+    def test_connection(self) -> Dict[MotorAxis, bool]:
+        """测试文档默认的 X/Y/Z 地址是否可响应。"""
+        return {axis: self.probe_address(address) is not None for axis, address in self.axis_addresses.items()}
     
     def degrees_to_steps(self, degrees: float) -> int:
         """
@@ -367,7 +466,10 @@ class XYZStepperController(StepperMotorDriver):
         # 读取状态、位置、速度、电流
         values = self.read_registers(addr, self.REG_STATUS, 6)
         
-        status = MotorStatus(values[0])
+        try:
+            status = MotorStatus(values[0])
+        except ValueError as exc:
+            raise ModbusException(f"{axis.name}轴返回未知状态码: 0x{values[0]:04X}") from exc
         position_high = values[1]
         position_low = values[2]
         speed = values[3]
