@@ -1,0 +1,323 @@
+{
+  "name": "LaiYu_Deck_ElectroChem",
+  "size_x": 340.0,
+  "size_y": 250.0,
+  "size_z": 180.0,
+  "coordinate_system": {
+    "origin": "top_left",
+    "x_axis": "right",
+    "y_axis": "down",
+    "z_axis": "up",
+    "units": "mm"
+  },
+  "children": [
+    {
+      "id": "module_1_tip_rack",
+      "name": "96枪头盒",
+      "type": "96_tip_rack",
+      "position": {"x": 0.0, "y": 0.0, "z": 0.0},
+      "size": {"x": 134.0, "y": 96.0, "z": 7.0},
+      "wells": [
+        {"id": "A01", "position": {"x": 0.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A02", "position": {"x": 9.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A03", "position": {"x": 18.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A04", "position": {"x": 27.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A05", "position": {"x": 36.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A06", "position": {"x": 45.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A07", "position": {"x": 54.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A08", "position": {"x": 63.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A09", "position": {"x": 72.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A10", "position": {"x": 81.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A11", "position": {"x": 90.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "A12", "position": {"x": 99.0, "y": -63.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B01", "position": {"x": 0.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B02", "position": {"x": 9.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B03", "position": {"x": 18.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B04", "position": {"x": 27.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B05", "position": {"x": 36.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B06", "position": {"x": 45.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B07", "position": {"x": 54.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B08", "position": {"x": 63.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B09", "position": {"x": 72.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B10", "position": {"x": 81.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B11", "position": {"x": 90.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "B12", "position": {"x": 99.0, "y": -54.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C01", "position": {"x": 0.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C02", "position": {"x": 9.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C03", "position": {"x": 18.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C04", "position": {"x": 27.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C05", "position": {"x": 36.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C06", "position": {"x": 45.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C07", "position": {"x": 54.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C08", "position": {"x": 63.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C09", "position": {"x": 72.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C10", "position": {"x": 81.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C11", "position": {"x": 90.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "C12", "position": {"x": 99.0, "y": -45.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D01", "position": {"x": 0.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D02", "position": {"x": 9.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D03", "position": {"x": 18.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D04", "position": {"x": 27.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D05", "position": {"x": 36.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D06", "position": {"x": 45.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D07", "position": {"x": 54.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D08", "position": {"x": 63.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D09", "position": {"x": 72.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D10", "position": {"x": 81.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D11", "position": {"x": 90.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "D12", "position": {"x": 99.0, "y": -36.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E01", "position": {"x": 0.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E02", "position": {"x": 9.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E03", "position": {"x": 18.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E04", "position": {"x": 27.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E05", "position": {"x": 36.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E06", "position": {"x": 45.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E07", "position": {"x": 54.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E08", "position": {"x": 63.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E09", "position": {"x": 72.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E10", "position": {"x": 81.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E11", "position": {"x": 90.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "E12", "position": {"x": 99.0, "y": -27.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F01", "position": {"x": 0.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F02", "position": {"x": 9.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F03", "position": {"x": 18.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F04", "position": {"x": 27.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F05", "position": {"x": 36.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F06", "position": {"x": 45.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F07", "position": {"x": 54.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F08", "position": {"x": 63.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F09", "position": {"x": 72.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F10", "position": {"x": 81.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F11", "position": {"x": 90.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "F12", "position": {"x": 99.0, "y": -18.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G01", "position": {"x": 0.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G02", "position": {"x": 9.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G03", "position": {"x": 18.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G04", "position": {"x": 27.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G05", "position": {"x": 36.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G06", "position": {"x": 45.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G07", "position": {"x": 54.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G08", "position": {"x": 63.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G09", "position": {"x": 72.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G10", "position": {"x": 81.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G11", "position": {"x": 90.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "G12", "position": {"x": 99.0, "y": -9.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H01", "position": {"x": 0.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H02", "position": {"x": 9.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H03", "position": {"x": 18.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H04", "position": {"x": 27.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H05", "position": {"x": 36.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H06", "position": {"x": 45.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H07", "position": {"x": 54.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H08", "position": {"x": 63.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H09", "position": {"x": 72.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H10", "position": {"x": 81.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H11", "position": {"x": 90.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"},
+        {"id": "H12", "position": {"x": 99.0, "y": 0.0, "z": 0.0}, "diameter": 9.0, "depth": 113.0, "volume": 1000.0, "shape": "circular"}
+      ],
+      "well_spacing": {"x": 9.0, "y": 9.0},
+      "grid": {
+        "rows": 8,
+        "columns": 12,
+        "row_labels": ["A", "B", "C", "D", "E", "F", "G", "H"],
+        "column_labels": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+      },
+      "metadata": {
+        "description": "标准96孔枪头盒",
+        "max_volume_ul": 1000,
+        "well_count": 96,
+        "plate_type": "tip_rack"
+      }
+    },
+    {
+      "id": "module_2_12tubes",
+      "name": "12管试管架",
+      "type": "tube_rack",
+      "position": {"x": 0.0, "y": -100.0, "z": 0.0},
+      "size": {"x": 141.4, "y": 52.0, "z": 105.0},
+      "wells": [
+        {"id": "A1", "position": {"x": 0.0, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "A2", "position": {"x": 21.8, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "A3", "position": {"x": 43.6, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "A4", "position": {"x": 65.4, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "A5", "position": {"x": 87.2, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "A6", "position": {"x": 109.0, "y": -132.0, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B1", "position": {"x": 0.0, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B2", "position": {"x": 21.8, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B3", "position": {"x": 43.6, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B4", "position": {"x": 65.4, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B5", "position": {"x": 87.2, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"},
+        {"id": "B6", "position": {"x": 109.0, "y": -110.2, "z": 0.0}, "diameter": 16.6, "depth": 105.0, "volume": 10000.0, "shape": "circular"}
+      ],
+      "well_spacing": {"x": 21.8, "y": 21.8},
+      "grid": {
+        "rows": 2,
+        "columns": 6,
+        "row_labels": ["A", "B"],
+        "column_labels": ["1", "2", "3", "4", "5", "6"]
+      },
+      "metadata": {
+        "description": "12管试管架，2行6列",
+        "max_volume_ul": 10000,
+        "well_count": 12,
+        "tube_type": "10ml_tube"
+      }
+    },
+    {
+      "id": "module_3_30tubes",
+      "name": "LC_30瓶架",
+      "type": "tube_rack",
+      "position": {"x": 0.0, "y": -214.0, "z": 0.0},
+      "size": {"x": 115.5, "y": 93.0, "z": 30.5},
+      "wells": [
+        {"id": "A01", "position": {"x": 15.0, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "A02", "position": {"x": 32.2, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "A03", "position": {"x": 49.4, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "A04", "position": {"x": 66.6, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "A05", "position": {"x": 83.8, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "A06", "position": {"x": 101.0, "y": -231.0, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular", "enabled": false},
+        {"id": "B01", "position": {"x": 15.0, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "B02", "position": {"x": 32.2, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "B03", "position": {"x": 49.4, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "B04", "position": {"x": 66.6, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "B05", "position": {"x": 83.8, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "B06", "position": {"x": 101.0, "y": -213.8, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C01", "position": {"x": 15.0, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C02", "position": {"x": 32.2, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C03", "position": {"x": 49.4, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C04", "position": {"x": 66.6, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C05", "position": {"x": 83.8, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "C06", "position": {"x": 101.0, "y": -196.6, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D01", "position": {"x": 15.0, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D02", "position": {"x": 32.2, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D03", "position": {"x": 49.4, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D04", "position": {"x": 66.6, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D05", "position": {"x": 83.8, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "D06", "position": {"x": 101.0, "y": -179.4, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E01", "position": {"x": 15.0, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E02", "position": {"x": 32.2, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E03", "position": {"x": 49.4, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E04", "position": {"x": 66.6, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E05", "position": {"x": 83.8, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"},
+        {"id": "E06", "position": {"x": 101.0, "y": -162.2, "z": 30.5}, "diameter": 8.2, "depth": 25.0, "volume": 1500.0, "shape": "circular"}
+      ],
+      "well_spacing": {"x": 17.2, "y": 17.2},
+      "grid": {
+        "rows": 5,
+        "columns": 6,
+        "row_labels": ["A", "B", "C", "D", "E"],
+        "column_labels": ["01", "02", "03", "04", "05", "06"]
+      },
+      "metadata": {
+        "description": "LC_30瓶架，禁用A01~A06",
+        "max_volume_ul": 1500,
+        "well_count": 30,
+        "disabled_wells": ["A01", "A02", "A03", "A04", "A05", "A06"],
+        "tube_type": "lc_vial"
+      }
+    },
+    {
+      "id": "module_4_3tubes",
+      "name": "3瓶架",
+      "type": "tube_rack",
+      "position": {"x": 140.0, "y": -182.0, "z": 0.0},
+      "size": {"x": 166.0, "y": 61.5, "z": 105.0},
+      "wells": [
+        {"id": "A01", "position": {"x": 180.0, "y": -215.0, "z": 10.5}, "diameter": 40.0, "depth": 60.0, "volume": 50000.0, "shape": "circular"},
+        {"id": "A02", "position": {"x": 230.0, "y": -215.0, "z": 10.5}, "diameter": 40.0, "depth": 60.0, "volume": 50000.0, "shape": "circular"},
+        {"id": "A03", "position": {"x": 280.0, "y": -215.0, "z": 10.5}, "diameter": 40.0, "depth": 60.0, "volume": 50000.0, "shape": "circular"}
+      ],
+      "well_spacing": {"x": 50.0, "y": 50.0},
+      "grid": {
+        "rows": 1,
+        "columns": 3,
+        "row_labels": ["A"],
+        "column_labels": ["01", "02", "03"]
+      },
+      "metadata": {
+        "description": "3瓶架",
+        "max_volume_ul": 50000,
+        "well_count": 3,
+        "tube_type": "50ml_tube"
+      }
+    },
+    {
+      "id": "module_5_GreenLab",
+      "name": "GreenLab电合成仪",
+      "type": "greenlab_electrochem",
+      "position": {"x": 132.5, "y": 0.0, "z": 0.0},
+      "size": {"x": 170.0, "y": 180.0, "z": 163.0},
+      "wells": [
+        {"id": "P1", "position": {"x": 183.0, "y": -43.0, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"},
+        {"id": "P2", "position": {"x": 246.0, "y": -43.0, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"},
+        {"id": "P3", "position": {"x": 276.5, "y": -96.5, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"},
+        {"id": "P4", "position": {"x": 247.0, "y": -148.5, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"},
+        {"id": "P5", "position": {"x": 184.5, "y": -150.0, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"},
+        {"id": "P6", "position": {"x": 152.5, "y": -96.5, "z": 70.0}, "diameter": 7.0, "depth": 90.0, "volume": 15000.0, "shape": "circular", "port_type": "reagent_inlet"}
+      ],
+      "metadata": {
+        "description": "GreenLab电合成仪，6个不规则加样口",
+        "max_volume_ul": 15000,
+        "well_count": 6,
+        "device_type": "electrochemistry_synthesizer",
+        "access_from_top": true
+      }
+    }
+  ],
+  "deck_metadata": {
+    "total_modules": 5,
+    "total_wells": 147,
+    "deck_area": {
+      "used_x": 306.0,
+      "used_y": 394.0,
+      "used_z": 163.0,
+      "x_min": 0.0,
+      "x_max": 306.0,
+      "y_min": -231.0,
+      "y_max": 180.0,
+      "z_min": 0.0,
+      "z_max": 163.0
+    },
+    "safety_margins": {
+      "x_min": 10.0,
+      "x_max": 10.0,
+      "y_min": 10.0,
+      "y_max": 10.0,
+      "z_clearance": 20.0
+    },
+    "calibration_points": [
+      {
+        "id": "origin",
+        "position": {"x": 0.0, "y": 0.0, "z": 0.0},
+        "description": "工作台左上角原点"
+      },
+      {
+        "id": "module_1_ref",
+        "position": {"x": 0.0, "y": -63.0, "z": 0.0},
+        "description": "模块1枪头盒基准孔A01"
+      },
+      {
+        "id": "module_2_ref",
+        "position": {"x": 0.0, "y": -132.0, "z": 0.0},
+        "description": "模块2 12管试管架基准孔A1"
+      },
+      {
+        "id": "module_3_ref",
+        "position": {"x": 15.0, "y": -231.0, "z": 30.5},
+        "description": "模块3 LC_30瓶架基准孔A01"
+      },
+      {
+        "id": "module_4_ref",
+        "position": {"x": 180.0, "y": -215.0, "z": 10.5},
+        "description": "模块4 3瓶架基准孔A01"
+      },
+      {
+        "id": "module_5_ref",
+        "position": {"x": 183.0, "y": -43.0, "z": 70.0},
+        "description": "模块5 GreenLab电合成仪加样口P1"
+      }
+    ],
+    "version": "1.0",
+    "created_by": "Doraemon Team"
+  }
+}

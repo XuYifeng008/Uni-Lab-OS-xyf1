@@ -52,10 +52,15 @@ class MachineConfig:
     max_travel_x: float = 340.0     # X轴最大行程
     max_travel_y: float = 250.0     # Y轴最大行程
     max_travel_z: float = 200.0     # Z轴最大行程
+    # reference_distance: Dict[str, float] = field(default_factory=lambda: {
+    #     "x": 29,
+    #     "y": -13,
+    #     "z": -75.5
+    # })
     reference_distance: Dict[str, float] = field(default_factory=lambda: {
-        "x": 29,
-        "y": -13,
-        "z": -75.5
+        "x": 0,
+        "y": 0,
+        "z": 0
     })
     # 安全移动参数
     safe_z_height: float = 0.0      # Z轴安全移动高度 (mm) - 液体处理工作站安全高度
@@ -1179,7 +1184,9 @@ def run_tests():
     
     # 可能的串口列表
     possible_ports = [
-        '/dev/ttyUSB_CH340'
+        '/dev/ttyUSB_CH340',
+        'COM7',
+        'COM8'
     ]
     
     connected_controller = None

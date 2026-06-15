@@ -1,285 +1,258 @@
-# LaiYu_Liquid 液体处理工作站 - 生产就绪版本
+# LaiYu 液体处理器模块
 
-## 概述
+本文档说明 `unilabos.devices.liquid_handling.laiyu` 当前代码的实际结构、运行入口和配置方式。
 
-LaiYu_Liquid 是一个完全集成到 UniLabOS 系统的自动化液体处理工作站，基于 RS485 通信协议，专为精确的液体分配和转移操作而设计。本模块已完成生产环境部署准备，提供完整的硬件控制、资源管理和标准化接口。
+## 模块定位
 
-## 系统组成
+`laiyu` 模块用于接入铼羽液体处理设备。当前主要有两条代码路径：
 
-### 硬件组件
-- **XYZ三轴运动平台**: 3个RS485步进电机驱动（地址：X轴=0x01, Y轴=0x02, Z轴=0x03）
-- **SOPA气动式移液器**: RS485总线控制，支持精密液体处理操作
-- **通信接口**: RS485转USB模块，默认波特率115200
-- **机械结构**: 稳固工作台面，支持离心管架、96孔板等标准实验耗材
+- UniLabOS 设备图入口：`laiyu.py` 中的 `TransformXYZHandler`，由注册表中的 `liquid_handler.laiyu` 使用。
+- 底层硬件控制：`backend/laiyu_v_backend.py`、`controllers/`、`drivers/`，用于通过 SOPA 移液器和 XYZ 步进电机执行取枪头、吸液、排液、丢枪头等动作。
 
-### 软件架构
-- **驱动层**: 底层硬件通信驱动，支持RS485协议
-- **控制层**: 高级控制逻辑和坐标系管理
-- **抽象层**: 完全符合UniLabOS标准的液体处理接口
-- **资源层**: 标准化的实验器具和耗材管理
+历史文件 `core/LaiYu_Liquid.py`、`core/laiyu_liquid_res.py` 保留了早期封装和资源创建函数，但不是当前设备图中的主入口。维护时应优先看 `laiyu.py` 和 `backend/laiyu_v_backend.py`。
 
-## 🎯 生产就绪组件
+## 当前目录结构
 
-### ✅ 核心驱动程序 (`drivers/`)
-- **`sopa_pipette_driver.py`** - SOPA移液器完整驱动
-  - 支持液体吸取、分配、检测
-  - 完整的错误处理和状态管理
-  - 生产级别的通信协议实现
-  
-- **`xyz_stepper_driver.py`** - XYZ三轴步进电机驱动
-  - 精确的位置控制和运动规划
-  - 安全限位和错误检测
-  - 高性能运动控制算法
-
-### ✅ 高级控制器 (`controllers/`)
-- **`pipette_controller.py`** - 移液控制器
-  - 封装高级液体处理功能
-  - 支持多种液体类型和处理参数
-  - 智能错误恢复机制
-  
-- **`xyz_controller.py`** - XYZ运动控制器
-  - 坐标系管理和转换
-  - 运动路径优化
-  - 安全运动控制
-
-### ✅ UniLabOS集成 (`core/LaiYu_Liquid.py`)
-- **完整的液体处理抽象接口**
-- **标准化的资源管理系统**
-- **与PyLabRobot兼容的后端实现**
-- **生产级别的错误处理和日志记录**
-
-### ✅ 资源管理系统
-- **`laiyu_liquid_res.py`** - 标准化资源定义
-  - 96孔板、离心管架、枪头架等标准器具
-  - 自动化的资源创建和配置函数
-  - 与工作台布局的完美集成
-
-### ✅ 配置管理 (`config/`)
-- **`config/deck.json`** - 工作台布局配置
-  - 精确的空间定义和槽位管理
-  - 支持多种实验器具的标准化放置
-  - 可扩展的配置架构
-
-- **`__init__.py`** - 模块集成和导出
-  - 完整的API导出和版本管理
-  - 依赖检查和安装验证
-  - 专业的模块信息展示
-
-### ✅ 可视化支持
-- **`rviz_backend.py`** - RViz可视化后端
-  - 实时运动状态可视化
-  - 液体处理过程监控
-  - 与ROS系统的无缝集成
-
-## 🚀 核心功能特性
-
-### 液体处理能力
-- **精密体积控制**: 支持1-1000μL精确分配
-- **多种液体类型**: 水性、有机溶剂、粘稠液体等
-- **智能检测**: 液位检测、气泡检测、堵塞检测
-- **自动化流程**: 完整的吸取-转移-分配工作流
-
-### 运动控制系统
-- **三轴精密定位**: 微米级精度控制
-- **路径优化**: 智能运动规划和碰撞避免
-- **安全机制**: 限位保护、紧急停止、错误恢复
-- **坐标系管理**: 工作坐标与机械坐标的自动转换
-
-### 资源管理
-- **标准化器具**: 支持96孔板、离心管架、枪头架等
-- **状态跟踪**: 实时监控液体体积、枪头状态等
-- **自动配置**: 基于JSON的灵活配置系统
-- **扩展性**: 易于添加新的器具类型
-
-## 📁 目录结构
-
-```
-LaiYu_Liquid/
-├── __init__.py              # 模块初始化和API导出
-├── readme.md               # 本文档
-├── rviz_backend.py         # RViz可视化后端
-├── backend/                # 后端驱动模块
-│   ├── __init__.py
-│   └── laiyu_backend.py    # PyLabRobot兼容后端
-├── core/                   # 核心模块
-│   ├── core/
-│   │   └── LaiYu_Liquid.py    # 主设备类
-│   ├── abstract_protocol.py # 抽象协议
-│   └── laiyu_liquid_res.py # 设备资源定义
-├── config/                 # 配置文件目录
-│   └── deck.json          # 工作台布局配置
-├── controllers/           # 高级控制器
-│   ├── __init__.py
-│   ├── pipette_controller.py  # 移液控制器
-│   └── xyz_controller.py      # XYZ运动控制器
-├── docs/                  # 技术文档
-│   ├── SOPA气动式移液器RS485控制指令.md
-│   ├── 步进电机控制指令.md
-│   └── hardware/          # 硬件相关文档
-├── drivers/               # 底层驱动程序
-│   ├── __init__.py
-│   ├── sopa_pipette_driver.py  # SOPA移液器驱动
-│   └── xyz_stepper_driver.py   # XYZ步进电机驱动
-└── tests/                 # 测试文件
+```text
+unilabos/devices/liquid_handling/laiyu/
+├── laiyu.py                    # UniLabOS 液体处理器入口，定义 TransformXYZHandler/Deck/Container
+├── backend/
+│   ├── __init__.py             # 导出 UniLiquidHandlerLaiyuBackend
+│   ├── laiyu_v_backend.py      # 当前硬件后端，桥接 PyLabRobot 操作到铼羽控制器
+│   └── laiyu_backend.py        # 早期模拟后端，当前未从 backend 包导出
+├── controllers/
+│   ├── pipette_controller.py   # 移液器高级控制，组合 SOPA 与可选 XYZ 控制
+│   └── xyz_controller.py       # XYZ 坐标、回零、安全移动等高级控制
+├── drivers/
+│   ├── sopa_pipette_driver.py  # SOPA 气动移液器 RS485 驱动
+│   └── xyz_stepper_driver.py   # XYZ 步进电机 RS485/Modbus 驱动
+├── config/
+│   └── deckconfig.json         # 铼羽台面几何配置，见下文说明
+├── core/
+│   ├── LaiYu_Liquid.py         # 早期主类/后端封装
+│   ├── laiyu_liquid_res.py     # 早期资源定义和便捷创建函数
+│   └── abstract_protocol.py    # 早期材料/转移协议辅助模型
+├── docs/
+│   └── readme.md               # 本文档
+└── tests/
+    └── test_deck_config.py     # 台面配置检查脚本，当前路径也带有历史遗留问题
 ```
 
-## 🔧 快速开始
+## 设备注册入口
 
-### 1. 安装和验证
+铼羽液体处理器在 `unilabos/registry/devices/liquid_handler.yaml` 中注册为 `liquid_handler.laiyu`，实际 Python 类为：
+
+```text
+unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZHandler
+```
+
+资源 `TransformXYZDeck` 在 `unilabos/registry/resources/laiyu/deck.yaml` 中注册：
+
+```text
+unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZDeck
+```
+
+因此，在图文件里通常不直接实例化 `UniLiquidHandlerLaiyuBackend`，而是通过液体处理器设备节点的 `backend` 配置选择模拟或真实硬件。
+
+## 关键类
+
+### `TransformXYZHandler`
+
+位置：`laiyu.py`
+
+这是 UniLabOS 当前使用的液体处理器入口类，继承 `LiquidHandlerAbstract`。
+
+初始化参数包括：
+
+- `deck`：工作台资源，通常来自图文件中的 `TransformXYZDeck`
+- `host`、`port`、`timeout`：非模拟后端的连接参数
+- `channel_num`：通道数，默认 `1`
+- `simulator`：是否使用模拟/RViz 后端，默认 `True`
+- `backend_kwargs`：透传给上层液体处理抽象
+
+当前 `TransformXYZHandler` 中 `add_liquid`、`aspirate`、`dispense`、`pick_up_tips` 等方法本身多为空实现，实际标准动作主要依赖 `LiquidHandlerAbstract` 与后端对象完成。
+
+### `UniLiquidHandlerLaiyuBackend`
+
+位置：`backend/laiyu_v_backend.py`
+
+这是当前硬件后端。它继承 PyLabRobot 的 `LiquidHandlerBackend`，把 PyLabRobot 标准操作转换为铼羽硬件动作：
+
+- `setup()`：初始化 ROS2/rclpy，连接并初始化 `PipetteController`
+- `pick_up_tips()`：移动到枪头位，检查枪头状态并执行取枪头流程
+- `drop_tips()`：移动到丢枪头位置并退枪头
+- `aspirate()`：根据目标资源绝对坐标移动，并调用 SOPA 吸液
+- `dispense()`：根据目标资源绝对坐标移动，并调用 SOPA 排液
+
+后端内部使用：
+
+- `PipetteController(port=...)`
+- `XYZController`
+- `TipStatus`
+- PyLabRobot 资源的 `get_absolute_location()`
+
+### `PipetteController`
+
+位置：`controllers/pipette_controller.py`
+
+高级移液控制器，封装 SOPA 移液器驱动和可选 XYZ 控制器。默认移液器 RS485 地址为 `4`，波特率为 `115200`。
+
+它维护：
+
+- 当前枪头状态：`TipStatus.NO_TIP` / `TIP_ATTACHED` / `TIP_USED`
+- 当前体积：`current_volume`
+- 最大体积：默认 `1000 ul`
+- 液体类型参数：`WATER`、`SERUM`、`VISCOUS`、`VOLATILE`、`CUSTOM`
+
+### `XYZController`
+
+位置：`controllers/xyz_controller.py`
+
+高级 XYZ 运动控制器，继承 `XYZStepperController`。主要职责包括：
+
+- 串口连接和轴使能
+- 回零与坐标原点管理
+- 机械坐标/工作坐标转换
+- 安全高度移动
+- 行程限制检查
+
+默认机械参数在 `MachineConfig` 中，例如：
+
+- X/Y 步距：`204.8 steps/mm`
+- Z 步距：`3276.8 steps/mm`
+- 最大行程：X `340 mm`、Y `250 mm`、Z `200 mm`
+
+### 驱动层
+
+`drivers/sopa_pipette_driver.py` 提供 SOPA 气动移液器底层驱动，包含连接、初始化、吸液、排液、状态查询等能力。
+
+`drivers/xyz_stepper_driver.py` 提供步进电机底层驱动，包含 Modbus/RS485 通信、电机状态、轴控制、XYZ 组合控制等能力。
+
+## 图文件示例
+
+当前仓库中有两个示例图：
+
+- `unilabos/test/experiments/test_laiyu.json`：真实硬件示例，`simulator=false`，后端类型为 `UniLiquidHandlerLaiyuBackend`，串口示例为 `COM8`
+- `unilabos/test/experiments/test_laiyu_v.json`：模拟/RViz 示例，`simulator=true`，后端类型为 `UniLiquidHandlerRvizBackend`
+
+真实硬件节点的关键配置形如：
+
+```json
+{
+  "id": "liquid_handler",
+  "class": "liquid_handler",
+  "config": {
+    "deck": {
+      "_resource_child_name": "deck",
+      "_resource_type": "unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZDeck",
+      "name": "deck"
+    },
+    "backend": {
+      "type": "UniLiquidHandlerLaiyuBackend",
+      "port": "COM8"
+    },
+    "simulator": false,
+    "total_height": 232.5
+  }
+}
+```
+
+模拟模式节点的关键配置形如：
+
+```json
+{
+  "backend": {
+    "type": "UniLiquidHandlerRvizBackend"
+  },
+  "simulator": true,
+  "total_height": 300,
+  "joint_config": "TransformXYZDeck",
+  "simulate_rviz": true
+}
+```
+
+运行示例：
+
+```bash
+unilab --graph unilabos/test/experiments/test_laiyu_v.json --backend simple --visual rviz
+```
+
+真实硬件运行前需要确认串口号、设备供电、RS485 地址、运动范围和安全高度。
+
+## 台面配置 `deckconfig.json`
+
+`config/deckconfig.json` 是铼羽台面几何配置文件，包含：
+
+- 台面尺寸和坐标系：左上角原点，X 向右，Y 向下，Z 向上，单位 mm
+- 8 管位置模块
+- 96 深孔板
+- 敞口玻璃瓶固定座
+- 96 枪头盒
+- 每个孔位/枪头位的坐标、尺寸、体积、形状
+- 安全边距和校准点
+
+需要注意：当前 `core/laiyu_liquid_res.py` 和 `tests/test_deck_config.py` 中仍有历史路径写法，会尝试读取 `controllers/deckconfig.json` 或 `config/deck.json`。实际文件位于：
+
+```text
+unilabos/devices/liquid_handling/laiyu/config/deckconfig.json
+```
+
+因此，如果要继续使用 `core/laiyu_liquid_res.py` 的资源创建函数，应先修正其配置加载路径。当前设备图示例则主要通过图文件中的资源节点和位置数据定义台面。
+
+## 直接使用底层控制器
+
+硬件调试时可直接使用控制器或驱动层。示例：
 
 ```python
-# 验证模块安装
-from unilabos.devices.laiyu_liquid import (
-    LaiYuLiquid,
-    LaiYuLiquidConfig,
-    create_quick_setup,
-    print_module_info
-)
+from unilabos.devices.liquid_handling.laiyu.controllers import PipetteController
 
-# 查看模块信息
-print_module_info()
+controller = PipetteController(port="COM8")
 
-# 快速创建默认资源
-resources = create_quick_setup()
-print(f"已创建 {len(resources)} 个资源")
+if controller.connect():
+    controller.initialize()
+    # 后续按控制器实际方法执行移液器动作
+    controller.disconnect()
 ```
 
-### 2. 基本使用示例
+直接控制 XYZ：
 
 ```python
-from unilabos.devices.LaiYu_Liquid import (
-    create_quick_setup, 
-    create_96_well_plate,
-    create_laiyu_backend
-)
+from unilabos.devices.liquid_handling.laiyu.controllers import XYZController
 
-# 快速创建默认资源
-resources = create_quick_setup()
-print(f"创建了以下资源: {list(resources.keys())}")
-
-# 创建96孔板
-plate_96 = create_96_well_plate("test_plate")
-print(f"96孔板包含 {len(plate_96.children)} 个孔位")
-
-# 创建后端实例（用于PyLabRobot集成）
-backend = create_laiyu_backend("LaiYu_Device")
-print(f"后端设备: {backend.name}")
+xyz = XYZController(port="COM8", baudrate=115200)
+xyz.connect_device()
+xyz.home_all_axes()
+xyz.move_to_work_coord_safe(x=0, y=-150, z=0)
+xyz.disconnect_device()
 ```
 
-### 3. 后端驱动使用
+底层驱动可从 `drivers` 包导入：
 
 ```python
-from unilabos.devices.laiyu_liquid.backend import create_laiyu_backend
+from unilabos.devices.liquid_handling.laiyu.drivers import SOPAPipette, SOPAConfig
 
-# 创建后端实例
-backend = create_laiyu_backend("LaiYu_Liquid_Station")
-
-# 连接设备
-await backend.connect()
-
-# 设备归位
-await backend.home_device()
-
-# 获取设备状态
-status = await backend.get_status()
-print(f"设备状态: {status}")
-
-# 断开连接
-await backend.disconnect()
-```
-
-### 4. 资源管理示例
-
-```python
-from unilabos.devices.LaiYu_Liquid import (
-    create_centrifuge_tube_rack,
-    create_tip_rack,
-    load_deck_config
-)
-
-# 加载工作台配置
-deck_config = load_deck_config()
-print(f"工作台尺寸: {deck_config['size_x']}x{deck_config['size_y']}mm")
-
-# 创建不同类型的资源
-tube_rack = create_centrifuge_tube_rack("sample_rack")
-tip_rack = create_tip_rack("tip_rack_200ul")
-
-print(f"离心管架: {tube_rack.name}, 容量: {len(tube_rack.children)} 个位置")
-print(f"枪头架: {tip_rack.name}, 容量: {len(tip_rack.children)} 个枪头")
-```
-
-## 🔍 技术架构
-
-### 坐标系统
-- **机械坐标**: 基于步进电机的原始坐标系统
-- **工作坐标**: 用户友好的实验室坐标系统
-- **自动转换**: 透明的坐标系转换和校准
-
-### 通信协议
-- **RS485总线**: 高可靠性工业通信标准
-- **Modbus协议**: 标准化的设备通信协议
-- **错误检测**: 完整的通信错误检测和恢复
-
-### 安全机制
-- **限位保护**: 硬件和软件双重限位保护
-- **紧急停止**: 即时停止所有运动和操作
-- **状态监控**: 实时设备状态监控和报警
-
-## 🧪 验证和测试
-
-### 功能验证
-```python
-# 验证模块安装
-from unilabos.devices.laiyu_liquid import validate_installation
-validate_installation()
-
-# 查看模块信息
-from unilabos.devices.laiyu_liquid import print_module_info
-print_module_info()
-```
-
-### 硬件连接测试
-```python
-# 测试SOPA移液器连接
-from unilabos.devices.laiyu_liquid.drivers import SOPAPipette, SOPAConfig
-
-config = SOPAConfig(port="/dev/cu.usbserial-3130", address=4)
+config = SOPAConfig(port="COM8", address=4, baudrate=115200)
 pipette = SOPAPipette(config)
-success = pipette.connect()
-print(f"SOPA连接状态: {'成功' if success else '失败'}")
+pipette.connect()
+pipette.initialize()
+pipette.disconnect()
 ```
 
-## 📚 维护和支持
+## 已知注意事项
 
-### 日志记录
-- **结构化日志**: 使用Python logging模块的专业日志记录
-- **错误追踪**: 详细的错误信息和堆栈跟踪
-- **性能监控**: 操作时间和性能指标记录
+- `unilabos/devices/liquid_handling/laiyu/__init__.py` 当前为空，不应从 `unilabos.devices.liquid_handling.laiyu` 直接导入公开 API。
+- 旧文档中的 `unilabos.devices.laiyu_liquid` 路径当前不存在。
+- `backend/__init__.py` 当前只导出 `UniLiquidHandlerLaiyuBackend`，未导出 `create_laiyu_backend`。
+- `backend/laiyu_backend.py` 是早期模拟后端，当前主路径使用 `laiyu_v_backend.py`。
+- `TransformXYZHandler` 中多个动作方法是空实现，实际行为需结合 `LiquidHandlerAbstract` 和后端调用链验证。
+- `drop_tips()` 中 `self.hardware_interface.eject_tip` 当前看起来只是属性访问，若退枪头动作不生效，需要检查是否应改为方法调用。
+- 真实硬件运行前必须校验 `total_height`、枪头长度、资源坐标和安全 Z 高度，否则存在撞机风险。
 
-### 配置管理
-- **JSON配置**: 灵活的JSON格式配置文件
-- **参数验证**: 自动配置参数验证和错误提示
-- **热重载**: 支持配置文件的动态重载
+## 维护建议
 
-### 扩展性
-- **模块化设计**: 易于扩展和定制的模块化架构
-- **插件接口**: 支持第三方插件和扩展
-- **API兼容**: 向后兼容的API设计
+后续维护建议优先处理以下问题：
 
-## 📞 技术支持
-
-### 常见问题
-1. **串口权限问题**: 确保用户有串口访问权限
-2. **依赖库安装**: 使用pip安装所需的Python库
-3. **设备连接**: 检查RS485适配器和设备地址配置
-
-### 联系方式
-- **技术文档**: 查看UniLabOS官方文档
-- **问题反馈**: 通过GitHub Issues提交问题
-- **社区支持**: 加入UniLabOS开发者社区
-
----
-
-**LaiYu_Liquid v1.0.0** - 生产就绪的液体处理工作站集成模块  
-© 2024 UniLabOS Project. All rights reserved.
+1. 统一 `deckconfig.json` 的加载路径，避免资源层和测试脚本读取不到当前配置。
+2. 明确 `TransformXYZHandler` 与 `UniLiquidHandlerLaiyuBackend` 的职责边界，删除或标注早期未使用入口。
+3. 补充真实硬件动作的最小集成测试，至少覆盖取枪头、吸液、排液、丢枪头的后端调用链。
+4. 将图文件中的铼羽资源坐标与 `deckconfig.json` 的台面坐标建立明确关系，避免同一台面维护两套坐标来源。

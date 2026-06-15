@@ -96,6 +96,75 @@ def load_deck_config() -> Dict[str, Any]:
 DECK_CONFIG = load_deck_config()
 
 
+def _create_tube_rack_wells(
+    rack: LaiYuLiquidContainer,
+    *,
+    rows: int,
+    cols: int,
+    well_volume: float,
+    well_spacing: float,
+    well_diameter: float,
+    well_depth: float,
+    deckconfig_type: str = "tube_rack",
+) -> None:
+    """
+    创建试管架孔位。
+
+    优先使用 deckconfig 中孔位数量匹配的配置；没有匹配配置时按行列和孔间距生成默认相对坐标。
+    """
+    well_count = rows * cols
+    tube_module = None
+
+    for module in DECK_CONFIG.get("children", []):
+        if module.get("type") == deckconfig_type and len(module.get("wells", [])) == well_count:
+            tube_module = module
+            break
+
+    if tube_module is None:
+        for row in range(rows):
+            for col in range(cols):
+                well_name = f"{chr(65 + row)}{col + 1}"
+                x = col * well_spacing + well_spacing / 2
+                y = row * well_spacing + well_spacing / 2
+
+                well = PlateWell(
+                    name=well_name,
+                    size_x=well_diameter,
+                    size_y=well_diameter,
+                    size_z=well_depth,
+                    max_volume=well_volume
+                )
+
+                rack.assign_child_resource(
+                    well,
+                    location=Coordinate(x, y, 0)
+                )
+        return
+
+    module_position = tube_module.get("position", {"x": 0, "y": 0, "z": 0})
+
+    for well_config in tube_module.get("wells", []):
+        well_name = well_config["id"]
+        well_pos = well_config["position"]
+
+        relative_x = well_pos["x"] - module_position["x"]
+        relative_y = well_pos["y"] - module_position["y"]
+        relative_z = well_pos["z"] - module_position["z"]
+
+        well = PlateWell(
+            name=well_name,
+            size_x=well_config.get("diameter", well_diameter),
+            size_y=well_config.get("diameter", well_diameter),
+            size_z=well_config.get("depth", well_depth),
+            max_volume=well_config.get("volume", well_volume)
+        )
+
+        rack.assign_child_resource(
+            well,
+            location=Coordinate(relative_x, relative_y, relative_z)
+        )
+
+
 class LaiYuTipRack1000(LaiYuLiquidTipRack):
     """1000μL 枪头架"""
     
@@ -698,6 +767,111 @@ class LaiYu8TubeRack(LaiYuLiquidContainer):
             )
 
 
+class LaiYu12TubeRack(LaiYuLiquidContainer):
+    """12管试管架，2行6列"""
+
+    def __init__(self, name: str = "12_tube_rack"):
+        """
+        初始化12管试管架
+
+        Args:
+            name: 试管架名称
+        """
+        super().__init__(
+            name=name,
+            size_x=141.4,
+            size_y=52.0,
+            size_z=105.0,
+            container_type="tube_rack",
+            volume=0.0,
+            max_volume=10000.0
+        )
+
+        _create_tube_rack_wells(
+            self,
+            rows=2,
+            cols=6,
+            well_volume=10000.0,
+            well_spacing=21.8,
+            well_diameter=16.6,
+            well_depth=self.get_size_z()
+        )
+
+    def get_size_z(self) -> float:
+        """获取孔位深度"""
+        return 105.0
+
+
+class LaiYu30TubeRack(LaiYuLiquidContainer):
+    """30管试管架，5行6列"""
+
+    def __init__(self, name: str = "30_tube_rack"):
+        """
+        初始化30管试管架
+
+        Args:
+            name: 试管架名称
+        """
+        super().__init__(
+            name=name,
+            size_x=115.6,
+            size_y=92.3,
+            size_z=55.0,
+            container_type="tube_rack",
+            volume=0.0,
+            max_volume=3000.0
+        )
+
+        _create_tube_rack_wells(
+            self,
+            rows=5,
+            cols=6,
+            well_volume=3000.0,
+            well_spacing=17.2,
+            well_diameter=12.3,
+            well_depth=self.get_size_z()
+        )
+
+    def get_size_z(self) -> float:
+        """获取孔位深度"""
+        return 55.0
+
+
+class LaiYu3TubeRack(LaiYuLiquidContainer):
+    """3管试管架，1行3列"""
+
+    def __init__(self, name: str = "3_tube_rack"):
+        """
+        初始化3管试管架
+
+        Args:
+            name: 试管架名称
+        """
+        super().__init__(
+            name=name,
+            size_x=165.0,
+            size_y=64.0,
+            size_z=100.0,
+            container_type="tube_rack",
+            volume=0.0,
+            max_volume=50000.0
+        )
+
+        _create_tube_rack_wells(
+            self,
+            rows=1,
+            cols=3,
+            well_volume=50000.0,
+            well_spacing=50.0,
+            well_diameter=40.0,
+            well_depth=self.get_size_z()
+        )
+
+    def get_size_z(self) -> float:
+        """获取孔位深度"""
+        return 100.0
+
+
 class LaiYuTipDisposal(Resource):
     """枪头废料位置"""
     
@@ -933,7 +1107,10 @@ def list_all_resources(deck: LaiYuLiquidDeck) -> Dict[str, List[str]]:
             resources["tip_racks"].append(child.name)
         elif isinstance(child, (LaiYu96WellPlate, LaiYuDeepWellPlate)):
             resources["plates"].append(child.name)
-        elif isinstance(child, (LaiYuWasteContainer, LaiYuWashContainer, LaiYuReagentContainer)):
+        elif isinstance(child, (
+            LaiYuWasteContainer, LaiYuWashContainer, LaiYuReagentContainer,
+            LaiYu12TubeRack, LaiYu30TubeRack, LaiYu3TubeRack
+        )):
             resources["containers"].append(child.name)
         elif isinstance(child, (LaiYuTipDisposal, LaiYuMaintenancePosition)):
             resources["positions"].append(child.name)
