@@ -9,6 +9,7 @@ import serial
 import struct
 import time
 import logging
+import threading
 from typing import Optional, Tuple, Dict, Any
 from enum import Enum
 from dataclasses import dataclass
@@ -100,6 +101,7 @@ class StepperMotorDriver:
         self.timeout = timeout
         self.response_delay = response_delay
         self.serial_conn: Optional[serial.Serial] = None
+        self.lock = threading.RLock()
         
     def connect(self) -> bool:
         """
@@ -182,70 +184,141 @@ class StepperMotorDriver:
         if not self.serial_conn or not self.serial_conn.is_open:
             raise ModbusException("串口未连接")
         
-        # 构建完整命令
-        command = bytes([slave_addr]) + data
-        crc = self.calculate_crc(command)
-        full_command = command + crc
-        
-        # 清空缓冲区，避免上一条命令的残留响应污染本次解析。
-        self.serial_conn.reset_input_buffer()
-        self.serial_conn.reset_output_buffer()
-        
-        # 发送命令
-        self.serial_conn.write(full_command)
-        self.serial_conn.flush()
-        logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
-        
-        # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
-        time.sleep(self.response_delay)
-        response = self._read_modbus_response()
-        if not response:
-            raise ModbusException(
-                f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
-            )
-        
-        logger.debug(f"接收响应: {' '.join(f'{b:02X}' for b in response)}")
-        
-        # 验证CRC
-        if len(response) < 3:
-            raise ModbusException("响应数据长度不足")
-        
-        data_part = response[:-2]
-        received_crc = response[-2:]
-        calculated_crc = self.calculate_crc(data_part)
-        
-        if received_crc != calculated_crc:
-            raise ModbusException(
-                "CRC校验失败: "
-                f"response={' '.join(f'{b:02X}' for b in response)}, "
-                f"expected={' '.join(f'{b:02X}' for b in calculated_crc)}, "
-                f"actual={' '.join(f'{b:02X}' for b in received_crc)}"
-            )
-        
-        if response[1] & 0x80:
-            error_code = response[2] if len(response) > 2 else None
-            raise ModbusException(f"设备返回异常响应: function=0x{response[1]:02X}, error={error_code}")
-        
-        return response
+        with self.lock:
+            # 构建完整命令
+            command = bytes([slave_addr]) + data
+            crc = self.calculate_crc(command)
+            full_command = command + crc
+            
+            # 共享 RS485 总线时，SOPA 可能还有延迟响应；等待输入缓冲安静后再发 Modbus。
+            self._drain_input_buffer()
+            self.serial_conn.reset_output_buffer()
+            
+            # 发送命令
+            self.serial_conn.write(full_command)
+            self.serial_conn.flush()
+            logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
+            
+            # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
+            time.sleep(self.response_delay)
+            response = self._read_modbus_response(slave_addr)
+            if not response:
+                raise ModbusException(
+                    f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
+                )
+            
+            logger.debug(f"接收响应: {' '.join(f'{b:02X}' for b in response)}")
+            
+            # 验证CRC
+            if len(response) < 3:
+                raise ModbusException("响应数据长度不足")
+            
+            data_part = response[:-2]
+            received_crc = response[-2:]
+            calculated_crc = self.calculate_crc(data_part)
+            
+            if received_crc != calculated_crc:
+                raise ModbusException(
+                    "CRC校验失败: "
+                    f"response={' '.join(f'{b:02X}' for b in response)}, "
+                    f"expected={' '.join(f'{b:02X}' for b in calculated_crc)}, "
+                    f"actual={' '.join(f'{b:02X}' for b in received_crc)}"
+                )
+            
+            if response[1] & 0x80:
+                error_code = response[2] if len(response) > 2 else None
+                raise ModbusException(f"设备返回异常响应: function=0x{response[1]:02X}, error={error_code}")
+            
+            return response
 
-    def _read_modbus_response(self) -> bytes:
+    def _drain_input_buffer(self, quiet_period: float = 0.05, max_wait: float = 0.5) -> bytes:
+        """清空输入缓冲，并等待短暂静默，避免 SOPA 残留响应混入 Modbus 帧。"""
+        assert self.serial_conn is not None
+
+        drained = b""
+        deadline = time.time() + max_wait
+        quiet_deadline = time.time() + quiet_period
+
+        while time.time() < deadline:
+            waiting = self.serial_conn.in_waiting
+            if waiting:
+                drained += self.serial_conn.read(waiting)
+                quiet_deadline = time.time() + quiet_period
+                continue
+
+            if time.time() >= quiet_deadline:
+                break
+
+            time.sleep(0.01)
+
+        if drained:
+            logger.debug("清理串口残留数据: %s", " ".join(f"{b:02X}" for b in drained))
+
+        return drained
+
+    def _read_modbus_response(self, expected_slave_addr: int) -> bytes:
         """读取一帧 Modbus RTU 响应。"""
         assert self.serial_conn is not None
 
-        response = b""
+        response_buffer = b""
         deadline = time.time() + self.timeout
 
         while time.time() < deadline:
             waiting = self.serial_conn.in_waiting
             if waiting:
-                response += self.serial_conn.read(waiting)
-                expected_len = self._expected_response_length(response)
-                if expected_len is not None and len(response) >= expected_len:
-                    return response[:expected_len]
+                response_buffer += self.serial_conn.read(waiting)
+                frame = self._extract_modbus_frame(response_buffer, expected_slave_addr)
+                if frame is not None:
+                    return frame
             else:
                 time.sleep(0.01)
 
-        return response
+        if response_buffer:
+            logger.debug(
+                "未解析到完整 Modbus 帧，缓冲区数据: %s",
+                " ".join(f"{b:02X}" for b in response_buffer),
+            )
+
+        return b""
+
+    def _extract_modbus_frame(self, data: bytes, expected_slave_addr: int) -> Optional[bytes]:
+        """从混合串口数据中提取目标从站的一帧合法 Modbus RTU 响应。"""
+        search_start = 0
+
+        while search_start < len(data):
+            start = data.find(bytes([expected_slave_addr]), search_start)
+            if start < 0:
+                if data:
+                    logger.debug("丢弃非 Modbus 数据: %s", " ".join(f"{b:02X}" for b in data))
+                return None
+
+            candidate = data[start:]
+            expected_len = self._expected_response_length(candidate)
+            if expected_len is None:
+                search_start = start + 1
+                continue
+
+            if len(candidate) < expected_len:
+                return None
+
+            frame = candidate[:expected_len]
+            received_crc = frame[-2:]
+            calculated_crc = self.calculate_crc(frame[:-2])
+            if received_crc == calculated_crc:
+                if start > 0:
+                    logger.debug(
+                        "跳过 Modbus 帧前噪声: %s",
+                        " ".join(f"{b:02X}" for b in data[:start]),
+                    )
+                return frame
+
+            logger.debug(
+                "丢弃 CRC 不匹配的候选帧: %s",
+                " ".join(f"{b:02X}" for b in frame),
+            )
+            search_start = start + 1
+
+        return None
 
     @staticmethod
     def _expected_response_length(response: bytes) -> Optional[int]:

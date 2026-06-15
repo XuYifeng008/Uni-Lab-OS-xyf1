@@ -225,7 +225,7 @@ deck：
 （GreenLab电合成仪）
 - 模块 id：module_5_GreenLab
 - 模块 name：GreenLab电合成仪
-- 模块 type：建议 greenlab_electrochem
+- 模块 type：建议 tube_rack（物料上传时使用已有通用容器类型）
 - position x/y/z：132.5 / 0 / 0 mm
 - size x/y/z：170.0 / 180.0 / 163.0 mm
 - 6个加样口：

@@ -1,0 +1,7359 @@
+{
+  "nodes": [
+    {
+      "id": "liquid_handler",
+      "name": "liquid_handler",
+      "parent": null,
+      "type": "device",
+      "class": "liquid_handler.laiyu",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "children": [
+        "deck"
+      ],
+      "config": {
+        "deck": {
+          "_resource_child_name": "deck",
+          "_resource_type": "unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZDeck",
+          "name": "deck"
+        },
+        "backend": {
+          "type": "UniLiquidHandlerLaiyuBackend",
+          "port": "COM8"
+        },
+        "simulator": false,
+        "total_height": 232.5
+      },
+      "data": {},
+      "extra": {}
+    },
+    {
+      "id": "greenlab_1",
+      "name": "greenlab_1",
+      "parent": null,
+      "type": "device",
+      "class": "greenlab_electrochemical",
+      "position": {
+        "x": 132.5,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "port": "COM7",
+        "baudrate": 115200,
+        "slave_id": 1,
+        "timeout": 3,
+        "rts_toggle": true
+      },
+      "data": {},
+      "extra": {}
+    },
+    {
+      "id": "deck",
+      "name": "deck",
+      "parent": "liquid_handler",
+      "type": "deck",
+      "class": "TransformXYZDeck",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 18
+      },
+      "children": [
+        "module_1_tip_rack",
+        "module_2_12tubes",
+        "module_3_30tubes",
+        "module_4_3tubes",
+        "module_5_GreenLab"
+      ],
+      "config": {
+        "type": "TransformXYZDeck",
+        "size_x": 340.0,
+        "size_y": 250.0,
+        "size_z": 180.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_layout": {
+          "layout_source": "unilabos/devices/liquid_handling/laiyu/config/electro_deck.json",
+          "coordinate_system": {
+            "origin": "top_left",
+            "x_axis": "right",
+            "y_axis": "down",
+            "z_axis": "up",
+            "units": "mm"
+          },
+          "deck_metadata": {
+            "total_modules": 5,
+            "total_wells": 147,
+            "deck_area": {
+              "used_x": 306.0,
+              "used_y": 307.0,
+              "used_z": 163.0,
+              "x_min": 0.0,
+              "x_max": 306.0,
+              "y_min": 0,
+              "y_max": 307.0,
+              "z_min": 0.0,
+              "z_max": 163.0
+            },
+            "safety_margins": {
+              "x_min": 10.0,
+              "x_max": 10.0,
+              "y_min": 10.0,
+              "y_max": 10.0,
+              "z_clearance": 20.0
+            },
+            "calibration_points": [
+              {
+                "id": "origin",
+                "position": {
+                  "x": 0.0,
+                  "y": 0,
+                  "z": 0.0
+                },
+                "description": "工作台左上角原点"
+              },
+              {
+                "id": "module_1_ref",
+                "position": {
+                  "x": 0.0,
+                  "y": 63.0,
+                  "z": 0.0
+                },
+                "description": "模块1枪头盒基准孔A01"
+              },
+              {
+                "id": "module_2_ref",
+                "position": {
+                  "x": 0.0,
+                  "y": 132.0,
+                  "z": 0.0
+                },
+                "description": "模块2 12管试管架基准孔A1"
+              },
+              {
+                "id": "module_3_ref",
+                "position": {
+                  "x": 15.0,
+                  "y": 231.0,
+                  "z": 30.5
+                },
+                "description": "模块3 LC_30瓶架基准孔A01"
+              },
+              {
+                "id": "module_4_ref",
+                "position": {
+                  "x": 180.0,
+                  "y": 215.0,
+                  "z": 10.5
+                },
+                "description": "模块4 3瓶架基准孔A01"
+              },
+              {
+                "id": "module_5_ref",
+                "position": {
+                  "x": 183.0,
+                  "y": 43.0,
+                  "z": 70.0
+                },
+                "description": "模块5 GreenLab电合成仪加样口P1"
+              }
+            ],
+            "version": "1.0",
+            "created_by": "Doraemon Team"
+          }
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack",
+      "name": "96枪头盒",
+      "parent": "deck",
+      "type": "tip_rack",
+      "class": "tiprack_box",
+      "position": {
+        "x": 0.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [
+        "module_1_tip_rack_A01",
+        "module_1_tip_rack_A02",
+        "module_1_tip_rack_A03",
+        "module_1_tip_rack_A04",
+        "module_1_tip_rack_A05",
+        "module_1_tip_rack_A06",
+        "module_1_tip_rack_A07",
+        "module_1_tip_rack_A08",
+        "module_1_tip_rack_A09",
+        "module_1_tip_rack_A10",
+        "module_1_tip_rack_A11",
+        "module_1_tip_rack_A12",
+        "module_1_tip_rack_B01",
+        "module_1_tip_rack_B02",
+        "module_1_tip_rack_B03",
+        "module_1_tip_rack_B04",
+        "module_1_tip_rack_B05",
+        "module_1_tip_rack_B06",
+        "module_1_tip_rack_B07",
+        "module_1_tip_rack_B08",
+        "module_1_tip_rack_B09",
+        "module_1_tip_rack_B10",
+        "module_1_tip_rack_B11",
+        "module_1_tip_rack_B12",
+        "module_1_tip_rack_C01",
+        "module_1_tip_rack_C02",
+        "module_1_tip_rack_C03",
+        "module_1_tip_rack_C04",
+        "module_1_tip_rack_C05",
+        "module_1_tip_rack_C06",
+        "module_1_tip_rack_C07",
+        "module_1_tip_rack_C08",
+        "module_1_tip_rack_C09",
+        "module_1_tip_rack_C10",
+        "module_1_tip_rack_C11",
+        "module_1_tip_rack_C12",
+        "module_1_tip_rack_D01",
+        "module_1_tip_rack_D02",
+        "module_1_tip_rack_D03",
+        "module_1_tip_rack_D04",
+        "module_1_tip_rack_D05",
+        "module_1_tip_rack_D06",
+        "module_1_tip_rack_D07",
+        "module_1_tip_rack_D08",
+        "module_1_tip_rack_D09",
+        "module_1_tip_rack_D10",
+        "module_1_tip_rack_D11",
+        "module_1_tip_rack_D12",
+        "module_1_tip_rack_E01",
+        "module_1_tip_rack_E02",
+        "module_1_tip_rack_E03",
+        "module_1_tip_rack_E04",
+        "module_1_tip_rack_E05",
+        "module_1_tip_rack_E06",
+        "module_1_tip_rack_E07",
+        "module_1_tip_rack_E08",
+        "module_1_tip_rack_E09",
+        "module_1_tip_rack_E10",
+        "module_1_tip_rack_E11",
+        "module_1_tip_rack_E12",
+        "module_1_tip_rack_F01",
+        "module_1_tip_rack_F02",
+        "module_1_tip_rack_F03",
+        "module_1_tip_rack_F04",
+        "module_1_tip_rack_F05",
+        "module_1_tip_rack_F06",
+        "module_1_tip_rack_F07",
+        "module_1_tip_rack_F08",
+        "module_1_tip_rack_F09",
+        "module_1_tip_rack_F10",
+        "module_1_tip_rack_F11",
+        "module_1_tip_rack_F12",
+        "module_1_tip_rack_G01",
+        "module_1_tip_rack_G02",
+        "module_1_tip_rack_G03",
+        "module_1_tip_rack_G04",
+        "module_1_tip_rack_G05",
+        "module_1_tip_rack_G06",
+        "module_1_tip_rack_G07",
+        "module_1_tip_rack_G08",
+        "module_1_tip_rack_G09",
+        "module_1_tip_rack_G10",
+        "module_1_tip_rack_G11",
+        "module_1_tip_rack_G12",
+        "module_1_tip_rack_H01",
+        "module_1_tip_rack_H02",
+        "module_1_tip_rack_H03",
+        "module_1_tip_rack_H04",
+        "module_1_tip_rack_H05",
+        "module_1_tip_rack_H06",
+        "module_1_tip_rack_H07",
+        "module_1_tip_rack_H08",
+        "module_1_tip_rack_H09",
+        "module_1_tip_rack_H10",
+        "module_1_tip_rack_H11",
+        "module_1_tip_rack_H12"
+      ],
+      "config": {
+        "type": "TipRack",
+        "size_x": 134.0,
+        "size_y": 96.0,
+        "size_z": 7.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_rack",
+        "model": "tiprack_box",
+        "ordering": [
+          "A01",
+          "A02",
+          "A03",
+          "A04",
+          "A05",
+          "A06",
+          "A07",
+          "A08",
+          "A09",
+          "A10",
+          "A11",
+          "A12",
+          "B01",
+          "B02",
+          "B03",
+          "B04",
+          "B05",
+          "B06",
+          "B07",
+          "B08",
+          "B09",
+          "B10",
+          "B11",
+          "B12",
+          "C01",
+          "C02",
+          "C03",
+          "C04",
+          "C05",
+          "C06",
+          "C07",
+          "C08",
+          "C09",
+          "C10",
+          "C11",
+          "C12",
+          "D01",
+          "D02",
+          "D03",
+          "D04",
+          "D05",
+          "D06",
+          "D07",
+          "D08",
+          "D09",
+          "D10",
+          "D11",
+          "D12",
+          "E01",
+          "E02",
+          "E03",
+          "E04",
+          "E05",
+          "E06",
+          "E07",
+          "E08",
+          "E09",
+          "E10",
+          "E11",
+          "E12",
+          "F01",
+          "F02",
+          "F03",
+          "F04",
+          "F05",
+          "F06",
+          "F07",
+          "F08",
+          "F09",
+          "F10",
+          "F11",
+          "F12",
+          "G01",
+          "G02",
+          "G03",
+          "G04",
+          "G05",
+          "G06",
+          "G07",
+          "G08",
+          "G09",
+          "G10",
+          "G11",
+          "G12",
+          "H01",
+          "H02",
+          "H03",
+          "H04",
+          "H05",
+          "H06",
+          "H07",
+          "H08",
+          "H09",
+          "H10",
+          "H11",
+          "H12"
+        ]
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_module": {
+          "well_spacing": {
+            "x": 9.0,
+            "y": 9.0
+          },
+          "grid": {
+            "rows": 8,
+            "columns": 12,
+            "row_labels": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H"
+            ],
+            "column_labels": [
+              "01",
+              "02",
+              "03",
+              "04",
+              "05",
+              "06",
+              "07",
+              "08",
+              "09",
+              "10",
+              "11",
+              "12"
+            ]
+          },
+          "metadata": {
+            "description": "标准96孔枪头盒",
+            "max_volume_ul": 1000,
+            "well_count": 96,
+            "plate_type": "tip_rack"
+          }
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A01",
+      "name": "module_1_tip_rack_A01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A02",
+      "name": "module_1_tip_rack_A02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A03",
+      "name": "module_1_tip_rack_A03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A04",
+      "name": "module_1_tip_rack_A04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A05",
+      "name": "module_1_tip_rack_A05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A06",
+      "name": "module_1_tip_rack_A06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A07",
+      "name": "module_1_tip_rack_A07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A08",
+      "name": "module_1_tip_rack_A08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A09",
+      "name": "module_1_tip_rack_A09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A10",
+      "name": "module_1_tip_rack_A10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A11",
+      "name": "module_1_tip_rack_A11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_A12",
+      "name": "module_1_tip_rack_A12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 63.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -63.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B01",
+      "name": "module_1_tip_rack_B01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B02",
+      "name": "module_1_tip_rack_B02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B03",
+      "name": "module_1_tip_rack_B03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B04",
+      "name": "module_1_tip_rack_B04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B05",
+      "name": "module_1_tip_rack_B05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B06",
+      "name": "module_1_tip_rack_B06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B07",
+      "name": "module_1_tip_rack_B07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B08",
+      "name": "module_1_tip_rack_B08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B09",
+      "name": "module_1_tip_rack_B09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B10",
+      "name": "module_1_tip_rack_B10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B11",
+      "name": "module_1_tip_rack_B11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_B12",
+      "name": "module_1_tip_rack_B12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 54.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -54.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C01",
+      "name": "module_1_tip_rack_C01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C02",
+      "name": "module_1_tip_rack_C02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C03",
+      "name": "module_1_tip_rack_C03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C04",
+      "name": "module_1_tip_rack_C04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C05",
+      "name": "module_1_tip_rack_C05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C06",
+      "name": "module_1_tip_rack_C06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C07",
+      "name": "module_1_tip_rack_C07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C08",
+      "name": "module_1_tip_rack_C08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C09",
+      "name": "module_1_tip_rack_C09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C10",
+      "name": "module_1_tip_rack_C10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C11",
+      "name": "module_1_tip_rack_C11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_C12",
+      "name": "module_1_tip_rack_C12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 45.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -45.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D01",
+      "name": "module_1_tip_rack_D01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D02",
+      "name": "module_1_tip_rack_D02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D03",
+      "name": "module_1_tip_rack_D03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D04",
+      "name": "module_1_tip_rack_D04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D05",
+      "name": "module_1_tip_rack_D05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D06",
+      "name": "module_1_tip_rack_D06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D07",
+      "name": "module_1_tip_rack_D07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D08",
+      "name": "module_1_tip_rack_D08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D09",
+      "name": "module_1_tip_rack_D09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D10",
+      "name": "module_1_tip_rack_D10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D11",
+      "name": "module_1_tip_rack_D11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_D12",
+      "name": "module_1_tip_rack_D12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 36.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -36.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E01",
+      "name": "module_1_tip_rack_E01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E02",
+      "name": "module_1_tip_rack_E02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E03",
+      "name": "module_1_tip_rack_E03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E04",
+      "name": "module_1_tip_rack_E04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E05",
+      "name": "module_1_tip_rack_E05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E06",
+      "name": "module_1_tip_rack_E06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E07",
+      "name": "module_1_tip_rack_E07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E08",
+      "name": "module_1_tip_rack_E08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E09",
+      "name": "module_1_tip_rack_E09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E10",
+      "name": "module_1_tip_rack_E10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E11",
+      "name": "module_1_tip_rack_E11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_E12",
+      "name": "module_1_tip_rack_E12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 27.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -27.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F01",
+      "name": "module_1_tip_rack_F01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F02",
+      "name": "module_1_tip_rack_F02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F03",
+      "name": "module_1_tip_rack_F03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F04",
+      "name": "module_1_tip_rack_F04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F05",
+      "name": "module_1_tip_rack_F05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F06",
+      "name": "module_1_tip_rack_F06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F07",
+      "name": "module_1_tip_rack_F07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F08",
+      "name": "module_1_tip_rack_F08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F09",
+      "name": "module_1_tip_rack_F09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F10",
+      "name": "module_1_tip_rack_F10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F11",
+      "name": "module_1_tip_rack_F11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_F12",
+      "name": "module_1_tip_rack_F12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 18.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -18.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G01",
+      "name": "module_1_tip_rack_G01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G02",
+      "name": "module_1_tip_rack_G02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G03",
+      "name": "module_1_tip_rack_G03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G04",
+      "name": "module_1_tip_rack_G04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G05",
+      "name": "module_1_tip_rack_G05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G06",
+      "name": "module_1_tip_rack_G06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G07",
+      "name": "module_1_tip_rack_G07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G08",
+      "name": "module_1_tip_rack_G08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G09",
+      "name": "module_1_tip_rack_G09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G10",
+      "name": "module_1_tip_rack_G10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G11",
+      "name": "module_1_tip_rack_G11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_G12",
+      "name": "module_1_tip_rack_G12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 9.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": -9.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H01",
+      "name": "module_1_tip_rack_H01",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H02",
+      "name": "module_1_tip_rack_H02",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 9.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 9.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H03",
+      "name": "module_1_tip_rack_H03",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 18.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 18.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H04",
+      "name": "module_1_tip_rack_H04",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 27.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 27.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H05",
+      "name": "module_1_tip_rack_H05",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 36.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 36.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H06",
+      "name": "module_1_tip_rack_H06",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 45.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 45.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H07",
+      "name": "module_1_tip_rack_H07",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 54.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 54.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H08",
+      "name": "module_1_tip_rack_H08",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 63.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 63.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H09",
+      "name": "module_1_tip_rack_H09",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 72.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 72.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H10",
+      "name": "module_1_tip_rack_H10",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 81.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 81.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H11",
+      "name": "module_1_tip_rack_H11",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 90.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_1_tip_rack_H12",
+      "name": "module_1_tip_rack_H12",
+      "parent": "module_1_tip_rack",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 99.0,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "TipSpot",
+        "size_x": 9.0,
+        "size_y": 9.0,
+        "size_z": 113.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tip_spot",
+        "model": null,
+        "prototype_tip": {
+          "type": "Tip",
+          "total_tip_length": 113.0,
+          "has_filter": false,
+          "maximal_volume": 1000.0,
+          "fitting_depth": 3.29
+        }
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 99.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes",
+      "name": "12管试管架",
+      "parent": "deck",
+      "type": "container",
+      "class": "tube_container",
+      "position": {
+        "x": 0.0,
+        "y": 100.0,
+        "z": 0.0
+      },
+      "children": [
+        "module_2_12tubes_A1",
+        "module_2_12tubes_A2",
+        "module_2_12tubes_A3",
+        "module_2_12tubes_A4",
+        "module_2_12tubes_A5",
+        "module_2_12tubes_A6",
+        "module_2_12tubes_B1",
+        "module_2_12tubes_B2",
+        "module_2_12tubes_B3",
+        "module_2_12tubes_B4",
+        "module_2_12tubes_B5",
+        "module_2_12tubes_B6"
+      ],
+      "config": {
+        "type": "Plate",
+        "size_x": 141.4,
+        "size_y": 52.0,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube_rack",
+        "model": "tube_container",
+        "ordering": [
+          "A1",
+          "A2",
+          "A3",
+          "A4",
+          "A5",
+          "A6",
+          "B1",
+          "B2",
+          "B3",
+          "B4",
+          "B5",
+          "B6"
+        ]
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_module": {
+          "well_spacing": {
+            "x": 21.8,
+            "y": 21.8
+          },
+          "grid": {
+            "rows": 2,
+            "columns": 6,
+            "row_labels": [
+              "A",
+              "B"
+            ],
+            "column_labels": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ]
+          },
+          "metadata": {
+            "description": "12管试管架，2行6列",
+            "max_volume_ul": 10000,
+            "well_count": 12,
+            "tube_type": "10ml_tube"
+          }
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A1",
+      "name": "module_2_12tubes_A1",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A2",
+      "name": "module_2_12tubes_A2",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 21.8,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 21.8,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A3",
+      "name": "module_2_12tubes_A3",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 43.6,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 43.6,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A4",
+      "name": "module_2_12tubes_A4",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 65.4,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 65.4,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A5",
+      "name": "module_2_12tubes_A5",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 87.2,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 87.2,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_A6",
+      "name": "module_2_12tubes_A6",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 109.0,
+        "y": 32.0,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 109.0,
+            "y": -132.0,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B1",
+      "name": "module_2_12tubes_B1",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 0.0,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 0.0,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B2",
+      "name": "module_2_12tubes_B2",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 21.8,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 21.8,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B3",
+      "name": "module_2_12tubes_B3",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 43.6,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 43.6,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B4",
+      "name": "module_2_12tubes_B4",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 65.4,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 65.4,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B5",
+      "name": "module_2_12tubes_B5",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 87.2,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 87.2,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_2_12tubes_B6",
+      "name": "module_2_12tubes_B6",
+      "parent": "module_2_12tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 109.0,
+        "y": 10.2,
+        "z": 0.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 16.6,
+        "size_y": 16.6,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 10000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 109.0,
+            "y": -110.2,
+            "z": 0.0
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes",
+      "name": "LC_30瓶架",
+      "parent": "deck",
+      "type": "container",
+      "class": "tube_container",
+      "position": {
+        "x": 0.0,
+        "y": 214.0,
+        "z": 0.0
+      },
+      "children": [
+        "module_3_30tubes_A01",
+        "module_3_30tubes_A02",
+        "module_3_30tubes_A03",
+        "module_3_30tubes_A04",
+        "module_3_30tubes_A05",
+        "module_3_30tubes_A06",
+        "module_3_30tubes_B01",
+        "module_3_30tubes_B02",
+        "module_3_30tubes_B03",
+        "module_3_30tubes_B04",
+        "module_3_30tubes_B05",
+        "module_3_30tubes_B06",
+        "module_3_30tubes_C01",
+        "module_3_30tubes_C02",
+        "module_3_30tubes_C03",
+        "module_3_30tubes_C04",
+        "module_3_30tubes_C05",
+        "module_3_30tubes_C06",
+        "module_3_30tubes_D01",
+        "module_3_30tubes_D02",
+        "module_3_30tubes_D03",
+        "module_3_30tubes_D04",
+        "module_3_30tubes_D05",
+        "module_3_30tubes_D06",
+        "module_3_30tubes_E01",
+        "module_3_30tubes_E02",
+        "module_3_30tubes_E03",
+        "module_3_30tubes_E04",
+        "module_3_30tubes_E05",
+        "module_3_30tubes_E06"
+      ],
+      "config": {
+        "type": "Plate",
+        "size_x": 115.5,
+        "size_y": 93.0,
+        "size_z": 30.5,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube_rack",
+        "model": "tube_container",
+        "ordering": [
+          "A01",
+          "A02",
+          "A03",
+          "A04",
+          "A05",
+          "A06",
+          "B01",
+          "B02",
+          "B03",
+          "B04",
+          "B05",
+          "B06",
+          "C01",
+          "C02",
+          "C03",
+          "C04",
+          "C05",
+          "C06",
+          "D01",
+          "D02",
+          "D03",
+          "D04",
+          "D05",
+          "D06",
+          "E01",
+          "E02",
+          "E03",
+          "E04",
+          "E05",
+          "E06"
+        ]
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_module": {
+          "well_spacing": {
+            "x": 17.2,
+            "y": 17.2
+          },
+          "grid": {
+            "rows": 5,
+            "columns": 6,
+            "row_labels": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E"
+            ],
+            "column_labels": [
+              "01",
+              "02",
+              "03",
+              "04",
+              "05",
+              "06"
+            ]
+          },
+          "metadata": {
+            "description": "LC_30瓶架，禁用A01~A06",
+            "max_volume_ul": 1500,
+            "well_count": 30,
+            "disabled_wells": [
+              "A01",
+              "A02",
+              "A03",
+              "A04",
+              "A05",
+              "A06"
+            ],
+            "tube_type": "lc_vial"
+          }
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A01",
+      "name": "module_3_30tubes_A01",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 15.0,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 15.0,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A02",
+      "name": "module_3_30tubes_A02",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 32.2,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 32.2,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A03",
+      "name": "module_3_30tubes_A03",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 49.4,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 49.4,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A04",
+      "name": "module_3_30tubes_A04",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 66.6,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 66.6,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A05",
+      "name": "module_3_30tubes_A05",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 83.8,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 83.8,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_A06",
+      "name": "module_3_30tubes_A06",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 101.0,
+        "y": 17.0,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 101.0,
+            "y": -231.0,
+            "z": 30.5
+          },
+          "shape": "circular",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B01",
+      "name": "module_3_30tubes_B01",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 15.0,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 15.0,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B02",
+      "name": "module_3_30tubes_B02",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 32.2,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 32.2,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B03",
+      "name": "module_3_30tubes_B03",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 49.4,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 49.4,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B04",
+      "name": "module_3_30tubes_B04",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 66.6,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 66.6,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B05",
+      "name": "module_3_30tubes_B05",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 83.8,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 83.8,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_B06",
+      "name": "module_3_30tubes_B06",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 101.0,
+        "y": -0.2,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 101.0,
+            "y": -213.8,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C01",
+      "name": "module_3_30tubes_C01",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 15.0,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 15.0,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C02",
+      "name": "module_3_30tubes_C02",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 32.2,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 32.2,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C03",
+      "name": "module_3_30tubes_C03",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 49.4,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 49.4,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C04",
+      "name": "module_3_30tubes_C04",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 66.6,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 66.6,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C05",
+      "name": "module_3_30tubes_C05",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 83.8,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 83.8,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_C06",
+      "name": "module_3_30tubes_C06",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 101.0,
+        "y": -17.4,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 101.0,
+            "y": -196.6,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D01",
+      "name": "module_3_30tubes_D01",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 15.0,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 15.0,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D02",
+      "name": "module_3_30tubes_D02",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 32.2,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 32.2,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D03",
+      "name": "module_3_30tubes_D03",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 49.4,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 49.4,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D04",
+      "name": "module_3_30tubes_D04",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 66.6,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 66.6,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D05",
+      "name": "module_3_30tubes_D05",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 83.8,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 83.8,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_D06",
+      "name": "module_3_30tubes_D06",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 101.0,
+        "y": -34.6,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 101.0,
+            "y": -179.4,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E01",
+      "name": "module_3_30tubes_E01",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 15.0,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 15.0,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E02",
+      "name": "module_3_30tubes_E02",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 32.2,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 32.2,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E03",
+      "name": "module_3_30tubes_E03",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 49.4,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 49.4,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E04",
+      "name": "module_3_30tubes_E04",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 66.6,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 66.6,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E05",
+      "name": "module_3_30tubes_E05",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 83.8,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 83.8,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_3_30tubes_E06",
+      "name": "module_3_30tubes_E06",
+      "parent": "module_3_30tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 101.0,
+        "y": -51.8,
+        "z": 30.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 8.2,
+        "size_y": 8.2,
+        "size_z": 25.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 1500.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 101.0,
+            "y": -162.2,
+            "z": 30.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_4_3tubes",
+      "name": "3瓶架",
+      "parent": "deck",
+      "type": "container",
+      "class": "bottle_container",
+      "position": {
+        "x": 140.0,
+        "y": 182.0,
+        "z": 0.0
+      },
+      "children": [
+        "module_4_3tubes_A01",
+        "module_4_3tubes_A02",
+        "module_4_3tubes_A03"
+      ],
+      "config": {
+        "type": "Plate",
+        "size_x": 166.0,
+        "size_y": 61.5,
+        "size_z": 105.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube_rack",
+        "model": "bottle_container",
+        "ordering": [
+          "A01",
+          "A02",
+          "A03"
+        ]
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_module": {
+          "well_spacing": {
+            "x": 50.0,
+            "y": 50.0
+          },
+          "grid": {
+            "rows": 1,
+            "columns": 3,
+            "row_labels": [
+              "A"
+            ],
+            "column_labels": [
+              "01",
+              "02",
+              "03"
+            ]
+          },
+          "metadata": {
+            "description": "3瓶架",
+            "max_volume_ul": 50000,
+            "well_count": 3,
+            "tube_type": "50ml_tube"
+          }
+        }
+      }
+    },
+    {
+      "id": "module_4_3tubes_A01",
+      "name": "module_4_3tubes_A01",
+      "parent": "module_4_3tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 40.0,
+        "y": 33.0,
+        "z": 10.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 40.0,
+        "size_y": 40.0,
+        "size_z": 60.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 50000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 180.0,
+            "y": -215.0,
+            "z": 10.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_4_3tubes_A02",
+      "name": "module_4_3tubes_A02",
+      "parent": "module_4_3tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 90.0,
+        "y": 33.0,
+        "z": 10.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 40.0,
+        "size_y": 40.0,
+        "size_z": 60.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 50000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 230.0,
+            "y": -215.0,
+            "z": 10.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_4_3tubes_A03",
+      "name": "module_4_3tubes_A03",
+      "parent": "module_4_3tubes",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 140.0,
+        "y": 33.0,
+        "z": 10.5
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 40.0,
+        "size_y": 40.0,
+        "size_z": 60.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube",
+        "model": null,
+        "max_volume": 50000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 280.0,
+            "y": -215.0,
+            "z": 10.5
+          },
+          "shape": "circular"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab",
+      "name": "GreenLab电合成仪",
+      "parent": "deck",
+      "type": "container",
+      "class": "bottle_container",
+      "position": {
+        "x": 132.5,
+        "y": 0,
+        "z": 0.0
+      },
+      "children": [
+        "module_5_GreenLab_P1",
+        "module_5_GreenLab_P2",
+        "module_5_GreenLab_P3",
+        "module_5_GreenLab_P4",
+        "module_5_GreenLab_P5",
+        "module_5_GreenLab_P6"
+      ],
+      "config": {
+        "type": "Plate",
+        "size_x": 170.0,
+        "size_y": 180.0,
+        "size_z": 163.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "tube_rack",
+        "model": "bottle_container",
+        "ordering": [
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6"
+        ]
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_module": {
+          "well_spacing": null,
+          "grid": null,
+          "metadata": {
+            "description": "GreenLab电合成仪，6个不规则加样口",
+            "max_volume_ul": 15000,
+            "well_count": 6,
+            "device_type": "electrochemistry_synthesizer",
+            "access_from_top": true
+          },
+          "linked_device": "greenlab_1"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P1",
+      "name": "module_5_GreenLab_P1",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 50.5,
+        "y": 43.0,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 183.0,
+            "y": -43.0,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P2",
+      "name": "module_5_GreenLab_P2",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 113.5,
+        "y": 43.0,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 246.0,
+            "y": -43.0,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P3",
+      "name": "module_5_GreenLab_P3",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 144.0,
+        "y": 96.5,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 276.5,
+            "y": -96.5,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P4",
+      "name": "module_5_GreenLab_P4",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 114.5,
+        "y": 148.5,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 247.0,
+            "y": -148.5,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P5",
+      "name": "module_5_GreenLab_P5",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 52.0,
+        "y": 150.0,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 184.5,
+            "y": -150.0,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    },
+    {
+      "id": "module_5_GreenLab_P6",
+      "name": "module_5_GreenLab_P6",
+      "parent": "module_5_GreenLab",
+      "type": "container",
+      "class": "",
+      "position": {
+        "x": 20.0,
+        "y": 96.5,
+        "z": 70.0
+      },
+      "children": [],
+      "config": {
+        "type": "Well",
+        "size_x": 7.0,
+        "size_y": 7.0,
+        "size_z": 90.0,
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "type": "Rotation"
+        },
+        "category": "reagent_inlet",
+        "model": null,
+        "max_volume": 15000.0,
+        "bottom_type": "unknown",
+        "cross_section_type": "circle",
+        "material_z_thickness": null,
+        "compute_volume_from_height": null,
+        "compute_height_from_volume": null
+      },
+      "data": {},
+      "extra": {
+        "electro_deck_well": {
+          "deck_position": {
+            "x": 152.5,
+            "y": -96.5,
+            "z": 70.0
+          },
+          "shape": "circular",
+          "port_type": "reagent_inlet"
+        }
+      }
+    }
+  ],
+  "links": []
+}

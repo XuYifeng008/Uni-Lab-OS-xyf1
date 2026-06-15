@@ -134,7 +134,7 @@ class SOPAPipette:
         self.serial_port: Optional[serial.Serial] = None
         self.is_connected = False
         self.is_initialized = False
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
 
         # 状态缓存
         self._last_status = SOPAStatusCode.NOT_INITIALIZED
@@ -341,8 +341,9 @@ class SOPAPipette:
             Optional[str]: 查询结果
         """
         try:
-            self._send_command(query)
-            return self._read_response()
+            with self.lock:
+                self._send_command(query)
+                return self._read_response()
         except Exception as e:
             logger.error(f"查询失败: {str(e)}")
             return None
@@ -434,17 +435,23 @@ class SOPAPipette:
         """
         try:
             response = self._send_query("Q28")
-            if response and len(response) > 10:
-                # 解析响应中的枪头状态
+            if response:
+                # 兼容旧格式 T1/T0，以及文档中的 1/0（1=存在，0=不存在）。
                 if "T1" in response:
                     self._tip_present = True
                     return True
-                elif "T0" in response:
+                if "T0" in response:
                     self._tip_present = False
                     return False
-                else:
-                    logger.error(f"获取枪头状态失败: {response}")
-                    return False
+
+                printable_response = "".join(ch for ch in response if ch.isprintable())
+                status_chars = [ch for ch in printable_response if ch in ("0", "1")]
+                if status_chars:
+                    self._tip_present = status_chars[-1] == "1"
+                    return self._tip_present
+
+                logger.error(f"获取枪头状态失败: {response}")
+                return False
         except Exception as e:
             logger.error(f"获取枪头状态失败: {str(e)}")
 

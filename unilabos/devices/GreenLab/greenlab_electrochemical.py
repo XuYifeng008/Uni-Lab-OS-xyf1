@@ -13,7 +13,7 @@ GreenLab 电反应仪驱动 for Uni-Lab OS
 import time
 import logging
 from enum import Enum
-from typing import Optional, Dict, Any, List, Tuple
+from typing import Optional, Dict, Any, List, Tuple, Union
 
 try:
     from pymodbus.client import ModbusSerialClient
@@ -172,6 +172,7 @@ class GreenLabElectrochemical(UniversalDriver):
         self._is_connected = False
         self._channel_states = {i: False for i in range(1, 7)}  # 6个通道状态
         self._stirrer_running = False
+        self._reaction_parameters: Dict[int, Dict[str, Any]] = {}
 
         # ROS2 action result properties
         self.success = False
@@ -238,6 +239,40 @@ class GreenLabElectrochemical(UniversalDriver):
         """帧间延迟，避免连续请求过快"""
         if self.inter_frame_delay > 0:
             time.sleep(self.inter_frame_delay)
+
+    def _normalize_enum(self, value: Any, enum_cls: type[Enum], field_name: str) -> Optional[Enum]:
+        """兼容 Uni-Lab JSON 参数和 Python 枚举调用。"""
+        if isinstance(value, enum_cls):
+            return value
+        if isinstance(value, str):
+            text = value.strip()
+            if not text:
+                self.logger.error(f"{field_name} 不能为空")
+                return None
+            if text in enum_cls.__members__:
+                return enum_cls[text]
+            upper_text = text.upper()
+            if upper_text in enum_cls.__members__:
+                return enum_cls[upper_text]
+            try:
+                return enum_cls(int(text))
+            except (ValueError, TypeError):
+                self.logger.error(f"{field_name} 无法识别: {value}")
+                return None
+        try:
+            return enum_cls(int(value))
+        except (ValueError, TypeError):
+            self.logger.error(f"{field_name} 无法识别: {value}")
+            return None
+
+    def _normalize_output_mode(self, mode: Any) -> Optional[OutputMode]:
+        return self._normalize_enum(mode, OutputMode, "输出模式")  # type: ignore[return-value]
+
+    def _normalize_alternate_mode(self, mode: Any) -> Optional[AlternateMode]:
+        return self._normalize_enum(mode, AlternateMode, "交替模式")  # type: ignore[return-value]
+
+    def _normalize_stirrer_control(self, control: Any) -> Optional[StirrerControl]:
+        return self._normalize_enum(control, StirrerControl, "搅拌控制")  # type: ignore[return-value]
 
     def disconnect(self):
         """断开设备连接"""
@@ -310,7 +345,7 @@ class GreenLabElectrochemical(UniversalDriver):
 
     # ==================== 输出模式控制 ====================
 
-    def set_output_mode(self, mode: OutputMode) -> bool:
+    def set_output_mode(self, mode: Union[OutputMode, int, str]) -> bool:
         """设置输出模式
 
         Args:
@@ -319,9 +354,13 @@ class GreenLabElectrochemical(UniversalDriver):
         Returns:
             成功返回True
         """
-        success = self._write_register(self.REG_OUTPUT_MODE, mode.value)
+        normalized_mode = self._normalize_output_mode(mode)
+        if normalized_mode is None:
+            return False
+
+        success = self._write_register(self.REG_OUTPUT_MODE, normalized_mode.value)
         if success:
-            self.logger.info(f"设置输出模式: {mode.name}")
+            self.logger.info(f"设置输出模式: {normalized_mode.name}")
         return success
 
     def get_output_mode(self) -> Optional[OutputMode]:
@@ -331,7 +370,7 @@ class GreenLabElectrochemical(UniversalDriver):
             return OutputMode(result[0])
         return None
 
-    def set_alternate_mode(self, mode: AlternateMode,
+    def set_alternate_mode(self, mode: Union[AlternateMode, int, str],
                           low_freq_time: int = 0,
                           high_freq_time: int = 0) -> bool:
         """设置交替模式
@@ -344,22 +383,26 @@ class GreenLabElectrochemical(UniversalDriver):
         Returns:
             成功返回True
         """
-        success = self._write_register(self.REG_ALTERNATE_MODE, mode.value)
+        normalized_mode = self._normalize_alternate_mode(mode)
+        if normalized_mode is None:
+            return False
 
-        if success and mode == AlternateMode.LOW_FREQ_ALTERNATE:
+        success = self._write_register(self.REG_ALTERNATE_MODE, normalized_mode.value)
+
+        if success and normalized_mode == AlternateMode.LOW_FREQ_ALTERNATE:
             if not (1 <= low_freq_time <= 6000):
                 self.logger.warning(f"低频交替时间超出范围: {low_freq_time}")
                 return False
             success = self._write_register(self.REG_LOW_FREQ_TIME, low_freq_time)
 
-        if success and mode == AlternateMode.HIGH_FREQ_ALTERNATE:
+        if success and normalized_mode == AlternateMode.HIGH_FREQ_ALTERNATE:
             if not (5 <= high_freq_time <= 1000):
                 self.logger.warning(f"高频交替时间超出范围: {high_freq_time}")
                 return False
             success = self._write_register(self.REG_HIGH_FREQ_TIME, high_freq_time)
 
         if success:
-            self.logger.info(f"设置交替模式: {mode.name}")
+            self.logger.info(f"设置交替模式: {normalized_mode.name}")
         return success
 
     # ==================== 通道控制 ====================
@@ -528,7 +571,7 @@ class GreenLabElectrochemical(UniversalDriver):
 
     # ==================== 搅拌控制 ====================
 
-    def set_stirrer(self, control: StirrerControl, speed: int = 500) -> bool:
+    def set_stirrer(self, control: Union[StirrerControl, int, str], speed: int = 500) -> bool:
         """设置搅拌电机
 
         Args:
@@ -538,8 +581,12 @@ class GreenLabElectrochemical(UniversalDriver):
         Returns:
             成功返回True
         """
+        normalized_control = self._normalize_stirrer_control(control)
+        if normalized_control is None:
+            return False
+
         # 设置转速
-        if control != StirrerControl.OFF:
+        if normalized_control != StirrerControl.OFF:
             if not (200 <= speed <= 1000):
                 self.logger.error(f"转速超出范围: {speed}rpm")
                 return False
@@ -548,11 +595,11 @@ class GreenLabElectrochemical(UniversalDriver):
                 return False
 
         # 设置控制模式
-        success = self._write_register(self.REG_STIRRER_CONTROL, control.value)
+        success = self._write_register(self.REG_STIRRER_CONTROL, normalized_control.value)
 
         if success:
-            self._stirrer_running = (control != StirrerControl.OFF)
-            self.logger.info(f"搅拌电机: {control.name}, 转速: {speed}rpm")
+            self._stirrer_running = (normalized_control != StirrerControl.OFF)
+            self.logger.info(f"搅拌电机: {normalized_control.name}, 转速: {speed}rpm")
 
         return success
 
@@ -569,34 +616,144 @@ class GreenLabElectrochemical(UniversalDriver):
 
     # ==================== 高级功能 ====================
 
+    def set_reaction_parameters(self,
+                                channel: int,
+                                mode: Union[OutputMode, int, str] = OutputMode.CONSTANT_VOLTAGE,
+                                voltage: float = 0.0,
+                                current: float = 0.0,
+                                stirrer_speed: int = 0,
+                                alternate_mode: Union[AlternateMode, int, str] = AlternateMode.NO_ALTERNATE,
+                                low_freq_time: int = 0,
+                                high_freq_time: int = 0) -> Dict[str, Any]:
+        """设置电化学反应参数，不打开反应通道。
+
+        Args:
+            channel[通道号]: GreenLab 通道号，范围 1-6。
+            mode[输出模式]: 0=恒压，1=恒流，也支持 OutputMode 枚举名。
+            voltage[电压(V)]: 恒压模式下的目标电压，范围 0-30V。
+            current[电流(mA)]: 恒流模式下的目标电流，范围 0-100mA。
+            stirrer_speed[搅拌转速(rpm)]: 0 表示不设置搅拌，非 0 时范围 200-1000rpm。
+            alternate_mode[交替模式]: 0=无交替，1=低频交替，2=高频交替。
+            low_freq_time[低频交替时间(s)]: 低频交替时间，范围 1-6000s。
+            high_freq_time[高频交替时间(ms)]: 高频交替时间，范围 5-1000ms。
+
+        Returns:
+            包含操作结果和已保存参数的字典。
+        """
+        normalized_mode = self._normalize_output_mode(mode)
+        normalized_alternate_mode = self._normalize_alternate_mode(alternate_mode)
+        if normalized_mode is None or normalized_alternate_mode is None:
+            self.success = False
+            self.return_info = "反应参数无效"
+            return {"success": False, "message": self.return_info}
+
+        if not (1 <= channel <= 6):
+            self.success = False
+            self.return_info = f"通道号超出范围: {channel}"
+            return {"success": False, "message": self.return_info}
+
+        if not self.set_output_mode(normalized_mode):
+            self.success = False
+            self.return_info = "设置输出模式失败"
+            return {"success": False, "message": self.return_info}
+
+        if not self.set_alternate_mode(normalized_alternate_mode, low_freq_time, high_freq_time):
+            self.success = False
+            self.return_info = "设置交替模式失败"
+            return {"success": False, "message": self.return_info}
+
+        if normalized_mode == OutputMode.CONSTANT_VOLTAGE:
+            if not self.set_channel_voltage(channel, voltage):
+                self.success = False
+                self.return_info = "设置电压失败"
+                return {"success": False, "message": self.return_info}
+        else:
+            if not self.set_channel_current(channel, current):
+                self.success = False
+                self.return_info = "设置电流失败"
+                return {"success": False, "message": self.return_info}
+
+        if stirrer_speed > 0:
+            if not (200 <= stirrer_speed <= 1000):
+                self.success = False
+                self.return_info = f"转速超出范围: {stirrer_speed}rpm"
+                return {"success": False, "message": self.return_info}
+            if not self._write_register(self.REG_STIRRER_SPEED, stirrer_speed):
+                self.success = False
+                self.return_info = "设置搅拌转速失败"
+                return {"success": False, "message": self.return_info}
+
+        saved_parameters = {
+            "channel": channel,
+            "mode": normalized_mode.name,
+            "mode_value": normalized_mode.value,
+            "voltage": voltage,
+            "current": current,
+            "stirrer_speed": stirrer_speed,
+            "alternate_mode": normalized_alternate_mode.name,
+            "alternate_mode_value": normalized_alternate_mode.value,
+            "low_freq_time": low_freq_time,
+            "high_freq_time": high_freq_time,
+        }
+        self._reaction_parameters[channel] = saved_parameters
+        self.success = True
+        self.return_info = f"通道{channel}反应参数已设置"
+        return {
+            "success": True,
+            "message": self.return_info,
+            "parameters": saved_parameters,
+        }
+
     def start_reaction(self,
                       channel: int,
-                      mode: OutputMode,
-                      voltage: float = 0.0,
-                      current: float = 0.0,
-                      stirrer_speed: int = 0) -> Dict[str, Any]:
+                      mode: Optional[Union[OutputMode, int, str]] = None,
+                      voltage: Optional[float] = None,
+                      current: Optional[float] = None,
+                      stirrer_speed: Optional[int] = None) -> Dict[str, Any]:
         """启动电化学反应
 
         Args:
             channel: 通道号 (1-6)
-            mode: 输出模式 (CONSTANT_VOLTAGE或CONSTANT_CURRENT)
-            voltage: 电压值(V)，恒压模式时使用
-            current: 电流值(mA)，恒流模式时使用
-            stirrer_speed: 搅拌转速(rpm)，0表示不启动搅拌
+            mode: 输出模式 (CONSTANT_VOLTAGE或CONSTANT_CURRENT)，为空时使用已设置参数
+            voltage: 电压值(V)，恒压模式时使用，空值使用已设置参数
+            current: 电流值(mA)，恒流模式时使用，空值使用已设置参数
+            stirrer_speed: 搅拌转速(rpm)，0表示不启动搅拌，空值使用已设置参数
 
         Returns:
             包含操作结果的字典
         """
-        self.logger.info(f"启动通道{channel}反应: 模式={mode.name}, 电压={voltage}V, 电流={current}mA")
+        saved_parameters = self._reaction_parameters.get(channel, {})
+        if mode is None:
+            if not saved_parameters:
+                self.success = False
+                self.return_info = "请先设置反应参数，或在开始反应时传入 mode"
+                return {"success": False, "message": self.return_info}
+            mode = saved_parameters["mode_value"]
+        if voltage is None:
+            voltage = saved_parameters.get("voltage", 0.0)
+        if current is None:
+            current = saved_parameters.get("current", 0.0)
+        if stirrer_speed is None:
+            stirrer_speed = saved_parameters.get("stirrer_speed", 0)
+
+        normalized_mode = self._normalize_output_mode(mode)
+        if normalized_mode is None:
+            self.success = False
+            self.return_info = "输出模式无效"
+            return {"success": False, "message": self.return_info}
+
+        self.logger.info(
+            f"启动通道{channel}反应: 模式={normalized_mode.name}, 电压={voltage}V, 电流={current}mA"
+        )
 
         # 设置输出模式
-        if not self.set_output_mode(mode):
+        if not self.set_output_mode(normalized_mode):
             self.success = False
             self.return_info = "设置输出模式失败"
             return {"success": False, "message": "设置输出模式失败"}
 
         # 设置电压或电流
-        if mode == OutputMode.CONSTANT_VOLTAGE:
+        if normalized_mode == OutputMode.CONSTANT_VOLTAGE:
             if not self.set_channel_voltage(channel, voltage):
                 self.success = False
                 self.return_info = "设置电压失败"
@@ -624,7 +781,7 @@ class GreenLabElectrochemical(UniversalDriver):
             "success": True,
             "message": f"通道{channel}反应已启动",
             "channel": channel,
-            "mode": mode.name,
+            "mode": normalized_mode.name,
             "voltage": voltage,
             "current": current,
             "stirrer_speed": stirrer_speed
@@ -659,6 +816,18 @@ class GreenLabElectrochemical(UniversalDriver):
             "message": f"通道{channel}反应已停止",
             "channel": channel
         }
+
+    def end_reaction(self, channel: int, stop_stirrer: bool = True) -> Dict[str, Any]:
+        """结束电化学反应。
+
+        Args:
+            channel[通道号]: GreenLab 通道号，范围 1-6。
+            stop_stirrer[停止搅拌]: 是否同时停止搅拌。
+
+        Returns:
+            包含操作结果的字典。
+        """
+        return self.stop_reaction(channel=channel, stop_stirrer=stop_stirrer)
 
     def get_channel_status(self, channel: int) -> Dict[str, Any]:
         """获取通道完整状态

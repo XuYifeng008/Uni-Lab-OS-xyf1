@@ -4,6 +4,209 @@
 greenlab_electrochemical:
   class:
     module: unilabos.devices.GreenLab.greenlab_electrochemical:GreenLabElectrochemical
+    status_types:
+      status: str
+      is_connected: bool
+    action_value_mappings:
+      set_reaction_parameters:
+        type: UniLabJsonCommand
+        goal:
+          channel: channel
+          mode: mode
+          voltage: voltage
+          current: current
+          stirrer_speed: stirrer_speed
+          alternate_mode: alternate_mode
+          low_freq_time: low_freq_time
+          high_freq_time: high_freq_time
+        feedback: {}
+        result: {}
+        goal_default:
+          channel: 1
+          mode: 0
+          voltage: 0.0
+          current: 0.0
+          stirrer_speed: 0
+          alternate_mode: 0
+          low_freq_time: 0
+          high_freq_time: 0
+        handles: {}
+        placeholder_keys: {}
+        schema:
+          description: "参数设置：写入指定通道的输出模式、电压/电流、交替模式和搅拌转速，但不打开反应通道"
+          properties:
+            feedback: {}
+            goal:
+              properties:
+                channel:
+                  type: integer
+                  title: "通道号"
+                  description: "GreenLab 通道号，范围 1-6"
+                  minimum: 1
+                  maximum: 6
+                  default: 1
+                mode:
+                  type: integer
+                  title: "输出模式"
+                  description: "0=恒压，1=恒流"
+                  enum: [0, 1]
+                  default: 0
+                voltage:
+                  type: number
+                  title: "电压(V)"
+                  description: "恒压模式下的目标电压，范围 0-30V"
+                  minimum: 0
+                  maximum: 30
+                  default: 0.0
+                current:
+                  type: number
+                  title: "电流(mA)"
+                  description: "恒流模式下的目标电流，范围 0-100mA"
+                  minimum: 0
+                  maximum: 100
+                  default: 0.0
+                stirrer_speed:
+                  type: integer
+                  title: "搅拌转速(rpm)"
+                  description: "0 表示不设置搅拌，非 0 时范围 200-1000rpm"
+                  default: 0
+                alternate_mode:
+                  type: integer
+                  title: "交替模式"
+                  description: "0=无交替，1=低频交替，2=高频交替"
+                  enum: [0, 1, 2]
+                  default: 0
+                low_freq_time:
+                  type: integer
+                  title: "低频交替时间(s)"
+                  description: "低频交替时间，范围 1-6000s"
+                  default: 0
+                high_freq_time:
+                  type: integer
+                  title: "高频交替时间(ms)"
+                  description: "高频交替时间，范围 5-1000ms"
+                  default: 0
+              required:
+                - channel
+              type: object
+            result:
+              type: object
+          required:
+            - goal
+          title: "参数设置"
+          type: object
+      start_reaction:
+        type: UniLabJsonCommand
+        goal:
+          channel: channel
+          mode: mode
+          voltage: voltage
+          current: current
+          stirrer_speed: stirrer_speed
+        feedback: {}
+        result: {}
+        goal_default:
+          channel: 1
+          mode: null
+          voltage: null
+          current: null
+          stirrer_speed: null
+        handles: {}
+        placeholder_keys: {}
+        schema:
+          description: "开始反应：打开指定通道；未传 mode 时使用参数设置节点保存的参数"
+          properties:
+            feedback: {}
+            goal:
+              properties:
+                channel:
+                  type: integer
+                  title: "通道号"
+                  description: "GreenLab 通道号，范围 1-6"
+                  minimum: 1
+                  maximum: 6
+                  default: 1
+                mode:
+                  type:
+                    - integer
+                    - "null"
+                  title: "输出模式"
+                  description: "0=恒压，1=恒流；为空时使用已设置参数"
+                  enum: [0, 1, null]
+                  default: null
+                voltage:
+                  type:
+                    - number
+                    - "null"
+                  title: "电压(V)"
+                  description: "恒压模式下的目标电压；为空时使用已设置参数"
+                  minimum: 0
+                  maximum: 30
+                  default: null
+                current:
+                  type:
+                    - number
+                    - "null"
+                  title: "电流(mA)"
+                  description: "恒流模式下的目标电流；为空时使用已设置参数"
+                  minimum: 0
+                  maximum: 100
+                  default: null
+                stirrer_speed:
+                  type:
+                    - integer
+                    - "null"
+                  title: "搅拌转速(rpm)"
+                  description: "0 表示不启动搅拌；为空时使用已设置参数"
+                  default: null
+              required:
+                - channel
+              type: object
+            result:
+              type: object
+          required:
+            - goal
+          title: "开始反应"
+          type: object
+      end_reaction:
+        type: UniLabJsonCommand
+        goal:
+          channel: channel
+          stop_stirrer: stop_stirrer
+        feedback: {}
+        result: {}
+        goal_default:
+          channel: 1
+          stop_stirrer: true
+        handles: {}
+        placeholder_keys: {}
+        schema:
+          description: "结束反应：关闭指定通道，并可同时停止搅拌"
+          properties:
+            feedback: {}
+            goal:
+              properties:
+                channel:
+                  type: integer
+                  title: "通道号"
+                  description: "GreenLab 通道号，范围 1-6"
+                  minimum: 1
+                  maximum: 6
+                  default: 1
+                stop_stirrer:
+                  type: boolean
+                  title: "停止搅拌"
+                  description: "是否同时停止搅拌"
+                  default: true
+              required:
+                - channel
+              type: object
+            result:
+              type: object
+          required:
+            - goal
+          title: "结束反应"
+          type: object
     type: python
 
   description: "GreenLab 6通道电反应仪，支持恒流/恒压输出、搅拌控制、实时监测"

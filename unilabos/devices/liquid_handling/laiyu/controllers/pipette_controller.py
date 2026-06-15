@@ -155,6 +155,7 @@ class PipetteController:
         self.xyz_baudrate = xyz_baudrate if xyz_baudrate is not None else baudrate
         self.xyz_timeout = xyz_timeout if xyz_timeout is not None else timeout
         self.xyz_connected = False
+        self.xyz_shared_serial = self.xyz_port == self.pipette_port
 
         # 统计信息
         # self.tip_count = 0
@@ -177,8 +178,9 @@ class PipetteController:
                         self.xyz_port,
                         baudrate=self.xyz_baudrate,
                         timeout=self.xyz_timeout,
+                        auto_connect=False,
                     )
-                    if self.xyz_controller.connect():
+                    if self.xyz_controller.connect_device():
                         self.xyz_connected = True
                         logger.info(f"XYZ步进电机控制器连接成功: {self.xyz_port}")
                     else:
@@ -197,10 +199,12 @@ class PipetteController:
                         auto_connect=False,
                     )
                     self.xyz_controller.serial_conn = self.pipette.serial_port
+                    self.xyz_controller.lock = self.pipette.lock
                     self.xyz_controller.is_connected = True
                     self.xyz_connected = True
+                    logger.info(f"XYZ步进电机控制器复用SOPA串口: {self.xyz_port}")
                 except Exception as e:
-                    logger.info("未配置XYZ步进电机端口，跳过运动控制器连接")
+                    logger.warning(f"XYZ步进电机控制器复用SOPA串口失败: {e}")
             
             return True
         except Exception as e:
@@ -215,6 +219,7 @@ class PipetteController:
                 # 检查枪头状态
                 self._update_tip_status()
                 if self.xyz_controller and self.xyz_connected:
+                    self._prepare_xyz_serial_bus()
                     self.xyz_controller.home_all_axes()
                     self.xyz_controller.move_to_work_coord_safe(x=0, y=-150, z=0)
                 else:
@@ -224,6 +229,16 @@ class PipetteController:
         except Exception as e:
             logger.error(f"移液器初始化失败: {e}")
             return False
+
+    def _prepare_xyz_serial_bus(self):
+        """在共享串口上切换到 XYZ Modbus 前，清理 SOPA 可能残留的响应。"""
+        if not self.xyz_shared_serial or not self.xyz_controller:
+            return
+
+        try:
+            self.xyz_controller._drain_input_buffer(quiet_period=0.1, max_wait=1.0)
+        except Exception as e:
+            logger.warning(f"清理共享串口残留数据失败，将继续尝试XYZ通信: {e}")
 
     def disconnect(self):
         """断开连接"""

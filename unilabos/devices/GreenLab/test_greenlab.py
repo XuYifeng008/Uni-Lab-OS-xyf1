@@ -318,8 +318,8 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="GreenLab电反应仪驱动测试")
-    parser.add_argument("--port", default="COM8",
-                       help="串口端口 (默认: COM8)")
+    parser.add_argument("--port", default="COM7",
+                       help="串口端口 (默认: COM7)")
     parser.add_argument("--baudrate", type=int, default=115200,
                        help="串口波特率 (默认: 115200)")
     parser.add_argument("--slave", type=int, default=1,
