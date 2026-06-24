@@ -330,6 +330,60 @@ class SOPAPipette:
 
         return None
 
+    def _extract_response_frames(self, data: bytes) -> List[bytes]:
+        """从接收缓冲中提取所有完整 SOPA 响应帧。"""
+        frames = []
+        offset = 0
+
+        while offset < len(data):
+            frame = self._extract_complete_response(data[offset:])
+            if frame is None:
+                break
+
+            frames.append(frame)
+            frame_start = data.find(frame, offset)
+            if frame_start < 0:
+                break
+            offset = frame_start + len(frame)
+
+        return frames
+
+    def _send_query_frames(self, query: str, quiet_period: float = 0.2) -> List[bytes]:
+        """发送查询命令并读取同一次查询返回的所有响应帧。"""
+        if not self.is_connected or not self.serial_port:
+            raise SOPACommunicationError("设备未连接")
+
+        timeout = self.config.timeout
+        response = b""
+        last_data_time = None
+
+        with self.lock:
+            try:
+                self.serial_port.reset_input_buffer()
+            except Exception as e:
+                logger.debug(f"清空输入缓冲区失败，将继续查询: {e}")
+
+            self._send_command(query)
+            start_time = time.time()
+
+            while time.time() - start_time < timeout:
+                if self.serial_port.in_waiting > 0:
+                    chunk = self.serial_port.read(self.serial_port.in_waiting)
+                    response += chunk
+                    last_data_time = time.time()
+                elif last_data_time is not None and time.time() - last_data_time >= quiet_period:
+                    break
+                time.sleep(0.01)
+
+        frames = self._extract_response_frames(response)
+        if response:
+            logger.debug(
+                "收到查询响应: frames=%s hex=%s",
+                len(frames),
+                " ".join(f"{b:02X}" for b in response),
+            )
+        return frames
+
     def _send_query(self, query: str) -> Optional[str]:
         """
         发送查询命令并获取响应
@@ -434,24 +488,25 @@ class SOPAPipette:
             bool: True表示有枪头，False表示无枪头
         """
         try:
-            response = self._send_query("Q28")
-            if response:
-                # 兼容旧格式 T1/T0，以及文档中的 1/0（1=存在，0=不存在）。
-                if "T1" in response:
+            frames = self._send_query_frames("Q28E")
+            for frame in reversed(frames):
+                payload = frame[2:-2]
+                if b"T1" in payload:
                     self._tip_present = True
                     return True
-                if "T0" in response:
+                if b"T0" in payload:
                     self._tip_present = False
                     return False
 
-                printable_response = "".join(ch for ch in response if ch.isprintable())
-                status_chars = [ch for ch in printable_response if ch in ("0", "1")]
-                if status_chars:
-                    self._tip_present = status_chars[-1] == "1"
+                status_bytes = [b for b in payload if b in (ord("0"), ord("1"))]
+                if status_bytes:
+                    self._tip_present = status_bytes[-1] == ord("1")
                     return self._tip_present
 
-                logger.error(f"获取枪头状态失败: {response}")
-                return False
+            logger.error(
+                "获取枪头状态失败: %s",
+                [" ".join(f"{b:02X}" for b in frame) for frame in frames],
+            )
         except Exception as e:
             logger.error(f"获取枪头状态失败: {str(e)}")
 
@@ -525,7 +580,7 @@ class SOPAPipette:
             self._send_command(command)
 
             # 等待操作完成
-            time.sleep(max(1.0, vol_int / 100.0))
+            time.sleep(max(1.0, vol_int / 100.0)) # 100ul/s
 
             # 检查状态
             status = self.get_status()
