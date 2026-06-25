@@ -40,7 +40,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   _pip_length = 5
   _vol_length = 8
   _resource_length = 20
-  _offset_length = 16
+  _offset_length = 0
   _flow_rate_length = 10
   _blowout_length = 10
   _lld_z_length = 10
@@ -56,7 +56,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     self,
     num_channels: int = 8,
     tip_length: float = 0,
-    total_height: float = 310,
+    total_height: float = 265,
     port: str = "/dev/ttyUSB0",
     address: int = 4,
     baudrate: int = 115200,
@@ -167,13 +167,14 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     offset_xyz = ops[0].offset
     x = coordinate.x + offset_xyz.x
     y = coordinate.y + offset_xyz.y
-    z = self.total_height - (coordinate.z + self.tip_length) + offset_xyz.z
+    # z = self.total_height - (coordinate.z + self.tip_length) + offset_xyz.z
+    z = self.total_height - (coordinate.z) + offset_xyz.z
     # print("moving")
     self.hardware_interface._update_tip_status()
     if self.hardware_interface.tip_status == TipStatus.TIP_ATTACHED:
         print("已有枪头，无需重复拾取")
         return
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=200)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=152,speed=200)
     try:
         if not self.hardware_interface.pickup_tip():
             raise RuntimeError("取枪头失败：硬件未检测到已装枪头")

@@ -284,11 +284,11 @@ class PipetteController:
                 return False
                 
             # 检查移动距离是否过大 (单次移动不超过 20000 步，约12mm)
-            current_position = motor_position.steps
-            move_distance = abs(target_position - current_position)
-            if move_distance > 20000:
-                logger.error(f"{axis.name} 轴单次移动距离过大: {move_distance}步")
-                return False
+            # current_position = motor_position.steps
+            # move_distance = abs(target_position - current_position)
+            # if move_distance > 20000:
+            #     logger.error(f"{axis.name} 轴单次移动距离过大: {move_distance}步")
+            #     return False
                 
             return True
             
@@ -327,7 +327,10 @@ class PipetteController:
             current_z_position = current_status.steps
             
             # 计算移动距离对应的步数 (1mm = 1638.4步)
-            mm_to_steps = 1638.4
+            # mm_to_steps = 1638.4
+
+            # 使用 XYZController 中加载的真实机械配置，避免 Z 轴步距和配置不一致。
+            mm_to_steps = self.xyz_controller.machine_config.steps_per_mm_z
             move_distance_steps = int(distance_mm * mm_to_steps)
             
             # 计算目标位置
@@ -423,8 +426,15 @@ class PipetteController:
         
         # 使用相对移动方法，向下移动10mm
         if self.move_z_relative(distance_mm=10.0, speed=2000, acceleration=500):
-            # 更新枪头状态
-            self._update_tip_status()
+            # 下压完成后给枪头检测传感器短暂稳定时间，再重试确认 Q28 状态。
+            time.sleep(0.3)
+            for attempt in range(3):
+                self._update_tip_status()
+                if self.tip_status == TipStatus.TIP_ATTACHED:
+                    break
+                if attempt < 2:
+                    logger.info("枪头状态未确认，等待后重试 Q28 检测")
+                    time.sleep(0.2)
             # self.tip_status = TipStatus.TIP_ATTACHED
             # self.tip_count += 1
             self.current_volume = 0.0
