@@ -583,6 +583,13 @@ class XYZController(XYZStepperController):
         Returns:
             bool: 移动是否成功
         """
+        # 共享串口时，整段 XYZ 运动期间持有总线锁，避免 SOPA 查询帧插入 Modbus 响应。
+        with self.lock:
+            return self._move_to_work_coord_safe_unlocked(x, y, z, speed, acceleration)
+
+    def _move_to_work_coord_safe_unlocked(self, x: float = None, y: float = None, z: float = None,
+                                          speed: float = None, acceleration: int = None) -> bool:
+        """执行安全移动；调用方需负责串口总线锁。"""
         if not self.is_connected:
             logger.error("设备未连接，无法执行移动操作")
             return False
@@ -612,7 +619,7 @@ class XYZController(XYZStepperController):
                 logger.info(f"Z轴上升到安全高度: {self.machine_config.safe_z_height} mm")
                 
                 # 等待Z轴移动完成
-                self.wait_for_completion(MotorAxis.Z, 10.0)
+                self.wait_for_completion(MotorAxis.Z, 30.0)
             
             # 步骤2: XY轴移动到目标位置
             if x is not None:
@@ -640,8 +647,10 @@ class XYZController(XYZStepperController):
                 if not self.move_to_position(MotorAxis.Z, machine_steps['z'], self.ms_to_rpm(MotorAxis.Z, speed), acceleration):
                     logger.error("Z轴下降到目标位置失败")
                     return False
-            logger.info(f"Z轴下降到目标位置: {z} mm")
-            self.wait_for_completion(MotorAxis.Z, 10.0)
+                logger.info(f"Z轴下降到目标位置: {z} mm")
+                if not self.wait_for_completion(MotorAxis.Z, 30.0):
+                    logger.error(f"Z轴下降到目标位置超时: {z} mm")
+                    return False
             
             logger.info(f"安全移动到工作坐标 X:{x} Y:{y} Z:{z} (mm) 完成")
             return True

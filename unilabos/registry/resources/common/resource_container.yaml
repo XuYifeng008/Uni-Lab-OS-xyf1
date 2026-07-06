@@ -98,6 +98,7 @@ tiprack_96_high:
 tiprack_box:
   category:
   - resource_container
+  - consumable
   class:
     module: unilabos.devices.resource_container.container:TipRackContainer
     type: python

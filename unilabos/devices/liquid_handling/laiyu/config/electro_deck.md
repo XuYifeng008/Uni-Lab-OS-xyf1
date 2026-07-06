@@ -124,7 +124,7 @@ deck：
 
 - 孔位H12坐标：99.0 / 0 / 0 mm
 
-\- 单孔 diameter/depth/volume：9 mm / 113 mm / 1000 uL
+\- 单孔 diameter/depth/volume：9 mm / 116 mm / 1000 uL
 
 \- description：标准96孔枪头盒
 

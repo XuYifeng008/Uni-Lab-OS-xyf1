@@ -18,6 +18,8 @@ from enum import Enum, IntEnum
 from dataclasses import dataclass
 from contextlib import contextmanager
 
+from unilabos.devices.liquid_handling.laiyu.drivers.rs485_bus import RS485Bus, get_rs485_bus
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -135,6 +137,7 @@ class SOPAPipette:
         self.is_connected = False
         self.is_initialized = False
         self.lock = threading.RLock()
+        self._serial_bus: Optional[RS485Bus] = None
 
         # 状态缓存
         self._last_status = SOPAStatusCode.NOT_INITIALIZED
@@ -149,14 +152,17 @@ class SOPAPipette:
             bool: 连接是否成功
         """
         try:
-            self.serial_port = serial.Serial(
-                port=self.config.port,
-                baudrate=self.config.baudrate,
+            self._serial_bus = get_rs485_bus(
+                self.config.port,
+                self.config.baudrate,
+                self.config.timeout,
+            )
+            self.serial_port = self._serial_bus.open(
                 bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
                 stopbits=serial.STOPBITS_ONE,
-                timeout=self.config.timeout
             )
+            self.lock = self._serial_bus.lock
 
             if self.serial_port.is_open:
                 self.is_connected = True
@@ -178,7 +184,11 @@ class SOPAPipette:
 
     def disconnect(self):
         """断开连接"""
-        if self.serial_port and self.serial_port.is_open:
+        if self._serial_bus:
+            self._serial_bus.release()
+            self._serial_bus = None
+            self.serial_port = None
+        elif self.serial_port and self.serial_port.is_open:
             self.serial_port.close()
         self.is_connected = False
         self.is_initialized = False
@@ -216,7 +226,47 @@ class SOPAPipette:
         # 返回完整命令：基础命令字节 + 校验和字节
         return cmd_bytes + bytes([checksum])
 
-    def _send_command(self, command: str) -> bool:
+    def _write_command_locked(self, command: str) -> bool:
+        """写入一条 SOPA 命令；调用方必须已经持有总线锁。"""
+        assert self.serial_port is not None
+
+        full_command_bytes = self._build_command(command)
+        # 转换为可读字符串用于日志显示
+        readable_cmd = ''.join(chr(b) if 32 <= b <= 126 else f'\\x{b:02X}' for b in full_command_bytes)
+        logger.debug(f"发送命令: {readable_cmd}")
+
+        self.serial_port.write(full_command_bytes)
+        self.serial_port.flush()
+
+        time.sleep(0.1)
+        return True
+
+    def _drain_response_until_quiet_locked(self, quiet_period: float = 0.05, max_wait: float = 0.3) -> bytes:
+        """读取并丢弃命令后的即时响应，避免残留数据污染下一次 Modbus 事务。"""
+        assert self.serial_port is not None
+
+        drained = b""
+        deadline = time.time() + max_wait
+        quiet_deadline = time.time() + quiet_period
+
+        while time.time() < deadline:
+            waiting = self.serial_port.in_waiting
+            if waiting:
+                drained += self.serial_port.read(waiting)
+                quiet_deadline = time.time() + quiet_period
+                continue
+
+            if time.time() >= quiet_deadline:
+                break
+
+            time.sleep(0.01)
+
+        if drained:
+            logger.debug("丢弃SOPA即时响应: %s", " ".join(f"{b:02X}" for b in drained))
+
+        return drained
+
+    def _send_command(self, command: str, drain_response: bool = True) -> bool:
         """
         发送命令到移液器
 
@@ -231,15 +281,9 @@ class SOPAPipette:
 
         with self.lock:
             try:
-                full_command_bytes = self._build_command(command)
-                # 转换为可读字符串用于日志显示
-                readable_cmd = ''.join(chr(b) if 32 <= b <= 126 else f'\\x{b:02X}' for b in full_command_bytes)
-                logger.debug(f"发送命令: {readable_cmd}")
-
-                self.serial_port.write(full_command_bytes)
-                self.serial_port.flush()
-
-                time.sleep(0.1)
+                self._write_command_locked(command)
+                if drain_response:
+                    self._drain_response_until_quiet_locked()
                 return True
 
             except Exception as e:
@@ -363,7 +407,7 @@ class SOPAPipette:
             except Exception as e:
                 logger.debug(f"清空输入缓冲区失败，将继续查询: {e}")
 
-            self._send_command(query)
+            self._write_command_locked(query)
             start_time = time.time()
 
             while time.time() - start_time < timeout:
@@ -396,7 +440,7 @@ class SOPAPipette:
         """
         try:
             with self.lock:
-                self._send_command(query)
+                self._write_command_locked(query)
                 return self._read_response()
         except Exception as e:
             logger.error(f"查询失败: {str(e)}")
@@ -412,26 +456,27 @@ class SOPAPipette:
             bool: 初始化是否成功
         """
         try:
-            logger.info("初始化SOPA移液器...")
+            with self.lock:
+                logger.info("初始化SOPA移液器...")
 
-            # 发送初始化命令
-            self._send_command("HE")
+                # 发送初始化命令
+                self._send_command("HE")
 
-            # 等待初始化完成
-            time.sleep(2.0)
+                # 等待初始化完成
+                time.sleep(2.0)
 
-            # 检查状态
-            status = self.get_status()
-            if status == SOPAStatusCode.NO_ERROR:
-                self.is_initialized = True
-                logger.info("移液器初始化成功")
+                # 检查状态
+                status = self.get_status()
+                if status == SOPAStatusCode.NO_ERROR:
+                    self.is_initialized = True
+                    logger.info("移液器初始化成功")
 
-                # 应用配置参数
-                self._apply_configuration()
-                return True
-            else:
-                logger.error(f"初始化失败，状态码: {status}")
-                return False
+                    # 应用配置参数
+                    self._apply_configuration()
+                    return True
+                else:
+                    logger.error(f"初始化失败，状态码: {status}")
+                    return False
 
         except Exception as e:
             logger.error(f"初始化异常: {str(e)}")
@@ -472,9 +517,10 @@ class SOPAPipette:
             bool: 操作是否成功
         """
         try:
-            logger.info("顶出枪头")
-            self._send_command("RE")
-            time.sleep(1.0)
+            with self.lock:
+                logger.info("顶出枪头")
+                self._send_command("RE")
+                time.sleep(1.0)
             return True
         except Exception as e:
             logger.error(f"顶出枪头失败: {str(e)}")
@@ -525,16 +571,17 @@ class SOPAPipette:
             bool: 移动是否成功
         """
         try:
-            if not self.is_initialized:
-                raise SOPADeviceError("设备未初始化")
+            with self.lock:
+                if not self.is_initialized:
+                    raise SOPADeviceError("设备未初始化")
 
-            pos_int = int(position)
-            logger.debug(f"绝对移动到位置: {pos_int}ul")
+                pos_int = int(position)
+                logger.debug(f"绝对移动到位置: {pos_int}ul")
 
-            self._send_command(f"A{pos_int}E")
-            time.sleep(0.5)
+                self._send_command(f"A{pos_int}E")
+                time.sleep(0.5)
 
-            self._current_position = pos_int
+                self._current_position = pos_int
             return True
 
         except Exception as e:
@@ -553,50 +600,51 @@ class SOPAPipette:
             bool: 抽吸是否成功
         """
         try:
-            if not self.is_initialized:
-                raise SOPADeviceError("设备未初始化")
+            with self.lock:
+                if not self.is_initialized:
+                    raise SOPADeviceError("设备未初始化")
 
-            vol_int = int(volume)
-            logger.info(f"抽吸液体: {vol_int}ul, 检测: {detection}")
+                vol_int = int(volume)
+                logger.info(f"抽吸液体: {vol_int}ul, 检测: {detection}")
 
-            # 构建命令
-            cmd_parts = []
-            cmd_parts.append(f"a{self.config.acceleration}")
-            cmd_parts.append(f"b{self.config.start_speed}")
-            cmd_parts.append(f"c{self.config.cutoff_speed}")
-            cmd_parts.append(f"s{self.config.max_speed}")
+                # 构建命令
+                cmd_parts = []
+                cmd_parts.append(f"a{self.config.acceleration}")
+                cmd_parts.append(f"b{self.config.start_speed}")
+                cmd_parts.append(f"c{self.config.cutoff_speed}")
+                cmd_parts.append(f"s{self.config.max_speed}")
 
-            if detection:
-                cmd_parts.append("f1")  # 开启检测
+                if detection:
+                    cmd_parts.append("f1")  # 开启检测
 
-            cmd_parts.append(f"P{vol_int}")
+                cmd_parts.append(f"P{vol_int}")
 
-            if detection:
-                cmd_parts.append("f0")  # 关闭检测
+                if detection:
+                    cmd_parts.append("f0")  # 关闭检测
 
-            cmd_parts.append("E")
+                cmd_parts.append("E")
 
-            command = "".join(cmd_parts)
-            self._send_command(command)
+                command = "".join(cmd_parts)
+                self._send_command(command)
 
-            # 等待操作完成
-            time.sleep(max(1.0, vol_int / 100.0)) # 100ul/s
+                # 等待操作完成
+                time.sleep(max(1.0, vol_int / 100.0)) # 100ul/s
 
-            # 检查状态
-            status = self.get_status()
-            if status == SOPAStatusCode.NO_ERROR:
-                self._current_position += vol_int
-                logger.info(f"抽吸成功: {vol_int}ul")
-                return True
-            elif status == SOPAStatusCode.AIR_ASPIRATE:
-                logger.warning("检测到空吸")
-                return False
-            elif status == SOPAStatusCode.NEEDLE_BLOCK:
-                logger.error("检测到堵针")
-                return False
-            else:
-                logger.error(f"抽吸失败，状态码: {status}")
-                return False
+                # 检查状态
+                status = self.get_status()
+                if status == SOPAStatusCode.NO_ERROR:
+                    self._current_position += vol_int
+                    logger.info(f"抽吸成功: {vol_int}ul")
+                    return True
+                elif status == SOPAStatusCode.AIR_ASPIRATE:
+                    logger.warning("检测到空吸")
+                    return False
+                elif status == SOPAStatusCode.NEEDLE_BLOCK:
+                    logger.error("检测到堵针")
+                    return False
+                else:
+                    logger.error(f"抽吸失败，状态码: {status}")
+                    return False
 
         except Exception as e:
             logger.error(f"抽吸失败: {str(e)}")
@@ -614,44 +662,45 @@ class SOPAPipette:
             bool: 分配是否成功
         """
         try:
-            if not self.is_initialized:
-                raise SOPADeviceError("设备未初始化")
+            with self.lock:
+                if not self.is_initialized:
+                    raise SOPADeviceError("设备未初始化")
 
-            vol_int = int(volume)
-            logger.info(f"分配液体: {vol_int}ul, 检测: {detection}")
+                vol_int = int(volume)
+                logger.info(f"分配液体: {vol_int}ul, 检测: {detection}")
 
-            # 构建命令
-            cmd_parts = []
-            cmd_parts.append(f"a{self.config.acceleration}")
-            cmd_parts.append(f"b{self.config.start_speed}")
-            cmd_parts.append(f"c{self.config.cutoff_speed}")
-            cmd_parts.append(f"s{self.config.max_speed}")
+                # 构建命令
+                cmd_parts = []
+                cmd_parts.append(f"a{self.config.acceleration}")
+                cmd_parts.append(f"b{self.config.start_speed}")
+                cmd_parts.append(f"c{self.config.cutoff_speed}")
+                cmd_parts.append(f"s{self.config.max_speed}")
 
-            if detection:
-                cmd_parts.append("f1")  # 开启检测
+                if detection:
+                    cmd_parts.append("f1")  # 开启检测
 
-            cmd_parts.append(f"D{vol_int}")
+                cmd_parts.append(f"D{vol_int}")
 
-            if detection:
-                cmd_parts.append("f0")  # 关闭检测
+                if detection:
+                    cmd_parts.append("f0")  # 关闭检测
 
-            cmd_parts.append("E")
+                cmd_parts.append("E")
 
-            command = "".join(cmd_parts)
-            self._send_command(command)
+                command = "".join(cmd_parts)
+                self._send_command(command)
 
-            # 等待操作完成
-            time.sleep(max(1.0, vol_int / 200.0))
+                # 等待操作完成
+                time.sleep(max(1.0, vol_int / 200.0))
 
-            # 检查状态
-            status = self.get_status()
-            if status == SOPAStatusCode.NO_ERROR:
-                self._current_position -= vol_int
-                logger.info(f"分配成功: {vol_int}ul")
-                return True
-            else:
-                logger.error(f"分配失败，状态码: {status}")
-                return False
+                # 检查状态
+                status = self.get_status()
+                if status == SOPAStatusCode.NO_ERROR:
+                    self._current_position -= vol_int
+                    logger.info(f"分配成功: {vol_int}ul")
+                    return True
+                else:
+                    logger.error(f"分配失败，状态码: {status}")
+                    return False
 
         except Exception as e:
             logger.error(f"分配失败: {str(e)}")
@@ -670,34 +719,35 @@ class SOPAPipette:
             bool: 检测是否成功
         """
         try:
-            if not self.is_initialized:
-                raise SOPADeviceError("设备未初始化")
+            with self.lock:
+                if not self.is_initialized:
+                    raise SOPADeviceError("设备未初始化")
 
-            sens = sensitivity or self.config.lld_sensitivity
+                sens = sensitivity or self.config.lld_sensitivity
 
-            if self.config.detection_mode == DetectionMode.PRESSURE:
-                # 压力式液面检测
-                command = f"m0k{self.config.lld_speed}L{sens}E"
-            else:
-                # 电容式液面检测
-                command = f"m1L{sens}E"
+                if self.config.detection_mode == DetectionMode.PRESSURE:
+                    # 压力式液面检测
+                    command = f"m0k{self.config.lld_speed}L{sens}E"
+                else:
+                    # 电容式液面检测
+                    command = f"m1L{sens}E"
 
-            logger.info(f"执行液位检测, 模式: {self.config.detection_mode.name}, 灵敏度: {sens}")
+                logger.info(f"执行液位检测, 模式: {self.config.detection_mode.name}, 灵敏度: {sens}")
 
-            self._send_command(command)
-            time.sleep(2.0)
+                self._send_command(command)
+                time.sleep(2.0)
 
-            # 检查检测结果
-            status = self.get_status()
-            if status == SOPAStatusCode.NO_ERROR:
-                logger.info("液位检测成功")
-                return True
-            elif status == SOPAStatusCode.LLD_FAULT:
-                logger.error("液位检测故障")
-                return False
-            else:
-                logger.warning(f"液位检测异常，状态码: {status}")
-                return False
+                # 检查检测结果
+                status = self.get_status()
+                if status == SOPAStatusCode.NO_ERROR:
+                    logger.info("液位检测成功")
+                    return True
+                elif status == SOPAStatusCode.LLD_FAULT:
+                    logger.error("液位检测故障")
+                    return False
+                else:
+                    logger.warning(f"液位检测异常，状态码: {status}")
+                    return False
 
         except Exception as e:
             logger.error(f"液位检测失败: {str(e)}")
@@ -865,58 +915,57 @@ class SOPAPipette:
             Optional[str]: 固件版本字符串，获取失败返回None
         """
         try:
-            if not self.is_connected:
-                logger.debug("设备未连接，无法查询版本")
-                return "设备未连接"
+            with self.lock:
+                if not self.is_connected or not self.serial_port:
+                    logger.debug("设备未连接，无法查询版本")
+                    return "设备未连接"
 
-            # 清空串口缓冲区，避免残留数据干扰
-            if self.serial_port and self.serial_port.in_waiting > 0:
-                logger.debug(f"清空缓冲区中的 {self.serial_port.in_waiting} 字节数据")
-                self.serial_port.reset_input_buffer()
-
-            # 发送版本查询命令 - 使用VE命令
-            command = self._build_command("VE")
-            logger.debug(f"发送版本查询命令: {command}")
-            self.serial_port.write(command)
-            
-            # 等待响应
-            time.sleep(0.3)  # 增加等待时间
-            
-            # 读取所有可用数据
-            all_data = b''
-            timeout_count = 0
-            max_timeout = 15  # 增加最大等待时间到1.5秒
-            
-            while timeout_count < max_timeout:
+                # 清空串口缓冲区，避免残留数据干扰
                 if self.serial_port.in_waiting > 0:
-                    data = self.serial_port.read(self.serial_port.in_waiting)
-                    all_data += data
-                    logger.debug(f"接收到 {len(data)} 字节数据: {data.hex().upper()}")
-                    timeout_count = 0  # 重置超时计数
-                else:
-                    time.sleep(0.1)
-                    timeout_count += 1
-                    
-                # 检查是否收到完整的双响应帧
-                if len(all_data) >= 26:  # 两个13字节的响应帧
-                    logger.debug("收到完整的双响应帧")
-                    break
-                elif len(all_data) >= 13:  # 至少一个响应帧
-                    # 继续等待一段时间看是否有第二个帧
-                    if timeout_count > 5:  # 等待0.5秒后如果没有更多数据就停止
-                        logger.debug("只收到单响应帧")
+                    logger.debug(f"清空缓冲区中的 {self.serial_port.in_waiting} 字节数据")
+                    self.serial_port.reset_input_buffer()
+
+                # 发送版本查询命令 - 使用VE命令
+                self._write_command_locked("VE")
+
+                # 等待响应
+                time.sleep(0.3)  # 增加等待时间
+
+                # 读取所有可用数据
+                all_data = b''
+                timeout_count = 0
+                max_timeout = 15  # 增加最大等待时间到1.5秒
+
+                while timeout_count < max_timeout:
+                    if self.serial_port.in_waiting > 0:
+                        data = self.serial_port.read(self.serial_port.in_waiting)
+                        all_data += data
+                        logger.debug(f"接收到 {len(data)} 字节数据: {data.hex().upper()}")
+                        timeout_count = 0  # 重置超时计数
+                    else:
+                        time.sleep(0.1)
+                        timeout_count += 1
+
+                    # 检查是否收到完整的双响应帧
+                    if len(all_data) >= 26:  # 两个13字节的响应帧
+                        logger.debug("收到完整的双响应帧")
                         break
-            
-            logger.debug(f"总共接收到 {len(all_data)} 字节数据: {all_data.hex().upper()}")
-            
-            if len(all_data) < 13:
-                logger.warning("接收到的数据不足一个完整响应帧")
-                return "版本信息不可用"
-            
-            # 解析响应数据
-            version_info = self._parse_version_response(all_data)
-            logger.info(f"解析得到版本信息: {version_info}")
-            return version_info
+                    elif len(all_data) >= 13:  # 至少一个响应帧
+                        # 继续等待一段时间看是否有第二个帧
+                        if timeout_count > 5:  # 等待0.5秒后如果没有更多数据就停止
+                            logger.debug("只收到单响应帧")
+                            break
+
+                logger.debug(f"总共接收到 {len(all_data)} 字节数据: {all_data.hex().upper()}")
+
+                if len(all_data) < 13:
+                    logger.warning("接收到的数据不足一个完整响应帧")
+                    return "版本信息不可用"
+
+                # 解析响应数据
+                version_info = self._parse_version_response(all_data)
+                logger.info(f"解析得到版本信息: {version_info}")
+                return version_info
 
         except Exception as e:
             logger.error(f"获取固件版本失败: {str(e)}")
@@ -1139,10 +1188,12 @@ class SOPAPipette:
     def emergency_stop(self):
         """紧急停止"""
         try:
-            if self.serial_port and self.serial_port.is_open:
-                # 发送停止命令（如果协议支持）
-                self.serial_port.write(b'\x03')  # Ctrl+C
-                logger.warning("执行紧急停止")
+            with self.lock:
+                if self.serial_port and self.serial_port.is_open:
+                    # 发送停止命令（如果协议支持）
+                    self.serial_port.write(b'\x03')  # Ctrl+C
+                    self.serial_port.flush()
+                    logger.warning("执行紧急停止")
         except Exception as e:
             logger.error(f"紧急停止失败: {str(e)}")
 

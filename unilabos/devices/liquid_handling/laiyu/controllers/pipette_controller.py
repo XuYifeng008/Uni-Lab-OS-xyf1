@@ -22,6 +22,7 @@ sys.path.insert(0, project_root)
 
 import time
 import logging
+from contextlib import nullcontext
 from typing import Optional, List, Dict, Tuple
 from dataclasses import dataclass
 from enum import Enum
@@ -171,40 +172,25 @@ class PipetteController:
                 return False
             logger.info("移液器连接成功")
             
-            # 连接XYZ步进电机控制器（如果提供了端口）
-            if self.xyz_port != self.pipette_port:
-                try:
-                    self.xyz_controller = XYZController(
-                        self.xyz_port,
-                        baudrate=self.xyz_baudrate,
-                        timeout=self.xyz_timeout,
-                        auto_connect=False,
-                    )
-                    if self.xyz_controller.connect_device():
-                        self.xyz_connected = True
-                        logger.info(f"XYZ步进电机控制器连接成功: {self.xyz_port}")
-                    else:
-                        logger.warning(f"XYZ步进电机控制器连接失败: {self.xyz_port}")
-                        self.xyz_controller = None
-                except Exception as e:
-                    logger.warning(f"XYZ步进电机控制器连接异常: {e}")
+            # 连接XYZ步进电机控制器（同端口时由底层 RS485Bus 复用同一串口和锁）
+            try:
+                self.xyz_controller = XYZController(
+                    self.xyz_port,
+                    baudrate=self.xyz_baudrate,
+                    timeout=self.xyz_timeout,
+                    auto_connect=False,
+                )
+                if self.xyz_controller.connect_device():
+                    self.xyz_connected = True
+                    logger.info(f"XYZ步进电机控制器连接成功: {self.xyz_port}")
+                else:
+                    logger.warning(f"XYZ步进电机控制器连接失败: {self.xyz_port}")
                     self.xyz_controller = None
                     self.xyz_connected = False
-            else:
-                try:
-                    self.xyz_controller = XYZController(
-                        self.xyz_port,
-                        baudrate=self.xyz_baudrate,
-                        timeout=self.xyz_timeout,
-                        auto_connect=False,
-                    )
-                    self.xyz_controller.serial_conn = self.pipette.serial_port
-                    self.xyz_controller.lock = self.pipette.lock
-                    self.xyz_controller.is_connected = True
-                    self.xyz_connected = True
-                    logger.info(f"XYZ步进电机控制器复用SOPA串口: {self.xyz_port}")
-                except Exception as e:
-                    logger.warning(f"XYZ步进电机控制器复用SOPA串口失败: {e}")
+            except Exception as e:
+                logger.warning(f"XYZ步进电机控制器连接异常: {e}")
+                self.xyz_controller = None
+                self.xyz_connected = False
             
             return True
         except Exception as e:
@@ -236,7 +222,7 @@ class PipetteController:
             return
 
         try:
-            self.xyz_controller._drain_input_buffer(quiet_period=0.1, max_wait=1.0)
+            self.xyz_controller._drain_input_buffer(quiet_period=0.3, max_wait=2.0)
         except Exception as e:
             logger.warning(f"清理共享串口残留数据失败，将继续尝试XYZ通信: {e}")
 
@@ -277,10 +263,22 @@ class PipetteController:
                 logger.error(f"{axis.name} 轴电机处于错误状态: {motor_position.status.name}")
                 return False
                 
-            # 检查位置限制 (扩大安全范围以适应实际硬件)
-            # 步进电机的位置范围通常很大，这里设置更合理的范围
-            if target_position < -500000 or target_position > 500000:
-                logger.error(f"{axis.name} 轴目标位置超出安全范围: {target_position}")
+            axis_name = axis.name.lower()
+            max_travel_mm = getattr(self.xyz_controller.machine_config, f"max_travel_{axis_name}")
+            min_travel_mm = min(0.0, -self.xyz_controller.machine_config.safe_clearance)
+            origin_steps = (
+                self.xyz_controller.coordinate_origin.machine_origin_steps[axis_name]
+                + self.xyz_controller.coordinate_origin.work_origin_steps[axis_name]
+            )
+            min_position = origin_steps + self.xyz_controller.mm_to_steps(axis, min_travel_mm)
+            max_position = origin_steps + self.xyz_controller.mm_to_steps(axis, max_travel_mm)
+            lower_limit, upper_limit = sorted((min_position, max_position))
+
+            if target_position < lower_limit or target_position > upper_limit:
+                logger.error(
+                    f"{axis.name} 轴目标位置超出安全范围: {target_position} "
+                    f"(允许 {lower_limit} ~ {upper_limit} 步, 行程 {min_travel_mm} ~ {max_travel_mm} mm)"
+                )
                 return False
                 
             # 检查移动距离是否过大 (单次移动不超过 20000 步，约12mm)
@@ -312,74 +310,81 @@ class PipetteController:
             logger.error("XYZ 步进电机未连接，无法执行移动")
             return False
             
-        try:
-            # 参数验证
-            if abs(distance_mm) > 15.0:
-                logger.error(f"移动距离过大: {distance_mm}mm，最大允许15mm")
-                return False
-                
-            if speed < 100 or speed > 5000:
-                logger.error(f"速度参数无效: {speed}rpm，范围应为100-5000")
-                return False
-                
-            # 获取当前 Z 轴位置
-            current_status = self.xyz_controller.get_motor_status(MotorAxis.Z)
-            current_z_position = current_status.steps
-            
-            # 计算移动距离对应的步数 (1mm = 1638.4步)
-            # mm_to_steps = 1638.4
+        motion_guard = (
+            self.xyz_controller.lock
+            if self.xyz_shared_serial and self.xyz_controller
+            else nullcontext()
+        )
 
-            # 使用 XYZController 中加载的真实机械配置，避免 Z 轴步距和配置不一致。
-            mm_to_steps = self.xyz_controller.machine_config.steps_per_mm_z
-            move_distance_steps = int(distance_mm * mm_to_steps)
-            
-            # 计算目标位置
-            target_z_position = current_z_position + move_distance_steps
-            
-            # 安全检查
-            if not self._check_xyz_safety(MotorAxis.Z, target_z_position):
-                logger.error("Z轴移动安全检查失败")
-                return False
-            
-            logger.info(f"Z轴相对移动: {distance_mm}mm ({move_distance_steps}步)")
-            logger.info(f"当前位置: {current_z_position}步 -> 目标位置: {target_z_position}步")
-            
-            # 执行移动
-            success = self.xyz_controller.move_to_position(
-                axis=MotorAxis.Z,
-                position=target_z_position,
-                speed=speed,
-                acceleration=acceleration,
-                precision=50
-            )
-            
-            if not success:
-                logger.error("Z轴移动命令发送失败")
-                return False
+        with motion_guard:
+            try:
+                # 参数验证
+                if abs(distance_mm) > 15.0:
+                    logger.error(f"移动距离过大: {distance_mm}mm，最大允许15mm")
+                    return False
+                    
+                if speed < 100 or speed > 5000:
+                    logger.error(f"速度参数无效: {speed}rpm，范围应为100-5000")
+                    return False
+                    
+                # 获取当前 Z 轴位置
+                current_status = self.xyz_controller.get_motor_status(MotorAxis.Z)
+                current_z_position = current_status.steps
                 
-            # 等待移动完成
-            if not self.xyz_controller.wait_for_completion(MotorAxis.Z, timeout=10.0):
-                logger.error("Z轴移动超时")
+                # 计算移动距离对应的步数 (1mm = 1638.4步)
+                # mm_to_steps = 1638.4
+
+                # 使用 XYZController 中加载的真实机械配置，避免 Z 轴步距和配置不一致。
+                mm_to_steps = self.xyz_controller.machine_config.steps_per_mm_z
+                move_distance_steps = int(distance_mm * mm_to_steps)
+                
+                # 计算目标位置
+                target_z_position = current_z_position + move_distance_steps
+                
+                # 安全检查
+                if not self._check_xyz_safety(MotorAxis.Z, target_z_position):
+                    logger.error("Z轴移动安全检查失败")
+                    return False
+                
+                logger.info(f"Z轴相对移动: {distance_mm}mm ({move_distance_steps}步)")
+                logger.info(f"当前位置: {current_z_position}步 -> 目标位置: {target_z_position}步")
+                
+                # 执行移动
+                success = self.xyz_controller.move_to_position(
+                    axis=MotorAxis.Z,
+                    position=target_z_position,
+                    speed=speed,
+                    acceleration=acceleration,
+                    precision=50
+                )
+                
+                if not success:
+                    logger.error("Z轴移动命令发送失败")
+                    return False
+                    
+                # 等待移动完成
+                if not self.xyz_controller.wait_for_completion(MotorAxis.Z, timeout=10.0):
+                    logger.error("Z轴移动超时")
+                    return False
+                    
+                # 验证移动结果
+                final_status = self.xyz_controller.get_motor_status(MotorAxis.Z)
+                final_position = final_status.steps
+                position_error = abs(final_position - target_z_position)
+                
+                logger.info(f"Z轴移动完成，最终位置: {final_position}步，误差: {position_error}步")
+                
+                if position_error > 100:
+                    logger.warning(f"Z轴位置误差较大: {position_error}步")
+                    
+                return True
+                
+            except ModbusException as e:
+                logger.error(f"Modbus通信错误: {e}")
                 return False
-                
-            # 验证移动结果
-            final_status = self.xyz_controller.get_motor_status(MotorAxis.Z)
-            final_position = final_status.steps
-            position_error = abs(final_position - target_z_position)
-            
-            logger.info(f"Z轴移动完成，最终位置: {final_position}步，误差: {position_error}步")
-            
-            if position_error > 100:
-                logger.warning(f"Z轴位置误差较大: {position_error}步")
-                
-            return True
-            
-        except ModbusException as e:
-            logger.error(f"Modbus通信错误: {e}")
-            return False
-        except Exception as e:
-            logger.error(f"Z轴移动失败: {e}")
-            return False
+            except Exception as e:
+                logger.error(f"Z轴移动失败: {e}")
+                return False
 
     def emergency_stop(self) -> bool:
         """

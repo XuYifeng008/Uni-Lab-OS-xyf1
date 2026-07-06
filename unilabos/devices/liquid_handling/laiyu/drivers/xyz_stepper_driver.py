@@ -14,6 +14,8 @@ from typing import Optional, Tuple, Dict, Any
 from enum import Enum
 from dataclasses import dataclass
 
+from unilabos.devices.liquid_handling.laiyu.drivers.rs485_bus import RS485Bus, get_rs485_bus
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -102,6 +104,7 @@ class StepperMotorDriver:
         self.response_delay = response_delay
         self.serial_conn: Optional[serial.Serial] = None
         self.lock = threading.RLock()
+        self._serial_bus: Optional[RS485Bus] = None
         
     def connect(self) -> bool:
         """
@@ -111,18 +114,17 @@ class StepperMotorDriver:
             连接是否成功
         """
         try:
-            self.serial_conn = serial.Serial(
-                port=self.port,
-                baudrate=self.baudrate,
+            self._serial_bus = get_rs485_bus(self.port, self.baudrate, self.timeout)
+            self.serial_conn = self._serial_bus.open(
                 bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
                 stopbits=serial.STOPBITS_ONE,
-                timeout=self.timeout,
                 write_timeout=self.timeout,
                 xonxoff=False,
                 rtscts=False,
                 dsrdtr=False,
             )
+            self.lock = self._serial_bus.lock
             logger.info(f"已连接到串口: {self.port}")
             return True
         except Exception as e:
@@ -131,7 +133,12 @@ class StepperMotorDriver:
     
     def disconnect(self) -> None:
         """关闭串口连接"""
-        if self.serial_conn and self.serial_conn.is_open:
+        if self._serial_bus:
+            self._serial_bus.release()
+            self._serial_bus = None
+            self.serial_conn = None
+            logger.info("串口连接已释放")
+        elif self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
             logger.info("串口连接已关闭")
     
@@ -190,18 +197,32 @@ class StepperMotorDriver:
             crc = self.calculate_crc(command)
             full_command = command + crc
             
-            # 共享 RS485 总线时，SOPA 可能还有延迟响应；等待输入缓冲安静后再发 Modbus。
-            self._drain_input_buffer()
-            self.serial_conn.reset_output_buffer()
-            
-            # 发送命令
-            self.serial_conn.write(full_command)
-            self.serial_conn.flush()
-            logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
-            
-            # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
-            time.sleep(self.response_delay)
-            response = self._read_modbus_response(slave_addr)
+            response = b""
+            max_attempts = 3
+            for attempt in range(1, max_attempts + 1):
+                # 共享 RS485 总线时，SOPA 可能还有延迟响应；等待输入缓冲安静后再发 Modbus。
+                self._drain_input_buffer(quiet_period=0.2, max_wait=1.5)
+                self.serial_conn.reset_output_buffer()
+                
+                # 发送命令
+                self.serial_conn.write(full_command)
+                self.serial_conn.flush()
+                logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
+                
+                # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
+                time.sleep(self.response_delay)
+                response = self._read_modbus_response(slave_addr)
+                if response:
+                    break
+
+                if attempt < max_attempts:
+                    logger.warning(
+                        "未收到有效 Modbus 响应，准备重试: addr=%s attempt=%s/%s",
+                        slave_addr,
+                        attempt + 1,
+                        max_attempts,
+                    )
+
             if not response:
                 raise ModbusException(
                     f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
@@ -231,7 +252,7 @@ class StepperMotorDriver:
             
             return response
 
-    def _drain_input_buffer(self, quiet_period: float = 0.05, max_wait: float = 0.5) -> bytes:
+    def _drain_input_buffer(self, quiet_period: float = 0.2, max_wait: float = 1.5) -> bytes:
         """清空输入缓冲，并等待短暂静默，避免 SOPA 残留响应混入 Modbus 帧。"""
         assert self.serial_conn is not None
 
@@ -256,6 +277,50 @@ class StepperMotorDriver:
 
         return drained
 
+    @staticmethod
+    def _calculate_sopa_checksum(data: bytes) -> int:
+        """SOPA 响应校验为所有字节低 8 位累加和。"""
+        return sum(data) & 0xFF
+
+    def _find_complete_sopa_frame(self, data: bytes) -> Optional[Tuple[int, int]]:
+        """在混合串口数据中定位一帧完整 SOPA 响应，返回 [start, end)。"""
+        for start, byte in enumerate(data):
+            if byte not in (ord("/"), ord("[")):
+                continue
+
+            # SOPA 帧以 E 结尾，E 后还有 1 字节 checksum。
+            for tail in range(start + 2, len(data) - 1):
+                if data[tail] != ord("E"):
+                    continue
+                end = tail + 2
+                frame = data[start:end]
+                if self._calculate_sopa_checksum(frame[:-1]) == frame[-1]:
+                    return start, end
+
+        return None
+
+    def _discard_sopa_noise(self, data: bytes) -> bytes:
+        """丢弃已完整到达的 SOPA 帧，以及帧前被污染的残留字节。"""
+        buffer = data
+        discarded = b""
+
+        while True:
+            frame_range = self._find_complete_sopa_frame(buffer)
+            if frame_range is None:
+                break
+
+            start, end = frame_range
+            discarded += buffer[:end]
+            buffer = buffer[end:]
+
+        if discarded:
+            logger.debug(
+                "丢弃混入 Modbus 读取的 SOPA/噪声数据: %s",
+                " ".join(f"{b:02X}" for b in discarded),
+            )
+
+        return buffer
+
     def _read_modbus_response(self, expected_slave_addr: int) -> bytes:
         """读取一帧 Modbus RTU 响应。"""
         assert self.serial_conn is not None
@@ -270,6 +335,18 @@ class StepperMotorDriver:
                 frame = self._extract_modbus_frame(response_buffer, expected_slave_addr)
                 if frame is not None:
                     return frame
+
+                cleaned_buffer = self._discard_sopa_noise(response_buffer)
+                if len(cleaned_buffer) != len(response_buffer):
+                    response_buffer = cleaned_buffer
+                    continue
+
+                if bytes([expected_slave_addr]) not in response_buffer and len(response_buffer) > 0:
+                    logger.debug(
+                        "丢弃不含目标 Modbus 地址的缓冲数据: %s",
+                        " ".join(f"{b:02X}" for b in response_buffer),
+                    )
+                    response_buffer = b""
             else:
                 time.sleep(0.01)
 

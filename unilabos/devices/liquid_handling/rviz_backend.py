@@ -51,7 +51,7 @@ class UniLiquidHandlerRvizBackend(LiquidHandlerBackend):
   _tip_length_length = 16
   _filter_length = 10
 
-  def __init__(self, num_channels: int = 8 , tip_length: float = 0 , total_height: float = 310, **kwargs):
+  def __init__(self, num_channels: int = 8 , tip_length: float = 96.0 , total_height: float = 259.0, **kwargs):
     """Initialize a chatter box backend."""
     super().__init__()
     self._num_channels = num_channels

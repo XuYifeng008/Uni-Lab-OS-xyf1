@@ -16,6 +16,7 @@ from unilabos.ros.msgs.message_converter import convert_to_ros_msg
 from unilabos.resources.resource_tracker import (
     ResourceDictInstance,
     ResourceTreeSet,
+    normalize_volume_tracker_state,
 )
 from unilabos.utils import logger
 from unilabos.utils.banner_print import print_status
@@ -581,10 +582,10 @@ def resource_ulab_to_plr(resource: dict, plr_model=False) -> "ResourcePLR":
     if ResourcePLR is None:
         raise ImportError("pylabrobot not found")
 
-    all_states = {resource["id"]: resource["data"]}
+    all_states = {resource["id"]: normalize_volume_tracker_state(resource["data"])}
 
     def resource_ulab_to_plr_inner(resource: dict):
-        all_states[resource["name"]] = resource["data"]
+        all_states[resource["name"]] = normalize_volume_tracker_state(resource["data"])
         extra = resource.pop("extra", {})
         d = {
             "name": resource["name"],

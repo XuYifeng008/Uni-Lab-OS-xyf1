@@ -20,8 +20,9 @@ def test_config_loading():
     
     try:
         # 直接测试配置文件加载
-        config_path = os.path.join(os.path.dirname(__file__), "controllers", "deckconfig.json")
-        fallback_path = os.path.join(os.path.dirname(__file__), "config", "deck.json")
+        laiyu_root = os.path.dirname(os.path.dirname(__file__))
+        config_path = os.path.join(laiyu_root, "config", "electro_deck.json")
+        fallback_path = os.path.join(laiyu_root, "config", "deckconfig.json")
         
         config = None
         config_source = ""

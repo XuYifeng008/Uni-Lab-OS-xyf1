@@ -25,7 +25,8 @@
           "port": "COM8"
         },
         "simulator": false,
-        "total_height": 265.0
+        "total_height": 269.0,
+        "tip_length": 96.0
       },
       "data": {},
       "extra": {}
@@ -61,7 +62,7 @@
       "position": {
         "x": 0,
         "y": 0,
-        "z": 18
+        "z": 0
       },
       "children": [
         "module_1_tip_rack",
@@ -127,8 +128,8 @@
               {
                 "id": "module_1_ref",
                 "position": {
-                  "x": 0.0,
-                  "y": 63.0,
+                  "x": -4.5,
+                  "y": 58.5,
                   "z": 0.0
                 },
                 "description": "模块1枪头盒基准孔A01"
@@ -136,8 +137,8 @@
               {
                 "id": "module_2_ref",
                 "position": {
-                  "x": 0.0,
-                  "y": 132.0,
+                  "x": -8.3,
+                  "y": 123.7,
                   "z": 0.0
                 },
                 "description": "模块2 12管试管架基准孔A1"
@@ -145,8 +146,8 @@
               {
                 "id": "module_3_ref",
                 "position": {
-                  "x": 15.0,
-                  "y": 231.0,
+                  "x": 10.9,
+                  "y": 226.9,
                   "z": 30.5
                 },
                 "description": "模块3 LC_30瓶架基准孔A01"
@@ -154,8 +155,8 @@
               {
                 "id": "module_4_ref",
                 "position": {
-                  "x": 180.0,
-                  "y": 215.0,
+                  "x": 160.0,
+                  "y": 195.0,
                   "z": 10.5
                 },
                 "description": "模块4 3瓶架基准孔A01"
@@ -163,8 +164,8 @@
               {
                 "id": "module_5_ref",
                 "position": {
-                  "x": 183.0,
-                  "y": 43.0,
+                  "x": 179.5,
+                  "y": 39.5,
                   "z": 70.0
                 },
                 "description": "模块5 GreenLab电合成仪加样口P1"
@@ -178,7 +179,7 @@
     },
     {
       "id": "module_1_tip_rack",
-      "name": "96枪头盒",
+      "name": "module_1_tip_rack",
       "parent": "deck",
       "type": "tip_rack",
       "class": "tiprack_box",
@@ -448,16 +449,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -468,7 +469,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -478,9 +479,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -493,16 +494,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -513,7 +514,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -523,9 +524,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -538,16 +539,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -558,7 +559,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -568,9 +569,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -583,16 +584,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -603,7 +604,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -613,9 +614,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -628,16 +629,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -648,7 +649,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -658,9 +659,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -673,16 +674,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -693,7 +694,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -703,9 +704,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -718,16 +719,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -738,7 +739,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -748,9 +749,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -763,16 +764,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -783,7 +784,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -793,9 +794,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -808,16 +809,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -828,7 +829,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -838,9 +839,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -853,16 +854,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -873,7 +874,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -883,9 +884,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -898,16 +899,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -918,7 +919,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -928,9 +929,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -943,16 +944,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 63.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 58.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -963,7 +964,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -973,9 +974,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -63.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -58.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -988,16 +989,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1008,7 +1009,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1018,9 +1019,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1033,16 +1034,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1053,7 +1054,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1063,9 +1064,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1078,16 +1079,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1098,7 +1099,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1108,9 +1109,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1123,16 +1124,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1143,7 +1144,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1153,9 +1154,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1168,16 +1169,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1188,7 +1189,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1198,9 +1199,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1213,16 +1214,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1233,7 +1234,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1243,9 +1244,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1258,16 +1259,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1278,7 +1279,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1288,9 +1289,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1303,16 +1304,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1323,7 +1324,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1333,9 +1334,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1348,16 +1349,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1368,7 +1369,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1378,9 +1379,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1393,16 +1394,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1413,7 +1414,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1423,9 +1424,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1438,16 +1439,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1458,7 +1459,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1468,9 +1469,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1483,16 +1484,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 54.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 49.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1503,7 +1504,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1513,9 +1514,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -54.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -49.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1528,16 +1529,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1548,7 +1549,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1558,9 +1559,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1573,16 +1574,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1593,7 +1594,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1603,9 +1604,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1618,16 +1619,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1638,7 +1639,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1648,9 +1649,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1663,16 +1664,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1683,7 +1684,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1693,9 +1694,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1708,16 +1709,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1728,7 +1729,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1738,9 +1739,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1753,16 +1754,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1773,7 +1774,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1783,9 +1784,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1798,16 +1799,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1818,7 +1819,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1828,9 +1829,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1843,16 +1844,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1863,7 +1864,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1873,9 +1874,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1888,16 +1889,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1908,7 +1909,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1918,9 +1919,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1933,16 +1934,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1953,7 +1954,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -1963,9 +1964,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -1978,16 +1979,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -1998,7 +1999,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2008,9 +2009,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2023,16 +2024,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 45.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 40.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2043,7 +2044,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2053,9 +2054,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -45.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -40.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2068,16 +2069,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2088,7 +2089,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2098,9 +2099,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2113,16 +2114,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2133,7 +2134,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2143,9 +2144,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2158,16 +2159,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2178,7 +2179,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2188,9 +2189,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2203,16 +2204,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2223,7 +2224,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2233,9 +2234,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2248,16 +2249,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2268,7 +2269,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2278,9 +2279,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2293,16 +2294,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2313,7 +2314,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2323,9 +2324,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2338,16 +2339,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2358,7 +2359,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2368,9 +2369,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2383,16 +2384,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2403,7 +2404,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2413,9 +2414,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2428,16 +2429,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2448,7 +2449,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2458,9 +2459,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2473,16 +2474,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2493,7 +2494,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2503,9 +2504,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2518,16 +2519,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2538,7 +2539,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2548,9 +2549,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2563,16 +2564,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 36.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 31.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2583,7 +2584,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2593,9 +2594,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -36.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -31.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2608,16 +2609,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2628,7 +2629,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2638,9 +2639,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2653,16 +2654,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2673,7 +2674,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2683,9 +2684,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2698,16 +2699,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2718,7 +2719,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2728,9 +2729,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2743,16 +2744,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2763,7 +2764,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2773,9 +2774,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2788,16 +2789,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2808,7 +2809,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2818,9 +2819,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2833,16 +2834,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2853,7 +2854,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2863,9 +2864,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2878,16 +2879,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2898,7 +2899,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2908,9 +2909,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2923,16 +2924,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2943,7 +2944,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2953,9 +2954,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -2968,16 +2969,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -2988,7 +2989,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -2998,9 +2999,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3013,16 +3014,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3033,7 +3034,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3043,9 +3044,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3058,16 +3059,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3078,7 +3079,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3088,9 +3089,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3103,16 +3104,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 27.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 22.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3123,7 +3124,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3133,9 +3134,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -27.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -22.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3148,16 +3149,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3168,7 +3169,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3178,9 +3179,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3193,16 +3194,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3213,7 +3214,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3223,9 +3224,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3238,16 +3239,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3258,7 +3259,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3268,9 +3269,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3283,16 +3284,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3303,7 +3304,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3313,9 +3314,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3328,16 +3329,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3348,7 +3349,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3358,9 +3359,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3373,16 +3374,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3393,7 +3394,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3403,9 +3404,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3418,16 +3419,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3438,7 +3439,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3448,9 +3449,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3463,16 +3464,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3483,7 +3484,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3493,9 +3494,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3508,16 +3509,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3528,7 +3529,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3538,9 +3539,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3553,16 +3554,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3573,7 +3574,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3583,9 +3584,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3598,16 +3599,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3618,7 +3619,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3628,9 +3629,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3643,16 +3644,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 18.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 13.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3663,7 +3664,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3673,9 +3674,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -18.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -13.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3688,16 +3689,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": -4.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3708,7 +3709,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3718,9 +3719,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3733,16 +3734,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 4.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3753,7 +3754,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3763,9 +3764,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3778,16 +3779,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 13.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3798,7 +3799,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3808,9 +3809,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3823,16 +3824,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 22.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3843,7 +3844,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3853,9 +3854,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3868,16 +3869,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 31.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3888,7 +3889,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3898,9 +3899,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3913,16 +3914,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 40.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3933,7 +3934,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3943,9 +3944,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -3958,16 +3959,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 49.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -3978,7 +3979,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -3988,9 +3989,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4003,16 +4004,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 58.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4023,7 +4024,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4033,9 +4034,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4048,16 +4049,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 67.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4068,7 +4069,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4078,9 +4079,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4093,16 +4094,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 76.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4113,7 +4114,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4123,9 +4124,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4138,16 +4139,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 85.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4158,7 +4159,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4168,9 +4169,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4183,16 +4184,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 9.0,
-        "z": 113.0
+        "x": 94.5,
+        "y": 4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4203,7 +4204,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4213,9 +4214,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": -9.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": -4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4228,16 +4229,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 0,
-        "z": 113.0
+        "x": -4.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4248,7 +4249,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4258,9 +4259,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": -4.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4273,16 +4274,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 9.0,
-        "y": 0,
-        "z": 113.0
+        "x": 4.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4293,7 +4294,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4303,9 +4304,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 9.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 4.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4318,16 +4319,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 18.0,
-        "y": 0,
-        "z": 113.0
+        "x": 13.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4338,7 +4339,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4348,9 +4349,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 18.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 13.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4363,16 +4364,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 27.0,
-        "y": 0,
-        "z": 113.0
+        "x": 22.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4383,7 +4384,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4393,9 +4394,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 27.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 22.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4408,16 +4409,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 36.0,
-        "y": 0,
-        "z": 113.0
+        "x": 31.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4428,7 +4429,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4438,9 +4439,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 36.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 31.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4453,16 +4454,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 45.0,
-        "y": 0,
-        "z": 113.0
+        "x": 40.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4473,7 +4474,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4483,9 +4484,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 45.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 40.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4498,16 +4499,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 54.0,
-        "y": 0,
-        "z": 113.0
+        "x": 49.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4518,7 +4519,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4528,9 +4529,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 54.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 49.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4543,16 +4544,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 63.0,
-        "y": 0,
-        "z": 113.0
+        "x": 58.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4563,7 +4564,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4573,9 +4574,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 63.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 58.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4588,16 +4589,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 72.0,
-        "y": 0,
-        "z": 113.0
+        "x": 67.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4608,7 +4609,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4618,9 +4619,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 72.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 67.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4633,16 +4634,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 81.0,
-        "y": 0,
-        "z": 113.0
+        "x": 76.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4653,7 +4654,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4663,9 +4664,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 81.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 76.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4678,16 +4679,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 0,
-        "z": 113.0
+        "x": 85.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4698,7 +4699,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4708,9 +4709,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 90.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 85.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4723,16 +4724,16 @@
       "type": "container",
       "class": "",
       "position": {
-        "x": 99.0,
-        "y": 0,
-        "z": 113.0
+        "x": 94.5,
+        "y": -4.5,
+        "z": 116.0
       },
       "children": [],
       "config": {
         "type": "TipSpot",
         "size_x": 9.0,
         "size_y": 9.0,
-        "size_z": 113.0,
+        "size_z": 116.0,
         "rotation": {
           "x": 0,
           "y": 0,
@@ -4743,7 +4744,7 @@
         "model": null,
         "prototype_tip": {
           "type": "Tip",
-          "total_tip_length": 113.0,
+          "total_tip_length": 96.0,
           "has_filter": false,
           "maximal_volume": 1000.0,
           "fitting_depth": 3.29
@@ -4753,9 +4754,9 @@
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 99.0,
-            "y": 0.0,
-            "z": 113.0
+            "x": 94.5,
+            "y": 4.5,
+            "z": 116.0
           },
           "shape": "circular"
         }
@@ -4842,7 +4843,112 @@
             "max_volume_ul": 10000,
             "well_count": 12,
             "tube_type": "10ml_tube"
-          }
+          },
+          "supports_well_liquid_setup": true,
+          "liquid_setup_schema": {
+            "slot_key": "liquid_input_slot",
+            "type_key": "liquid_type",
+            "volume_key": "liquid_volume",
+            "volume_unit": "uL"
+          },
+          "liquid_input_slot": [
+            0,
+            1
+          ],
+          "liquid_type": [
+            "water",
+            "water"
+          ],
+          "liquid_volume": [
+            10.0,
+            10.0
+          ],
+          "well_liquids": [
+            {
+              "slot": 0,
+              "well": "A1",
+              "resource_id": "module_2_12tubes_A1",
+              "liquid_type": "water",
+              "volume_ul": 10.0
+            },
+            {
+              "slot": 1,
+              "well": "A2",
+              "resource_id": "module_2_12tubes_A2",
+              "liquid_type": "water",
+              "volume_ul": 10.0
+            },
+            {
+              "slot": 2,
+              "well": "A3",
+              "resource_id": "module_2_12tubes_A3",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 3,
+              "well": "A4",
+              "resource_id": "module_2_12tubes_A4",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 4,
+              "well": "A5",
+              "resource_id": "module_2_12tubes_A5",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 5,
+              "well": "A6",
+              "resource_id": "module_2_12tubes_A6",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 6,
+              "well": "B1",
+              "resource_id": "module_2_12tubes_B1",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 7,
+              "well": "B2",
+              "resource_id": "module_2_12tubes_B2",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 8,
+              "well": "B3",
+              "resource_id": "module_2_12tubes_B3",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 9,
+              "well": "B4",
+              "resource_id": "module_2_12tubes_B4",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 10,
+              "well": "B5",
+              "resource_id": "module_2_12tubes_B5",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 11,
+              "well": "B6",
+              "resource_id": "module_2_12tubes_B6",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            }
+          ]
         }
       }
     },
@@ -4850,11 +4956,11 @@
       "id": "module_2_12tubes_A1",
       "name": "module_2_12tubes_A1",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 32.0,
+        "x": -8.3,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -4878,15 +4984,41 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [
+          [
+            "water",
+            10.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            10.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            10.0,
+            "ul"
+          ]
+        ]
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -132.0,
+            "x": -8.3,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 0,
+            "well": "A1",
+            "liquid_type": "water",
+            "volume_ul": 10.0
+          }
         }
       }
     },
@@ -4894,11 +5026,11 @@
       "id": "module_2_12tubes_A2",
       "name": "module_2_12tubes_A2",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 21.8,
-        "y": 32.0,
+        "x": 13.5,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -4922,15 +5054,41 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [
+          [
+            "water",
+            10.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            10.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            10.0,
+            "ul"
+          ]
+        ]
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 21.8,
-            "y": -132.0,
+            "x": 13.5,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 1,
+            "well": "A2",
+            "liquid_type": "water",
+            "volume_ul": 10.0
+          }
         }
       }
     },
@@ -4938,11 +5096,11 @@
       "id": "module_2_12tubes_A3",
       "name": "module_2_12tubes_A3",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 43.6,
-        "y": 32.0,
+        "x": 35.3,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -4966,15 +5124,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 43.6,
-            "y": -132.0,
+            "x": 35.3,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 2,
+            "well": "A3",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -4982,11 +5150,11 @@
       "id": "module_2_12tubes_A4",
       "name": "module_2_12tubes_A4",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 65.4,
-        "y": 32.0,
+        "x": 57.1,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -5010,15 +5178,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 65.4,
-            "y": -132.0,
+            "x": 57.1,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 3,
+            "well": "A4",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5026,11 +5204,11 @@
       "id": "module_2_12tubes_A5",
       "name": "module_2_12tubes_A5",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 87.2,
-        "y": 32.0,
+        "x": 78.9,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -5054,15 +5232,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 87.2,
-            "y": -132.0,
+            "x": 78.9,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 4,
+            "well": "A5",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5070,11 +5258,11 @@
       "id": "module_2_12tubes_A6",
       "name": "module_2_12tubes_A6",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 109.0,
-        "y": 32.0,
+        "x": 100.7,
+        "y": 23.7,
         "z": 125.0
       },
       "children": [],
@@ -5098,15 +5286,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 109.0,
-            "y": -132.0,
+            "x": 100.7,
+            "y": -123.7,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 5,
+            "well": "A6",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5114,11 +5312,11 @@
       "id": "module_2_12tubes_B1",
       "name": "module_2_12tubes_B1",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 0.0,
-        "y": 10.2,
+        "x": -8.3,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5142,15 +5340,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 0.0,
-            "y": -110.2,
+            "x": -8.3,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 6,
+            "well": "B1",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5158,11 +5366,11 @@
       "id": "module_2_12tubes_B2",
       "name": "module_2_12tubes_B2",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 21.8,
-        "y": 10.2,
+        "x": 13.5,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5186,15 +5394,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 21.8,
-            "y": -110.2,
+            "x": 13.5,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 7,
+            "well": "B2",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5202,11 +5420,11 @@
       "id": "module_2_12tubes_B3",
       "name": "module_2_12tubes_B3",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 43.6,
-        "y": 10.2,
+        "x": 35.3,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5230,15 +5448,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 43.6,
-            "y": -110.2,
+            "x": 35.3,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 8,
+            "well": "B3",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5246,11 +5474,11 @@
       "id": "module_2_12tubes_B4",
       "name": "module_2_12tubes_B4",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 65.4,
-        "y": 10.2,
+        "x": 57.1,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5274,15 +5502,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 65.4,
-            "y": -110.2,
+            "x": 57.1,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 9,
+            "well": "B4",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5290,11 +5528,11 @@
       "id": "module_2_12tubes_B5",
       "name": "module_2_12tubes_B5",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 87.2,
-        "y": 10.2,
+        "x": 78.9,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5318,15 +5556,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 87.2,
-            "y": -110.2,
+            "x": 78.9,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 10,
+            "well": "B5",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5334,11 +5582,11 @@
       "id": "module_2_12tubes_B6",
       "name": "module_2_12tubes_B6",
       "parent": "module_2_12tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 109.0,
-        "y": 10.2,
+        "x": 100.7,
+        "y": 1.9,
         "z": 125.0
       },
       "children": [],
@@ -5362,15 +5610,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 109.0,
-            "y": -110.2,
+            "x": 100.7,
+            "y": -101.9,
             "z": 125.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 11,
+            "well": "B6",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5502,7 +5760,229 @@
               "A06"
             ],
             "tube_type": "lc_vial"
-          }
+          },
+          "supports_well_liquid_setup": true,
+          "liquid_setup_schema": {
+            "slot_key": "liquid_input_slot",
+            "type_key": "liquid_type",
+            "volume_key": "liquid_volume",
+            "volume_unit": "uL"
+          },
+          "liquid_input_slot": [],
+          "liquid_type": [],
+          "liquid_volume": [],
+          "well_liquids": [
+            {
+              "slot": 0,
+              "well": "A01",
+              "resource_id": "module_3_30tubes_A01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 1,
+              "well": "A02",
+              "resource_id": "module_3_30tubes_A02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 2,
+              "well": "A03",
+              "resource_id": "module_3_30tubes_A03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 3,
+              "well": "A04",
+              "resource_id": "module_3_30tubes_A04",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 4,
+              "well": "A05",
+              "resource_id": "module_3_30tubes_A05",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 5,
+              "well": "A06",
+              "resource_id": "module_3_30tubes_A06",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 6,
+              "well": "B01",
+              "resource_id": "module_3_30tubes_B01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 7,
+              "well": "B02",
+              "resource_id": "module_3_30tubes_B02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 8,
+              "well": "B03",
+              "resource_id": "module_3_30tubes_B03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 9,
+              "well": "B04",
+              "resource_id": "module_3_30tubes_B04",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 10,
+              "well": "B05",
+              "resource_id": "module_3_30tubes_B05",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 11,
+              "well": "B06",
+              "resource_id": "module_3_30tubes_B06",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 12,
+              "well": "C01",
+              "resource_id": "module_3_30tubes_C01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 13,
+              "well": "C02",
+              "resource_id": "module_3_30tubes_C02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 14,
+              "well": "C03",
+              "resource_id": "module_3_30tubes_C03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 15,
+              "well": "C04",
+              "resource_id": "module_3_30tubes_C04",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 16,
+              "well": "C05",
+              "resource_id": "module_3_30tubes_C05",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 17,
+              "well": "C06",
+              "resource_id": "module_3_30tubes_C06",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 18,
+              "well": "D01",
+              "resource_id": "module_3_30tubes_D01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 19,
+              "well": "D02",
+              "resource_id": "module_3_30tubes_D02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 20,
+              "well": "D03",
+              "resource_id": "module_3_30tubes_D03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 21,
+              "well": "D04",
+              "resource_id": "module_3_30tubes_D04",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 22,
+              "well": "D05",
+              "resource_id": "module_3_30tubes_D05",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 23,
+              "well": "D06",
+              "resource_id": "module_3_30tubes_D06",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 24,
+              "well": "E01",
+              "resource_id": "module_3_30tubes_E01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 25,
+              "well": "E02",
+              "resource_id": "module_3_30tubes_E02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 26,
+              "well": "E03",
+              "resource_id": "module_3_30tubes_E03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 27,
+              "well": "E04",
+              "resource_id": "module_3_30tubes_E04",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 28,
+              "well": "E05",
+              "resource_id": "module_3_30tubes_E05",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 29,
+              "well": "E06",
+              "resource_id": "module_3_30tubes_E06",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            }
+          ]
         }
       }
     },
@@ -5510,11 +5990,11 @@
       "id": "module_3_30tubes_A01",
       "name": "module_3_30tubes_A01",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 15.0,
-        "y": 17.0,
+        "x": 10.9,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5538,16 +6018,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 15.0,
-            "y": -231.0,
+            "x": 10.9,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 0,
+            "well": "A01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5555,11 +6045,11 @@
       "id": "module_3_30tubes_A02",
       "name": "module_3_30tubes_A02",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 32.2,
-        "y": 17.0,
+        "x": 28.1,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5583,16 +6073,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 32.2,
-            "y": -231.0,
+            "x": 28.1,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 1,
+            "well": "A02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5600,11 +6100,11 @@
       "id": "module_3_30tubes_A03",
       "name": "module_3_30tubes_A03",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 49.4,
-        "y": 17.0,
+        "x": 45.3,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5628,16 +6128,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 49.4,
-            "y": -231.0,
+            "x": 45.3,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 2,
+            "well": "A03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5645,11 +6155,11 @@
       "id": "module_3_30tubes_A04",
       "name": "module_3_30tubes_A04",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 66.6,
-        "y": 17.0,
+        "x": 62.5,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5673,16 +6183,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 66.6,
-            "y": -231.0,
+            "x": 62.5,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 3,
+            "well": "A04",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5690,11 +6210,11 @@
       "id": "module_3_30tubes_A05",
       "name": "module_3_30tubes_A05",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 83.8,
-        "y": 17.0,
+        "x": 79.7,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5718,16 +6238,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 83.8,
-            "y": -231.0,
+            "x": 79.7,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 4,
+            "well": "A05",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5735,11 +6265,11 @@
       "id": "module_3_30tubes_A06",
       "name": "module_3_30tubes_A06",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 101.0,
-        "y": 17.0,
+        "x": 96.9,
+        "y": 12.9,
         "z": 35.5
       },
       "children": [],
@@ -5763,16 +6293,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 101.0,
-            "y": -231.0,
+            "x": 96.9,
+            "y": -226.9,
             "z": 35.5
           },
           "shape": "circular",
-          "enabled": false
+          "enabled": false,
+          "liquid_setup": {
+            "slot": 5,
+            "well": "A06",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5780,11 +6320,11 @@
       "id": "module_3_30tubes_B01",
       "name": "module_3_30tubes_B01",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 15.0,
-        "y": -0.2,
+        "x": 10.9,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -5808,15 +6348,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 15.0,
-            "y": -213.8,
+            "x": 10.9,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 6,
+            "well": "B01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5824,11 +6374,11 @@
       "id": "module_3_30tubes_B02",
       "name": "module_3_30tubes_B02",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 32.2,
-        "y": -0.2,
+        "x": 28.1,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -5852,15 +6402,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 32.2,
-            "y": -213.8,
+            "x": 28.1,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 7,
+            "well": "B02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5868,11 +6428,11 @@
       "id": "module_3_30tubes_B03",
       "name": "module_3_30tubes_B03",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 49.4,
-        "y": -0.2,
+        "x": 45.3,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -5896,15 +6456,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 49.4,
-            "y": -213.8,
+            "x": 45.3,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 8,
+            "well": "B03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5912,11 +6482,11 @@
       "id": "module_3_30tubes_B04",
       "name": "module_3_30tubes_B04",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 66.6,
-        "y": -0.2,
+        "x": 62.5,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -5940,15 +6510,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 66.6,
-            "y": -213.8,
+            "x": 62.5,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 9,
+            "well": "B04",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -5956,11 +6536,11 @@
       "id": "module_3_30tubes_B05",
       "name": "module_3_30tubes_B05",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 83.8,
-        "y": -0.2,
+        "x": 79.7,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -5984,15 +6564,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 83.8,
-            "y": -213.8,
+            "x": 79.7,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 10,
+            "well": "B05",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6000,11 +6590,11 @@
       "id": "module_3_30tubes_B06",
       "name": "module_3_30tubes_B06",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 101.0,
-        "y": -0.2,
+        "x": 96.9,
+        "y": -4.3,
         "z": 35.5
       },
       "children": [],
@@ -6028,15 +6618,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 101.0,
-            "y": -213.8,
+            "x": 96.9,
+            "y": -209.7,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 11,
+            "well": "B06",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6044,11 +6644,11 @@
       "id": "module_3_30tubes_C01",
       "name": "module_3_30tubes_C01",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 15.0,
-        "y": -17.4,
+        "x": 10.9,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6072,15 +6672,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 15.0,
-            "y": -196.6,
+            "x": 10.9,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 12,
+            "well": "C01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6088,11 +6698,11 @@
       "id": "module_3_30tubes_C02",
       "name": "module_3_30tubes_C02",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 32.2,
-        "y": -17.4,
+        "x": 28.1,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6116,15 +6726,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 32.2,
-            "y": -196.6,
+            "x": 28.1,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 13,
+            "well": "C02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6132,11 +6752,11 @@
       "id": "module_3_30tubes_C03",
       "name": "module_3_30tubes_C03",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 49.4,
-        "y": -17.4,
+        "x": 45.3,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6160,15 +6780,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 49.4,
-            "y": -196.6,
+            "x": 45.3,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 14,
+            "well": "C03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6176,11 +6806,11 @@
       "id": "module_3_30tubes_C04",
       "name": "module_3_30tubes_C04",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 66.6,
-        "y": -17.4,
+        "x": 62.5,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6204,15 +6834,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 66.6,
-            "y": -196.6,
+            "x": 62.5,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 15,
+            "well": "C04",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6220,11 +6860,11 @@
       "id": "module_3_30tubes_C05",
       "name": "module_3_30tubes_C05",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 83.8,
-        "y": -17.4,
+        "x": 79.7,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6248,15 +6888,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 83.8,
-            "y": -196.6,
+            "x": 79.7,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 16,
+            "well": "C05",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6264,11 +6914,11 @@
       "id": "module_3_30tubes_C06",
       "name": "module_3_30tubes_C06",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 101.0,
-        "y": -17.4,
+        "x": 96.9,
+        "y": -21.5,
         "z": 35.5
       },
       "children": [],
@@ -6292,15 +6942,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 101.0,
-            "y": -196.6,
+            "x": 96.9,
+            "y": -192.5,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 17,
+            "well": "C06",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6308,11 +6968,11 @@
       "id": "module_3_30tubes_D01",
       "name": "module_3_30tubes_D01",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 15.0,
-        "y": -34.6,
+        "x": 10.9,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6336,15 +6996,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 15.0,
-            "y": -179.4,
+            "x": 10.9,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 18,
+            "well": "D01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6352,11 +7022,11 @@
       "id": "module_3_30tubes_D02",
       "name": "module_3_30tubes_D02",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 32.2,
-        "y": -34.6,
+        "x": 28.1,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6380,15 +7050,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 32.2,
-            "y": -179.4,
+            "x": 28.1,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 19,
+            "well": "D02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6396,11 +7076,11 @@
       "id": "module_3_30tubes_D03",
       "name": "module_3_30tubes_D03",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 49.4,
-        "y": -34.6,
+        "x": 45.3,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6424,15 +7104,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 49.4,
-            "y": -179.4,
+            "x": 45.3,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 20,
+            "well": "D03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6440,11 +7130,11 @@
       "id": "module_3_30tubes_D04",
       "name": "module_3_30tubes_D04",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 66.6,
-        "y": -34.6,
+        "x": 62.5,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6468,15 +7158,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 66.6,
-            "y": -179.4,
+            "x": 62.5,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 21,
+            "well": "D04",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6484,11 +7184,11 @@
       "id": "module_3_30tubes_D05",
       "name": "module_3_30tubes_D05",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 83.8,
-        "y": -34.6,
+        "x": 79.7,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6512,15 +7212,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 83.8,
-            "y": -179.4,
+            "x": 79.7,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 22,
+            "well": "D05",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6528,11 +7238,11 @@
       "id": "module_3_30tubes_D06",
       "name": "module_3_30tubes_D06",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 101.0,
-        "y": -34.6,
+        "x": 96.9,
+        "y": -38.7,
         "z": 35.5
       },
       "children": [],
@@ -6556,15 +7266,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 101.0,
-            "y": -179.4,
+            "x": 96.9,
+            "y": -175.3,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 23,
+            "well": "D06",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6572,11 +7292,11 @@
       "id": "module_3_30tubes_E01",
       "name": "module_3_30tubes_E01",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 15.0,
-        "y": -51.8,
+        "x": 10.9,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6600,15 +7320,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 15.0,
-            "y": -162.2,
+            "x": 10.9,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 24,
+            "well": "E01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6616,11 +7346,11 @@
       "id": "module_3_30tubes_E02",
       "name": "module_3_30tubes_E02",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 32.2,
-        "y": -51.8,
+        "x": 28.1,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6644,15 +7374,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 32.2,
-            "y": -162.2,
+            "x": 28.1,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 25,
+            "well": "E02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6660,11 +7400,11 @@
       "id": "module_3_30tubes_E03",
       "name": "module_3_30tubes_E03",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 49.4,
-        "y": -51.8,
+        "x": 45.3,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6688,15 +7428,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 49.4,
-            "y": -162.2,
+            "x": 45.3,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 26,
+            "well": "E03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6704,11 +7454,11 @@
       "id": "module_3_30tubes_E04",
       "name": "module_3_30tubes_E04",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 66.6,
-        "y": -51.8,
+        "x": 62.5,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6732,15 +7482,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 66.6,
-            "y": -162.2,
+            "x": 62.5,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 27,
+            "well": "E04",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6748,11 +7508,11 @@
       "id": "module_3_30tubes_E05",
       "name": "module_3_30tubes_E05",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 83.8,
-        "y": -51.8,
+        "x": 79.7,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6776,15 +7536,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 83.8,
-            "y": -162.2,
+            "x": 79.7,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 28,
+            "well": "E05",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6792,11 +7562,11 @@
       "id": "module_3_30tubes_E06",
       "name": "module_3_30tubes_E06",
       "parent": "module_3_30tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 101.0,
-        "y": -51.8,
+        "x": 96.9,
+        "y": -55.9,
         "z": 35.5
       },
       "children": [],
@@ -6820,15 +7590,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 101.0,
-            "y": -162.2,
+            "x": 96.9,
+            "y": -158.1,
             "z": 35.5
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 29,
+            "well": "E06",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6891,7 +7671,40 @@
             "max_volume_ul": 50000,
             "well_count": 3,
             "tube_type": "50ml_tube"
-          }
+          },
+          "supports_well_liquid_setup": true,
+          "liquid_setup_schema": {
+            "slot_key": "liquid_input_slot",
+            "type_key": "liquid_type",
+            "volume_key": "liquid_volume",
+            "volume_unit": "uL"
+          },
+          "liquid_input_slot": [],
+          "liquid_type": [],
+          "liquid_volume": [],
+          "well_liquids": [
+            {
+              "slot": 0,
+              "well": "A01",
+              "resource_id": "module_4_3tubes_A01",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 1,
+              "well": "A02",
+              "resource_id": "module_4_3tubes_A02",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 2,
+              "well": "A03",
+              "resource_id": "module_4_3tubes_A03",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            }
+          ]
         }
       }
     },
@@ -6899,11 +7712,11 @@
       "id": "module_4_3tubes_A01",
       "name": "module_4_3tubes_A01",
       "parent": "module_4_3tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 40.0,
-        "y": 33.0,
+        "x": 20.0,
+        "y": 13.0,
         "z": 110.0
       },
       "children": [],
@@ -6927,15 +7740,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 180.0,
-            "y": -215.0,
+            "x": 160.0,
+            "y": -195.0,
             "z": 110.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 0,
+            "well": "A01",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6943,11 +7766,11 @@
       "id": "module_4_3tubes_A02",
       "name": "module_4_3tubes_A02",
       "parent": "module_4_3tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 90.0,
-        "y": 33.0,
+        "x": 70.0,
+        "y": 13.0,
         "z": 110.0
       },
       "children": [],
@@ -6971,15 +7794,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 230.0,
-            "y": -215.0,
+            "x": 210.0,
+            "y": -195.0,
             "z": 110.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 1,
+            "well": "A02",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -6987,11 +7820,11 @@
       "id": "module_4_3tubes_A03",
       "name": "module_4_3tubes_A03",
       "parent": "module_4_3tubes",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 140.0,
-        "y": 33.0,
+        "x": 120.0,
+        "y": 13.0,
         "z": 110.0
       },
       "children": [],
@@ -7015,15 +7848,25 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 280.0,
-            "y": -215.0,
+            "x": 260.0,
+            "y": -195.0,
             "z": 110.0
           },
-          "shape": "circular"
+          "shape": "circular",
+          "liquid_setup": {
+            "slot": 2,
+            "well": "A03",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7080,7 +7923,61 @@
             "device_type": "electrochemistry_synthesizer",
             "access_from_top": true
           },
-          "linked_device": "greenlab_1"
+          "linked_device": "greenlab_1",
+          "supports_well_liquid_setup": true,
+          "liquid_setup_schema": {
+            "slot_key": "liquid_input_slot",
+            "type_key": "liquid_type",
+            "volume_key": "liquid_volume",
+            "volume_unit": "uL"
+          },
+          "liquid_input_slot": [],
+          "liquid_type": [],
+          "liquid_volume": [],
+          "well_liquids": [
+            {
+              "slot": 0,
+              "well": "P1",
+              "resource_id": "module_5_GreenLab_P1",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 1,
+              "well": "P2",
+              "resource_id": "module_5_GreenLab_P2",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 2,
+              "well": "P3",
+              "resource_id": "module_5_GreenLab_P3",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 3,
+              "well": "P4",
+              "resource_id": "module_5_GreenLab_P4",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 4,
+              "well": "P5",
+              "resource_id": "module_5_GreenLab_P5",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            },
+            {
+              "slot": 5,
+              "well": "P6",
+              "resource_id": "module_5_GreenLab_P6",
+              "liquid_type": "",
+              "volume_ul": 0.0
+            }
+          ]
         }
       }
     },
@@ -7088,11 +7985,11 @@
       "id": "module_5_GreenLab_P1",
       "name": "module_5_GreenLab_P1",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 50.5,
-        "y": 43.0,
+        "x": 47.0,
+        "y": 39.5,
         "z": 163.0
       },
       "children": [],
@@ -7116,16 +8013,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 183.0,
-            "y": -43.0,
+            "x": 179.5,
+            "y": -39.5,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 0,
+            "well": "P1",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7133,11 +8040,11 @@
       "id": "module_5_GreenLab_P2",
       "name": "module_5_GreenLab_P2",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 113.5,
-        "y": 43.0,
+        "x": 110.0,
+        "y": 39.5,
         "z": 163.0
       },
       "children": [],
@@ -7161,16 +8068,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 246.0,
-            "y": -43.0,
+            "x": 242.5,
+            "y": -39.5,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 1,
+            "well": "P2",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7178,11 +8095,11 @@
       "id": "module_5_GreenLab_P3",
       "name": "module_5_GreenLab_P3",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 144.0,
-        "y": 96.5,
+        "x": 140.5,
+        "y": 93.0,
         "z": 163.0
       },
       "children": [],
@@ -7206,16 +8123,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 276.5,
-            "y": -96.5,
+            "x": 273.0,
+            "y": -93.0,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 2,
+            "well": "P3",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7223,11 +8150,11 @@
       "id": "module_5_GreenLab_P4",
       "name": "module_5_GreenLab_P4",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 114.5,
-        "y": 148.5,
+        "x": 111.0,
+        "y": 145.0,
         "z": 163.0
       },
       "children": [],
@@ -7251,16 +8178,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 247.0,
-            "y": -148.5,
+            "x": 243.5,
+            "y": -145.0,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 3,
+            "well": "P4",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7268,11 +8205,11 @@
       "id": "module_5_GreenLab_P5",
       "name": "module_5_GreenLab_P5",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 52.0,
-        "y": 150.0,
+        "x": 48.5,
+        "y": 146.5,
         "z": 163.0
       },
       "children": [],
@@ -7296,16 +8233,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 184.5,
-            "y": -150.0,
+            "x": 181.0,
+            "y": -146.5,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 4,
+            "well": "P5",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     },
@@ -7313,11 +8260,11 @@
       "id": "module_5_GreenLab_P6",
       "name": "module_5_GreenLab_P6",
       "parent": "module_5_GreenLab",
-      "type": "container",
+      "type": "well",
       "class": "",
       "position": {
-        "x": 20.0,
-        "y": 96.5,
+        "x": 16.5,
+        "y": 93.0,
         "z": 163.0
       },
       "children": [],
@@ -7341,16 +8288,26 @@
         "compute_volume_from_height": null,
         "compute_height_from_volume": null
       },
-      "data": {},
+      "data": {
+        "liquids": [],
+        "pending_liquids": [],
+        "liquid_history": []
+      },
       "extra": {
         "electro_deck_well": {
           "deck_position": {
-            "x": 152.5,
-            "y": -96.5,
+            "x": 149.0,
+            "y": -93.0,
             "z": 163.0
           },
           "shape": "circular",
-          "port_type": "reagent_inlet"
+          "port_type": "reagent_inlet",
+          "liquid_setup": {
+            "slot": 5,
+            "well": "P6",
+            "liquid_type": "",
+            "volume_ul": 0.0
+          }
         }
       }
     }

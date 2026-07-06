@@ -72,12 +72,13 @@ def load_deck_config() -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: 配置字典
     """
-    # 优先使用最新的deckconfig.json文件
-    config_path = Path(__file__).parent / "controllers" / "deckconfig.json"
+    # 优先使用 laiyu/config 下的 deckconfig.json 文件
+    laiyu_root = Path(__file__).resolve().parents[1]
+    config_path = laiyu_root / "config" / "electro_deck.json"
     
     # 如果最新配置文件不存在，回退到旧配置文件
     if not config_path.exists():
-        config_path = Path(__file__).parent / "config" / "deck.json"
+        config_path = laiyu_root / "config" / "deckconfig.json"
     
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
@@ -226,7 +227,7 @@ class LaiYuTipRack1000(LaiYuLiquidTipRack):
                         # PyLabRobot的Tip需要特定参数
                         tip = Tip(
                             has_filter=False,
-                            total_tip_length=95.0,  # 1000ul枪头长度
+                            total_tip_length=96.0,  # 1000ul枪头长度
                             maximal_volume=1000.0,  # 最大体积
                             fitting_depth=8.0       # 安装深度
                         )
@@ -272,7 +273,7 @@ class LaiYuTipRack1000(LaiYuLiquidTipRack):
                 # PyLabRobot的Tip需要特定参数
                 tip = Tip(
                     has_filter=False,
-                    total_tip_length=95.0,  # 1000ul枪头长度
+                    total_tip_length=96.0,  # 1000ul枪头长度
                     maximal_volume=1000.0,  # 最大体积
                     fitting_depth=8.0       # 安装深度
                 )

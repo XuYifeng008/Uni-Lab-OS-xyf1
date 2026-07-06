@@ -2,13 +2,32 @@ bottle_container:
   category:
   - resource_container
   - container
+  - consumable
   class:
     module: unilabos.devices.resource_container.container:BottleRackContainer
     type: python
-  description: 96孔板
+  description: 来煜瓶架/GreenLab加样口容器，支持按孔位初始化液体
   handles: []
   icon: ''
-  init_param_schema: {}
+  init_param_schema:
+    properties:
+      liquid_input_slot:
+        description: 需要初始化液体的孔位索引列表，-1 表示容器自身
+        items:
+          type: integer
+        type: array
+      liquid_type:
+        description: 与 liquid_input_slot 对应的液体类型列表
+        items:
+          type: string
+        type: array
+      liquid_volume:
+        description: 与 liquid_input_slot 对应的液体体积列表，单位 uL
+        items:
+          type: number
+        type: array
+    required: []
+    type: object
   model:
     children_mesh: bottle/meshes/bottle.stl
     children_mesh_path: https://leap-lab.oss-cn-zhangjiakou.aliyuncs.com/uni-lab/resources/bottle/modal.xacro
@@ -34,13 +53,32 @@ tube_container:
   category:
   - resource_container
   - container
+  - consumable
   class:
     module: unilabos.devices.resource_container.container:TubeRackContainer
     type: python
-  description: 96孔板
+  description: 来煜试管/小瓶架容器，支持按孔位初始化液体
   handles: []
   icon: ''
-  init_param_schema: {}
+  init_param_schema:
+    properties:
+      liquid_input_slot:
+        description: 需要初始化液体的孔位索引列表，-1 表示容器自身
+        items:
+          type: integer
+        type: array
+      liquid_type:
+        description: 与 liquid_input_slot 对应的液体类型列表
+        items:
+          type: string
+        type: array
+      liquid_volume:
+        description: 与 liquid_input_slot 对应的液体体积列表，单位 uL
+        items:
+          type: number
+        type: array
+    required: []
+    type: object
   model:
     children_mesh: tube/meshes/tube.stl
     children_mesh_path: https://leap-lab.oss-cn-zhangjiakou.aliyuncs.com/uni-lab/resources/tube/modal.xacro

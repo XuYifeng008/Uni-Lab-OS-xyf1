@@ -4443,7 +4443,7 @@ liquid_handler:
           title: Transfer
           type: object
         type: Transfer
-      transfer_liquid:
+      transfer_liquid: &liquid_handler_transfer_liquid
         feedback: {}
         goal:
           asp_flow_rates: asp_flow_rates
@@ -4870,7 +4870,10 @@ liquid_handler:
           default: false
           type: boolean
         total_height:
-          default: 310
+          default: 259.0
+          type: number
+        tip_length:
+          default: 96.0
           type: number
       required:
       - backend
@@ -5831,6 +5834,73 @@ liquid_handler.laiyu:
   - liquid_handler
   class:
     action_value_mappings:
+      auto-create_resource:
+        feedback: {}
+        goal: {}
+        goal_default:
+          bind_location: null
+          bind_parent_id: null
+          liquid_input_slot: null
+          liquid_type: null
+          liquid_volume: null
+          resource_tracker: null
+          resources: null
+          slot_on_deck: null
+        handles: {}
+        placeholder_keys: {}
+        result: {}
+        schema:
+          description: create_resource的参数schema
+          properties:
+            feedback: {}
+            goal:
+              properties:
+                bind_location:
+                  additionalProperties:
+                    type: number
+                  type: object
+                bind_parent_id:
+                  type: string
+                liquid_input_slot:
+                  description: 液体输入槽列表
+                  items:
+                    type: integer
+                  type: array
+                liquid_type:
+                  description: 液体类型列表
+                  items:
+                    type: string
+                  type: array
+                liquid_volume:
+                  description: 液体体积列表，单位 uL
+                  items:
+                    type: number
+                  type: array
+                resource_tracker:
+                  type: object
+                resources:
+                  items:
+                    type: object
+                  type: array
+                slot_on_deck:
+                  description: 甲板上的槽位
+                  type: integer
+              required:
+              - resource_tracker
+              - resources
+              - bind_parent_id
+              - bind_location
+              - liquid_input_slot
+              - liquid_type
+              - liquid_volume
+              - slot_on_deck
+              type: object
+            result: {}
+          required:
+          - goal
+          title: create_resource参数
+          type: object
+        type: UniLabJsonCommand
       add_liquid:
         feedback: {}
         goal:
@@ -7001,6 +7071,8 @@ liquid_handler.laiyu:
           title: LiquidHandlerPickUpTips
           type: object
         type: LiquidHandlerPickUpTips
+      transfer_liquid:
+        <<: *liquid_handler_transfer_liquid
     module: unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZHandler
     properties:
       support_touch_tip: bool

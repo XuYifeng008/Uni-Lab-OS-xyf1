@@ -405,6 +405,24 @@ class ResourceTreeInstance(object):
         return result
 
 
+def normalize_volume_tracker_state(state: Any) -> Any:
+    """兼容旧图文件：liquids 有初始液体但 liquid_history 为空时，PLR 会忽略 liquids。"""
+    if not isinstance(state, dict):
+        return state
+
+    liquids = state.get("liquids") or []
+    liquid_history = state.get("liquid_history")
+    if liquids and liquid_history == []:
+        normalized = dict(state)
+        normalized["liquid_history"] = [
+            [item[0], item[1], item[2] if len(item) >= 3 else "ul"]
+            for item in liquids
+            if isinstance(item, (list, tuple)) and len(item) >= 2
+        ]
+        return normalized
+    return state
+
+
 class ResourceTreeSet(object):
     """
     多个根节点的resource集合，包含多个ResourceTree
@@ -599,7 +617,7 @@ class ResourceTreeSet(object):
         def collect_node_data(node: ResourceDictInstance, name_to_uuid: dict, all_states: dict, name_to_extra: dict):
             """一次遍历收集 name_to_uuid, all_states 和 name_to_extra"""
             name_to_uuid[node.res_content.name] = node.res_content.uuid
-            all_states[node.res_content.name] = node.res_content.data
+            all_states[node.res_content.name] = normalize_volume_tracker_state(node.res_content.data)
             name_to_extra[node.res_content.name] = node.res_content.extra
             name_to_extra[node.res_content.name][FRONTEND_POSE_EXTRA] = node.res_content.pose.extra
             name_to_extra[node.res_content.name][EXTRA_CLASS] = node.res_content.klass

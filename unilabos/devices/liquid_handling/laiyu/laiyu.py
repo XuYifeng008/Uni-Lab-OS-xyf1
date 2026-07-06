@@ -38,7 +38,7 @@ class TransformXYZDeck(Deck):
     """
 
     def __init__(self, name: str, size_x: float, size_y: float, size_z: float):
-        super().__init__(name, size_x, size_y, size_z)
+        super().__init__(size_x=size_x, size_y=size_y, size_z=size_z, name=name)
         self.name = name
 
 class TransformXYZBackend(LiquidHandlerBackend):
@@ -95,7 +95,8 @@ class TransformXYZHandler(LiquidHandlerAbstract):
         channel_num=1,
         simulator=True,
         backend=None,
-        total_height: float = 310,
+        total_height: float = 259.0,
+        tip_length: float = 96.0,
         **backend_kwargs
     ):
         # Handle case where deck is passed as a dict (from serialization)
@@ -121,6 +122,7 @@ class TransformXYZHandler(LiquidHandlerAbstract):
                 if backend_type != "UniLiquidHandlerLaiyuBackend":
                     raise ValueError(f"Unsupported Laiyu backend type: {backend_type}")
                 backend_config.setdefault("total_height", total_height)
+                backend_config.setdefault("tip_length", tip_length)
                 self._unilabos_backend = UniLiquidHandlerLaiyuBackend(**backend_config)
             elif backend is not None:
                 self._unilabos_backend = backend
@@ -129,6 +131,7 @@ class TransformXYZHandler(LiquidHandlerAbstract):
                     port=str(port),
                     timeout=timeout,
                     total_height=total_height,
+                    tip_length=tip_length,
                     **backend_kwargs,
                 )
         super().__init__(backend=self._unilabos_backend, deck=deck, simulator=simulator, channel_num=channel_num)

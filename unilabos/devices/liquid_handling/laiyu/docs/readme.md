@@ -152,7 +152,8 @@ unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZDeck
       "port": "COM8"
     },
     "simulator": false,
-    "total_height": 232.5
+    "total_height": 259.0,
+    "tip_length": 96.0
   }
 }
 ```
@@ -165,7 +166,8 @@ unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZDeck
     "type": "UniLiquidHandlerRvizBackend"
   },
   "simulator": true,
-  "total_height": 300,
+  "total_height": 259.0,
+  "tip_length": 96.0,
   "joint_config": "TransformXYZDeck",
   "simulate_rviz": true
 }
