@@ -69,8 +69,8 @@ class LiquidClass(Enum):
 @dataclass
 class LiquidParameters:
     """液体处理参数"""
-    aspirate_speed: int = 500      # 吸液速度
-    dispense_speed: int = 800      # 排液速度
+    aspirate_speed: int = 1000     # 吸液速度
+    dispense_speed: int = 2000     # 排液速度
     air_gap: float = 10.0          # 空气间隙
     blow_out: float = 5.0          # 吹出量
     pre_wet: bool = False          # 预润湿
@@ -87,8 +87,8 @@ class PipetteController:
     # 预定义液体参数
     LIQUID_PARAMS = {
         LiquidClass.WATER: LiquidParameters(
-            aspirate_speed=500,
-            dispense_speed=800,
+            aspirate_speed=1500,
+            dispense_speed=2000,
             air_gap=10.0
         ),
         LiquidClass.SERUM: LiquidParameters(
@@ -106,8 +106,8 @@ class PipetteController:
             delay_after_dispense=2.0
         ),
         LiquidClass.VOLATILE: LiquidParameters(
-            aspirate_speed=800,
-            dispense_speed=1000,
+            aspirate_speed=1500,
+            dispense_speed=2000,
             air_gap=5.0,
             delay_after_aspirate=0.2,
             delay_after_dispense=0.2
@@ -492,7 +492,6 @@ class PipetteController:
         Returns:
             是否成功
         """
-        self._update_tip_status()
         if self.tip_status != TipStatus.TIP_ATTACHED:
             logger.error("无枪头，无法吸液")
             return False
@@ -553,7 +552,6 @@ class PipetteController:
         Returns:
             是否成功
         """
-        self._update_tip_status()
         if self.tip_status != TipStatus.TIP_ATTACHED:
             logger.error("无枪头，无法排液")
             return False

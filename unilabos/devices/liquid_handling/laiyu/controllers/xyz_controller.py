@@ -75,6 +75,8 @@ class MachineConfig:
     
     # 运动参数
     default_speed: int = 50         # 默认运动速度 (mm/s)
+    xy_speed_factor: float = 0.5    # XY轴运动速度缩放系数
+    z_speed_factor: float = 2.0     # Z轴运动速度缩放系数
     default_acceleration: int = 1000 # 默认加速度
 
 
@@ -605,6 +607,8 @@ class XYZController(XYZStepperController):
             # 设置运动参数
             speed = speed or self.machine_config.default_speed
             acceleration = acceleration or self.machine_config.default_acceleration
+            xy_speed = speed * self.machine_config.xy_speed_factor
+            z_speed = speed * self.machine_config.z_speed_factor
             
             xy_success = True
             # 步骤1: Z轴先上升到安全高度
@@ -613,20 +617,20 @@ class XYZController(XYZStepperController):
 
             if z is not None and (x is not None or y is not None):
                 safe_z_steps = self.work_to_machine_steps(None, None, self.machine_config.safe_z_height)
-                if not self.move_to_position(MotorAxis.Z, safe_z_steps['z'], self.ms_to_rpm(MotorAxis.Z, speed), acceleration):
+                if not self.move_to_position(MotorAxis.Z, safe_z_steps['z'], self.ms_to_rpm(MotorAxis.Z, z_speed), acceleration):
                     logger.error("Z轴上升到安全高度失败")
                     return False
-                logger.info(f"Z轴上升到安全高度: {self.machine_config.safe_z_height} mm")
+                logger.info(f"Z轴上升到安全高度: {self.machine_config.safe_z_height} mm, speed:{z_speed} mm/s")
                 
                 # 等待Z轴移动完成
                 self.wait_for_completion(MotorAxis.Z, 30.0)
             
             # 步骤2: XY轴移动到目标位置
             if x is not None:
-                if not self.move_to_position(MotorAxis.X, machine_steps['x'], self.ms_to_rpm(MotorAxis.X, speed), acceleration):
+                if not self.move_to_position(MotorAxis.X, machine_steps['x'], self.ms_to_rpm(MotorAxis.X, xy_speed), acceleration):
                     xy_success = False
             if y is not None:
-                if not self.move_to_position(MotorAxis.Y, machine_steps['y'], self.ms_to_rpm(MotorAxis.Y, speed), acceleration):
+                if not self.move_to_position(MotorAxis.Y, machine_steps['y'], self.ms_to_rpm(MotorAxis.Y, xy_speed), acceleration):
                     xy_success = False
 
             if not xy_success:
@@ -635,7 +639,7 @@ class XYZController(XYZStepperController):
                 
             
             if x is not None or y is not None:
-                logger.info(f"XY轴移动到目标位置: X:{x} Y:{y} mm")
+                logger.info(f"XY轴移动到目标位置: X:{x} Y:{y} mm, speed:{xy_speed} mm/s")
                 # 等待XY轴移动完成
                 if x is not None:
                     self.wait_for_completion(MotorAxis.X, 10.0)
@@ -644,10 +648,10 @@ class XYZController(XYZStepperController):
             
             # 步骤3: Z轴下降到目标位置
             if z is not None:   
-                if not self.move_to_position(MotorAxis.Z, machine_steps['z'], self.ms_to_rpm(MotorAxis.Z, speed), acceleration):
+                if not self.move_to_position(MotorAxis.Z, machine_steps['z'], self.ms_to_rpm(MotorAxis.Z, z_speed), acceleration):
                     logger.error("Z轴下降到目标位置失败")
                     return False
-                logger.info(f"Z轴下降到目标位置: {z} mm")
+                logger.info(f"Z轴下降到目标位置: {z} mm, speed:{z_speed} mm/s")
                 if not self.wait_for_completion(MotorAxis.Z, 30.0):
                     logger.error(f"Z轴下降到目标位置超时: {z} mm")
                     return False

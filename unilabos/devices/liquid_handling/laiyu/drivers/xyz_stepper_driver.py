@@ -198,7 +198,7 @@ class StepperMotorDriver:
             full_command = command + crc
             
             response = b""
-            max_attempts = 3
+            max_attempts = 5
             for attempt in range(1, max_attempts + 1):
                 # 共享 RS485 总线时，SOPA 可能还有延迟响应；等待输入缓冲安静后再发 Modbus。
                 self._drain_input_buffer(quiet_period=0.2, max_wait=1.5)

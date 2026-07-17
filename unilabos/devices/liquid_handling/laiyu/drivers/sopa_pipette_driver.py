@@ -125,6 +125,11 @@ class SOPAConfig:
 class SOPAPipette:
     """SOPA气动式移液器驱动类"""
 
+    MIN_OPERATION_WAIT_SECONDS = 0.2
+    OPERATION_SETTLE_SECONDS = 0.2
+    MIN_LIQUID_SPEED = 1
+    MAX_LIQUID_SPEED = 2000
+
     def __init__(self, config: SOPAConfig):
         """
         初始化SOPA移液器
@@ -588,6 +593,28 @@ class SOPAPipette:
             logger.error(f"绝对移动失败: {str(e)}")
             return False
 
+    def _estimate_liquid_operation_wait(self, volume: float) -> float:
+        """根据当前最大速度估算吸排液等待时间。max_speed 单位为 0.1ul/s。"""
+        speed_ul_per_second = max(self.config.max_speed / 10.0, 1.0)
+        motion_time = abs(volume) / speed_ul_per_second
+        return max(
+            self.MIN_OPERATION_WAIT_SECONDS,
+            motion_time * 1.2 + self.OPERATION_SETTLE_SECONDS,
+        )
+
+    def _wait_for_liquid_operation_complete(self, volume: float) -> SOPAStatusCode:
+        """等待移液动作完成，并在设备仍忙时短轮询状态。"""
+        estimate = self._estimate_liquid_operation_wait(volume)
+        time.sleep(estimate)
+
+        deadline = time.time() + max(self.config.timeout, estimate)
+        status = self.get_status()
+        while status == SOPAStatusCode.ACTION_INCOMPLETE and time.time() < deadline:
+            time.sleep(0.1)
+            status = self.get_status()
+
+        return status
+
     def aspirate(self, volume: float, detection: bool = False) -> bool:
         """
         抽吸液体
@@ -627,11 +654,8 @@ class SOPAPipette:
                 command = "".join(cmd_parts)
                 self._send_command(command)
 
-                # 等待操作完成
-                time.sleep(max(1.0, vol_int / 100.0)) # 100ul/s
-
-                # 检查状态
-                status = self.get_status()
+                # 按当前 max_speed 估算等待时间，而不是固定按 50ul/s 等待。
+                status = self._wait_for_liquid_operation_complete(vol_int)
                 if status == SOPAStatusCode.NO_ERROR:
                     self._current_position += vol_int
                     logger.info(f"抽吸成功: {vol_int}ul")
@@ -689,11 +713,8 @@ class SOPAPipette:
                 command = "".join(cmd_parts)
                 self._send_command(command)
 
-                # 等待操作完成
-                time.sleep(max(1.0, vol_int / 200.0))
-
-                # 检查状态
-                status = self.get_status()
+                # 按当前 max_speed 估算等待时间，而不是固定按 50ul/s 等待。
+                status = self._wait_for_liquid_operation_complete(vol_int)
                 if status == SOPAStatusCode.NO_ERROR:
                     self._current_position -= vol_int
                     logger.info(f"分配成功: {vol_int}ul")
@@ -758,6 +779,7 @@ class SOPAPipette:
     def set_max_speed(self, speed: int) -> bool:
         """设置最高速度 (0.1ul/秒为单位)"""
         try:
+            speed = int(min(max(speed, self.MIN_LIQUID_SPEED), self.MAX_LIQUID_SPEED))
             self._send_command(f"s{speed}E")
             self.config.max_speed = speed
             logger.debug(f"设置最高速度: {speed} (0.1ul/秒)")

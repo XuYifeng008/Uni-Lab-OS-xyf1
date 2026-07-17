@@ -29,13 +29,22 @@ import time
 from rclpy.action import ActionClient
 from unilabos_msgs.action import SendCmd
 import re
+import logging
 
 from unilabos.devices.ros_dev.liquid_handler_joint_publisher import JointStatePublisher
 from unilabos.devices.liquid_handling.laiyu.controllers.pipette_controller import PipetteController, TipStatus
 
+logger = logging.getLogger(__name__)
+
 
 class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   """Chatter box backend for device-free testing. Prints out all operations."""
+
+  _greenlab_dispense_wells = {f"module_5_GreenLab_P{i}" for i in range(1, 7)}
+  _greenlab_dispense_z_offset_mm = -20.0
+  _default_flow_rate = 2000
+  _min_flow_rate = 100
+  _max_flow_rate = 2000
 
   _pip_length = 5
   _vol_length = 8
@@ -100,23 +109,29 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   def serialize(self) -> dict:
     return {**super().serialize(), "num_channels": self.num_channels}
 
-  def pipette_aspirate(self, volume: float, flow_rate: float):
+  @classmethod
+  def _normalize_flow_rate(cls, flow_rate: Optional[float]) -> int:
+    if flow_rate is None:
+      return cls._default_flow_rate
+    return int(min(max(flow_rate, cls._min_flow_rate), cls._max_flow_rate))
 
-    self.hardware_interface.pipette.set_max_speed(flow_rate)
+  def pipette_aspirate(self, volume: float, flow_rate: Optional[float] = None):
+
+    self.hardware_interface.pipette.set_max_speed(self._normalize_flow_rate(flow_rate))
     res = self.hardware_interface.pipette.aspirate(volume=volume)
     
     if not res:
-        self.hardware_interface.logger.error("吸取失败，当前体积: {self.hardware_interface.current_volume}")
+        logger.error(f"吸取失败，当前体积: {self.hardware_interface.current_volume}")
         return
 
     self.hardware_interface.current_volume += volume 
 
-  def pipette_dispense(self, volume: float, flow_rate: float):
+  def pipette_dispense(self, volume: float, flow_rate: Optional[float] = None):
 
-    self.hardware_interface.pipette.set_max_speed(flow_rate)
+    self.hardware_interface.pipette.set_max_speed(self._normalize_flow_rate(flow_rate))
     res = self.hardware_interface.pipette.dispense(volume=volume)
     if not res:
-        self.hardware_interface.logger.error("排液失败，当前体积: {self.hardware_interface.current_volume}")
+        logger.error(f"排液失败，当前体积: {self.hardware_interface.current_volume}")
         return
     self.hardware_interface.current_volume -= volume
 
@@ -129,6 +144,10 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
 
   async def unassigned_resource_callback(self, name: str):
     print(f"Resource {name} was unassigned from the liquid handler.")
+
+  @classmethod
+  def _is_greenlab_dispense_target(cls, resource: Resource) -> bool:
+    return resource.name in cls._greenlab_dispense_wells
 
   async def pick_up_tips(self, ops: List[Pickup], use_channels: List[int], **backend_kwargs):
     print("Picking up tips:")
@@ -174,12 +193,12 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     if self.hardware_interface.tip_status == TipStatus.TIP_ATTACHED:
         print("已有枪头，无需重复拾取")
         return
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=200)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
     try:
         if not self.hardware_interface.pickup_tip():
             raise RuntimeError("取枪头失败：硬件未检测到已装枪头")
     finally:
-        self.hardware_interface.xyz_controller.move_to_work_coord_safe(z=self.hardware_interface.xyz_controller.machine_config.safe_z_height,speed=100)
+        self.hardware_interface.xyz_controller.move_to_work_coord_safe(z=self.hardware_interface.xyz_controller.machine_config.safe_z_height,speed=200)
     # self.joint_state_publisher.send_resource_action(ops[0].resource.name, x, y, z, "pick",channels=use_channels)
     #   goback()
 
@@ -227,7 +246,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     if self.hardware_interface.tip_status == TipStatus.NO_TIP:
         print("无枪头，无需丢弃")
         return
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=200)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
     try:
         if not self.hardware_interface.eject_tip():
             raise RuntimeError("丢弃枪头失败：硬件未确认枪头已弹出")
@@ -283,18 +302,17 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     # print("moving")
 
     # 判断枪头是否存在
-    self.hardware_interface._update_tip_status()
     if not self.hardware_interface.tip_status == TipStatus.TIP_ATTACHED:
         raise RuntimeError("无枪头，无法吸液")
     # 判断吸液量是否超过枪头容量
-    flow_rate = backend_kwargs["flow_rate"] if "flow_rate" in backend_kwargs else 500
+    flow_rate = self._normalize_flow_rate(backend_kwargs.get("flow_rate"))
     blow_out_air_volume = backend_kwargs["blow_out_air_volume"] if "blow_out_air_volume" in backend_kwargs else 0
     if self.hardware_interface.current_volume + ops[0].volume + blow_out_air_volume > self.hardware_interface.max_volume:
-        self.hardware_interface.logger.error(f"吸液量超过枪头容量: {self.hardware_interface.current_volume + ops[0].volume} > {self.hardware_interface.max_volume}")
+        logger.error(f"吸液量超过枪头容量: {self.hardware_interface.current_volume + ops[0].volume} > {self.hardware_interface.max_volume}")
         return
 
     # 移动到吸液位置
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=200)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
     self.pipette_aspirate(volume=ops[0].volume, flow_rate=flow_rate)
 
 
@@ -350,23 +368,24 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     x = coordinate.x + offset_xyz.x
     y = coordinate.y + offset_xyz.y
     z = self.total_height - (coordinate.z + self.tip_length) + offset_xyz.z
+    if self._is_greenlab_dispense_target(ops[0].resource):
+      z += self._greenlab_dispense_z_offset_mm
     # print(x, y, z)
     # print("moving")
 
     # 判断枪头是否存在
-    self.hardware_interface._update_tip_status()
     if not self.hardware_interface.tip_status == TipStatus.TIP_ATTACHED:
         raise RuntimeError("无枪头，无法排液")
     # 判断排液量是否超过枪头容量
-    flow_rate = backend_kwargs["flow_rate"] if "flow_rate" in backend_kwargs else 500
+    flow_rate = self._normalize_flow_rate(backend_kwargs.get("flow_rate"))
     blow_out_air_volume = backend_kwargs["blow_out_air_volume"] if "blow_out_air_volume" in backend_kwargs else 0
     if self.hardware_interface.current_volume - ops[0].volume - blow_out_air_volume < 0:
-        self.hardware_interface.logger.error(f"排液量超过枪头容量: {self.hardware_interface.current_volume - ops[0].volume - blow_out_air_volume} < 0")
+        logger.error(f"排液量超过枪头容量: {self.hardware_interface.current_volume - ops[0].volume - blow_out_air_volume} < 0")
         return
 
     
     # 移动到排液位置  
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=200)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
     self.pipette_dispense(volume=ops[0].volume, flow_rate=flow_rate)
 
 
