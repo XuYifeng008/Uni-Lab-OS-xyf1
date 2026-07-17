@@ -191,78 +191,66 @@ class StepperMotorDriver:
         if not self.serial_conn or not self.serial_conn.is_open:
             raise ModbusException("串口未连接")
         
-        # 构建完整命令
-        command = bytes([slave_addr]) + data
-        crc = self.calculate_crc(command)
-        full_command = command + crc
-
-        response = b""
-        max_attempts = 5
-        for attempt in range(1, max_attempts + 1):
-            if self._serial_bus:
-                transaction = self._serial_bus.transaction(
-                    pre_quiet=0.2,
-                    pre_max_wait=1.5,
-                    post_quiet=0.2,
-                    post_max_wait=0.8,
-                    log_prefix="Modbus事务",
-                )
-            else:
-                transaction = self.lock
-
-            with transaction:
-                if not self._serial_bus:
-                    # 兼容未通过 RS485Bus 注入串口的测试/调试路径。
-                    self._drain_input_buffer(quiet_period=0.2, max_wait=1.5)
+        with self.lock:
+            # 构建完整命令
+            command = bytes([slave_addr]) + data
+            crc = self.calculate_crc(command)
+            full_command = command + crc
+            
+            response = b""
+            max_attempts = 5
+            for attempt in range(1, max_attempts + 1):
+                # 共享 RS485 总线时，SOPA 可能还有延迟响应；等待输入缓冲安静后再发 Modbus。
+                self._drain_input_buffer(quiet_period=0.2, max_wait=1.5)
                 self.serial_conn.reset_output_buffer()
-
+                
                 # 发送命令
                 self.serial_conn.write(full_command)
                 self.serial_conn.flush()
                 logger.debug(f"发送命令: {' '.join(f'{b:02X}' for b in full_command)}")
-
+                
                 # 等待设备处理并按 Modbus RTU 响应长度读取完整帧。
                 time.sleep(self.response_delay)
                 response = self._read_modbus_response(slave_addr)
-            if response:
-                break
+                if response:
+                    break
 
-            if attempt < max_attempts:
-                logger.warning(
-                    "未收到有效 Modbus 响应，准备重试: addr=%s attempt=%s/%s",
-                    slave_addr,
-                    attempt + 1,
-                    max_attempts,
+                if attempt < max_attempts:
+                    logger.warning(
+                        "未收到有效 Modbus 响应，准备重试: addr=%s attempt=%s/%s",
+                        slave_addr,
+                        attempt + 1,
+                        max_attempts,
+                    )
+
+            if not response:
+                raise ModbusException(
+                    f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
                 )
-
-        if not response:
-            raise ModbusException(
-                f"未收到响应: addr={slave_addr}, cmd={' '.join(f'{b:02X}' for b in full_command)}"
-            )
             
-        logger.debug(f"接收响应: {' '.join(f'{b:02X}' for b in response)}")
-
-        # 验证CRC
-        if len(response) < 3:
-            raise ModbusException("响应数据长度不足")
-
-        data_part = response[:-2]
-        received_crc = response[-2:]
-        calculated_crc = self.calculate_crc(data_part)
-
-        if received_crc != calculated_crc:
-            raise ModbusException(
-                "CRC校验失败: "
-                f"response={' '.join(f'{b:02X}' for b in response)}, "
-                f"expected={' '.join(f'{b:02X}' for b in calculated_crc)}, "
-                f"actual={' '.join(f'{b:02X}' for b in received_crc)}"
-            )
-
-        if response[1] & 0x80:
-            error_code = response[2] if len(response) > 2 else None
-            raise ModbusException(f"设备返回异常响应: function=0x{response[1]:02X}, error={error_code}")
-
-        return response
+            logger.debug(f"接收响应: {' '.join(f'{b:02X}' for b in response)}")
+            
+            # 验证CRC
+            if len(response) < 3:
+                raise ModbusException("响应数据长度不足")
+            
+            data_part = response[:-2]
+            received_crc = response[-2:]
+            calculated_crc = self.calculate_crc(data_part)
+            
+            if received_crc != calculated_crc:
+                raise ModbusException(
+                    "CRC校验失败: "
+                    f"response={' '.join(f'{b:02X}' for b in response)}, "
+                    f"expected={' '.join(f'{b:02X}' for b in calculated_crc)}, "
+                    f"actual={' '.join(f'{b:02X}' for b in received_crc)}"
+                )
+            
+            if response[1] & 0x80:
+                error_code = response[2] if len(response) > 2 else None
+                raise ModbusException(f"设备返回异常响应: function=0x{response[1]:02X}, error={error_code}")
+            
+            return response
 
     def _drain_input_buffer(self, quiet_period: float = 0.2, max_wait: float = 1.5) -> bytes:
         """清空输入缓冲，并等待短暂静默，避免 SOPA 残留响应混入 Modbus 帧。"""
@@ -343,9 +331,7 @@ class StepperMotorDriver:
         while time.time() < deadline:
             waiting = self.serial_conn.in_waiting
             if waiting:
-                response_buffer += self.serial_conn.read(
-                    self._next_modbus_read_size(response_buffer, waiting, expected_slave_addr)
-                )
+                response_buffer += self.serial_conn.read(waiting)
                 frame = self._extract_modbus_frame(response_buffer, expected_slave_addr)
                 if frame is not None:
                     return frame
@@ -371,23 +357,6 @@ class StepperMotorDriver:
             )
 
         return b""
-
-    def _next_modbus_read_size(self, buffer: bytes, waiting: int, expected_slave_addr: int) -> int:
-        """按当前候选帧缺口读取，减少 Modbus 与 SOPA 混合数据一次性进入缓冲。"""
-        start = buffer.find(bytes([expected_slave_addr]))
-        if start < 0:
-            return 1
-
-        candidate = buffer[start:]
-        expected_len = self._expected_response_length(candidate)
-        if expected_len is None:
-            return 1
-
-        remaining = expected_len - len(candidate)
-        if remaining <= 0:
-            return 1
-
-        return max(1, min(waiting, remaining))
 
     def _extract_modbus_frame(self, data: bytes, expected_slave_addr: int) -> Optional[bytes]:
         """从混合串口数据中提取目标从站的一帧合法 Modbus RTU 响应。"""

@@ -5,10 +5,8 @@
 import logging
 import os
 import threading
-import time
-from contextlib import contextmanager
 from dataclasses import dataclass, field
-from typing import Dict, Iterator, Optional
+from typing import Dict, Optional
 
 import serial
 
@@ -61,66 +59,6 @@ class RS485Bus:
             if self.ref_count == 0 and self.serial_conn and self.serial_conn.is_open:
                 self.serial_conn.close()
                 logger.info("已关闭共享 RS485 总线: %s", self.port)
-
-    def drain_until_quiet(
-        self,
-        quiet_period: float = 0.2,
-        max_wait: float = 1.0,
-        log_prefix: str = "清理 RS485 残留数据",
-    ) -> bytes:
-        """读取输入缓冲直到总线保持短暂安静。调用方应持有总线锁。"""
-        if not self.serial_conn or not self.serial_conn.is_open:
-            return b""
-
-        drained = b""
-        deadline = time.time() + max_wait
-        quiet_deadline = time.time() + quiet_period
-
-        while time.time() < deadline:
-            waiting = self.serial_conn.in_waiting
-            if waiting:
-                drained += self.serial_conn.read(waiting)
-                quiet_deadline = time.time() + quiet_period
-                continue
-
-            if time.time() >= quiet_deadline:
-                break
-
-            time.sleep(0.01)
-
-        if drained:
-            logger.debug("%s: %s", log_prefix, " ".join(f"{b:02X}" for b in drained))
-
-        return drained
-
-    @contextmanager
-    def transaction(
-        self,
-        pre_drain: bool = True,
-        post_drain: bool = True,
-        pre_quiet: float = 0.2,
-        pre_max_wait: float = 1.0,
-        post_quiet: float = 0.2,
-        post_max_wait: float = 1.0,
-        log_prefix: str = "RS485事务",
-    ) -> Iterator[None]:
-        """一次 RS485 发-等-收事务，期间独占总线并清理事务边界残留。"""
-        with self.lock:
-            if pre_drain:
-                self.drain_until_quiet(
-                    quiet_period=pre_quiet,
-                    max_wait=pre_max_wait,
-                    log_prefix=f"{log_prefix}开始前清理残留数据",
-                )
-            try:
-                yield
-            finally:
-                if post_drain:
-                    self.drain_until_quiet(
-                        quiet_period=post_quiet,
-                        max_wait=post_max_wait,
-                        log_prefix=f"{log_prefix}结束后清理残留数据",
-                    )
 
 
 _buses: Dict[str, RS485Bus] = {}
