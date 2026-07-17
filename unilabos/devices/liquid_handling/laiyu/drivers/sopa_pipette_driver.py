@@ -246,7 +246,53 @@ class SOPAPipette:
         time.sleep(0.1)
         return True
 
-    def _drain_response_until_quiet_locked(self, quiet_period: float = 0.05, max_wait: float = 0.3) -> bytes:
+    @contextmanager
+    def _bus_transaction(
+        self,
+        pre_drain: bool = True,
+        post_drain: bool = True,
+        pre_quiet: float = 0.2,
+        pre_max_wait: float = 1.0,
+        post_quiet: float = 0.2,
+        post_max_wait: float = 1.0,
+    ):
+        """一次 SOPA RS485 事务，保证和 Modbus 共用同一把总线锁。"""
+        if self._serial_bus:
+            with self._serial_bus.transaction(
+                pre_drain=pre_drain,
+                post_drain=post_drain,
+                pre_quiet=pre_quiet,
+                pre_max_wait=pre_max_wait,
+                post_quiet=post_quiet,
+                post_max_wait=post_max_wait,
+                log_prefix="SOPA事务",
+            ):
+                yield
+            return
+
+        with self.lock:
+            if pre_drain:
+                self._drain_response_until_quiet_locked(
+                    quiet_period=pre_quiet,
+                    max_wait=pre_max_wait,
+                    log_prefix="SOPA事务开始前清理残留数据",
+                )
+            try:
+                yield
+            finally:
+                if post_drain:
+                    self._drain_response_until_quiet_locked(
+                        quiet_period=post_quiet,
+                        max_wait=post_max_wait,
+                        log_prefix="SOPA事务结束后清理残留数据",
+                    )
+
+    def _drain_response_until_quiet_locked(
+        self,
+        quiet_period: float = 0.2,
+        max_wait: float = 1.0,
+        log_prefix: str = "丢弃SOPA即时响应",
+    ) -> bytes:
         """读取并丢弃命令后的即时响应，避免残留数据污染下一次 Modbus 事务。"""
         assert self.serial_port is not None
 
@@ -267,9 +313,29 @@ class SOPAPipette:
             time.sleep(0.01)
 
         if drained:
-            logger.debug("丢弃SOPA即时响应: %s", " ".join(f"{b:02X}" for b in drained))
+            logger.debug("%s: %s", log_prefix, " ".join(f"{b:02X}" for b in drained))
 
         return drained
+
+    def _drain_bus_until_quiet_locked(
+        self,
+        quiet_period: float = 0.2,
+        max_wait: float = 1.0,
+        log_prefix: str = "SOPA读取额外响应",
+    ) -> bytes:
+        """在已持有总线锁时继续读取到安静，返回读到的额外数据。"""
+        if self._serial_bus:
+            return self._serial_bus.drain_until_quiet(
+                quiet_period=quiet_period,
+                max_wait=max_wait,
+                log_prefix=log_prefix,
+            )
+
+        return self._drain_response_until_quiet_locked(
+            quiet_period=quiet_period,
+            max_wait=max_wait,
+            log_prefix=log_prefix,
+        )
 
     def _send_command(self, command: str, drain_response: bool = True) -> bool:
         """
@@ -284,11 +350,9 @@ class SOPAPipette:
         if not self.is_connected or not self.serial_port:
             raise SOPACommunicationError("设备未连接")
 
-        with self.lock:
+        with self._bus_transaction(post_drain=drain_response):
             try:
                 self._write_command_locked(command)
-                if drain_response:
-                    self._drain_response_until_quiet_locked()
                 return True
 
             except Exception as e:
@@ -406,12 +470,7 @@ class SOPAPipette:
         response = b""
         last_data_time = None
 
-        with self.lock:
-            try:
-                self.serial_port.reset_input_buffer()
-            except Exception as e:
-                logger.debug(f"清空输入缓冲区失败，将继续查询: {e}")
-
+        with self._bus_transaction(post_drain=False):
             self._write_command_locked(query)
             start_time = time.time()
 
@@ -423,6 +482,12 @@ class SOPAPipette:
                 elif last_data_time is not None and time.time() - last_data_time >= quiet_period:
                     break
                 time.sleep(0.01)
+
+            response += self._drain_bus_until_quiet_locked(
+                quiet_period=quiet_period,
+                max_wait=1.0,
+                log_prefix="SOPA查询读取额外响应",
+            )
 
         frames = self._extract_response_frames(response)
         if response:
@@ -444,7 +509,7 @@ class SOPAPipette:
             Optional[str]: 查询结果
         """
         try:
-            with self.lock:
+            with self._bus_transaction(post_drain=True):
                 self._write_command_locked(query)
                 return self._read_response()
         except Exception as e:
@@ -937,15 +1002,10 @@ class SOPAPipette:
             Optional[str]: 固件版本字符串，获取失败返回None
         """
         try:
-            with self.lock:
+            with self._bus_transaction(post_drain=True, post_quiet=0.2, post_max_wait=1.0):
                 if not self.is_connected or not self.serial_port:
                     logger.debug("设备未连接，无法查询版本")
                     return "设备未连接"
-
-                # 清空串口缓冲区，避免残留数据干扰
-                if self.serial_port.in_waiting > 0:
-                    logger.debug(f"清空缓冲区中的 {self.serial_port.in_waiting} 字节数据")
-                    self.serial_port.reset_input_buffer()
 
                 # 发送版本查询命令 - 使用VE命令
                 self._write_command_locked("VE")
@@ -1210,7 +1270,7 @@ class SOPAPipette:
     def emergency_stop(self):
         """紧急停止"""
         try:
-            with self.lock:
+            with self._bus_transaction(post_drain=True):
                 if self.serial_port and self.serial_port.is_open:
                     # 发送停止命令（如果协议支持）
                     self.serial_port.write(b'\x03')  # Ctrl+C
