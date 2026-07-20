@@ -66,6 +66,9 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     num_channels: int = 8,
     tip_length: float = 96.0,
     total_height: float = 259.0,
+    # ===== 串口配置（修改这里）=====
+    # port 是 SOPA 移液器串口；xyz_port 是 XYZ 三轴串口。
+    # 不填 xyz_port 时保持旧逻辑，XYZ 与 SOPA 共用 port。
     port: str = "/dev/ttyUSB0",
     address: int = 4,
     baudrate: int = 115200,

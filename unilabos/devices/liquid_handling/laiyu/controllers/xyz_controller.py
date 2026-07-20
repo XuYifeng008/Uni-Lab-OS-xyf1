@@ -75,9 +75,9 @@ class MachineConfig:
     
     # 运动参数
     default_speed: int = 50         # 默认运动速度 (mm/s)
-    xy_speed_factor: float = 0.5    # XY轴运动速度缩放系数
-    z_speed_factor: float = 2.0     # Z轴运动速度缩放系数
-    default_acceleration: int = 1000 # 默认加速度
+    xy_speed_factor: float = 0.3    # XY轴运动速度缩放系数
+    z_speed_factor: float = 2.5     # Z轴运动速度缩放系数
+    default_acceleration: int = 500 # 默认加速度
 
 
 @dataclass 
@@ -1199,7 +1199,10 @@ def run_tests():
     possible_ports = [
         '/dev/ttyUSB_CH340',
         'COM7',
-        'COM8'
+        'COM8',
+        'COM9',
+        'COM5',
+        'COM6',
     ]
     
     connected_controller = None

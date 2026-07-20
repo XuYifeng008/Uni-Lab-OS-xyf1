@@ -82,10 +82,17 @@ class LaiYuLiquidError(RuntimeError):
 @dataclass
 class LaiYuLiquidConfig:
     """LaiYu_Liquid 设备配置"""
-    port: str = "/dev/cu.usbserial-3130"  # RS485转USB端口
+
+    # ===== 串口配置（修改这里）=====
+    # SOPA 和 XYZ 已拆成独立串口；旧配置只填 port 时仍按旧逻辑共用同一串口。
+    port: str = "/dev/cu.usbserial-3130"  # 兼容旧配置的默认串口
+    sopa_port: Optional[str] = None  # SOPA移液器串口，例如 Windows: "COM8"
+    xyz_port: Optional[str] = None  # XYZ三轴串口，例如 Windows: "COM9"
     address: int = 4  # SOPA移液器推荐地址
     baudrate: int = 115200  # 推荐波特率
     timeout: float = 5.0  # 通信超时时间
+    xyz_baudrate: Optional[int] = None  # XYZ三轴波特率；不填则使用 baudrate
+    xyz_timeout: Optional[float] = None  # XYZ三轴超时；不填则使用 timeout
     
     # 工作台尺寸
     deck_width: float = 340.0  # 工作台宽度 (mm)
@@ -124,6 +131,26 @@ class LaiYuLiquidConfig:
     safe_height: float = 50.0  # 安全高度 (mm)
     position_validation: bool = True  # 启用位置验证
     emergency_stop_enabled: bool = True  # 启用紧急停止
+
+    @property
+    def resolved_sopa_port(self) -> str:
+        """实际使用的 SOPA 移液器串口。"""
+        return self.sopa_port or self.port
+
+    @property
+    def resolved_xyz_port(self) -> str:
+        """实际使用的 XYZ 三轴串口。"""
+        return self.xyz_port or self.port
+
+    @property
+    def resolved_xyz_baudrate(self) -> int:
+        """实际使用的 XYZ 三轴波特率。"""
+        return self.xyz_baudrate if self.xyz_baudrate is not None else self.baudrate
+
+    @property
+    def resolved_xyz_timeout(self) -> float:
+        """实际使用的 XYZ 三轴通信超时。"""
+        return self.xyz_timeout if self.xyz_timeout is not None else self.timeout
 
 
 class LaiYuLiquidDeck:
@@ -376,18 +403,21 @@ class LaiYuLiquidBackend:
             if CONTROLLERS_AVAILABLE:
                 # 初始化移液器控制器
                 self.pipette_controller = PipetteController(
-                    port=self.config.port,
+                    port=self.config.resolved_sopa_port,
                     address=self.config.address,
                     baudrate=self.config.baudrate,
                     timeout=self.config.timeout,
+                    xyz_port=self.config.resolved_xyz_port,
+                    xyz_baudrate=self.config.resolved_xyz_baudrate,
+                    xyz_timeout=self.config.resolved_xyz_timeout,
                 )
                 
                 # 初始化XYZ控制器
                 machine_config = MachineConfig()
                 self.xyz_controller = XYZController(
-                    port=self.config.port,
-                    baudrate=self.config.baudrate,
-                    timeout=self.config.timeout,
+                    port=self.config.resolved_xyz_port,
+                    baudrate=self.config.resolved_xyz_baudrate,
+                    timeout=self.config.resolved_xyz_timeout,
                     machine_config=machine_config
                 )
                 

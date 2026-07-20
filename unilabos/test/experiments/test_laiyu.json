@@ -23,7 +23,8 @@
         },
         "backend": {
           "type": "UniLiquidHandlerLaiyuBackend",
-          "port": "COM8"
+          "port": "COM8",
+          "xyz_port": "COM9"
         },
         "simulator": false,
         "total_height": 259.0,

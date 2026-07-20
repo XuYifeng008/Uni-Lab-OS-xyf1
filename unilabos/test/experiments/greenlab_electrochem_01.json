@@ -22,7 +22,8 @@
         },
         "backend": {
           "type": "UniLiquidHandlerLaiyuBackend",
-          "port": "COM8"
+          "port": "COM9",
+          "xyz_port": "COM5"
         },
         "simulator": false,
         "total_height": 269.0,
@@ -44,7 +45,7 @@
       },
       "children": [],
       "config": {
-        "port": "COM7",
+        "port": "COM6",
         "baudrate": 115200,
         "slave_id": 1,
         "timeout": 3,
