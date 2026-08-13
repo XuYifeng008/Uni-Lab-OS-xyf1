@@ -48,6 +48,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   _default_flow_rate = 2000
   _min_flow_rate = 100
   _max_flow_rate = 2000
+  _pre_wet_settle_seconds = 0.2  # 润洗吸/排之间的短延时，让液体浸润枪头内壁
 
   _pip_length = 5
   _vol_length = 8
@@ -121,25 +122,37 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
       return cls._default_flow_rate
     return int(min(max(flow_rate, cls._min_flow_rate), cls._max_flow_rate))
 
-  def pipette_aspirate(self, volume: float, flow_rate: Optional[float] = None):
+  def pipette_aspirate(self, volume: float, flow_rate: Optional[float] = None) -> bool:
 
     self.hardware_interface.pipette.set_max_speed(self._normalize_flow_rate(flow_rate))
     res = self.hardware_interface.pipette.aspirate(volume=volume)
     
     if not res:
         logger.error(f"吸取失败，当前体积: {self.hardware_interface.current_volume}")
-        return
+        return False
 
-    self.hardware_interface.current_volume += volume 
+    self.hardware_interface.current_volume += volume
+    return True
 
-  def pipette_dispense(self, volume: float, flow_rate: Optional[float] = None):
+  def pipette_dispense(self, volume: float, flow_rate: Optional[float] = None) -> bool:
 
     self.hardware_interface.pipette.set_max_speed(self._normalize_flow_rate(flow_rate))
     res = self.hardware_interface.pipette.dispense(volume=volume)
     if not res:
         logger.error(f"排液失败，当前体积: {self.hardware_interface.current_volume}")
-        return
+        return False
     self.hardware_interface.current_volume -= volume
+    return True
+
+  def _pre_wet_tip(self, volume: float, flow_rate: Optional[float] = None) -> None:
+    """在源液位置用待取液体润洗枪头：原位吸一次再排回，不抬 Z。"""
+    logger.info(f"吸液前用待取液体润洗枪头: {volume}ul")
+    if not self.pipette_aspirate(volume=volume, flow_rate=flow_rate):
+      raise RuntimeError(f"润洗吸液失败: {volume}ul")
+    time.sleep(self._pre_wet_settle_seconds)
+    if not self.pipette_dispense(volume=volume, flow_rate=flow_rate):
+      raise RuntimeError(f"润洗排液失败: {volume}ul")
+    time.sleep(self._pre_wet_settle_seconds)
 
   @property
   def num_channels(self) -> int:
@@ -331,14 +344,25 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
         logger.error(f"吸液量超过枪头容量: {self.hardware_interface.current_volume + ops[0].volume} > {self.hardware_interface.max_volume}")
         return
 
-    # 移动到吸液位置
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
-    self.pipette_aspirate(volume=ops[0].volume, flow_rate=flow_rate)
-
-
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(z=self.hardware_interface.xyz_controller.machine_config.safe_z_height)
-    if blow_out_air_volume >0: 
+    xyz = self.hardware_interface.xyz_controller
+    safe_z = xyz.machine_config.safe_z_height
+    # 空气间隙必须在入液前吸取，否则会吸到液体而不是空气
+    if blow_out_air_volume > 0:
+        xyz.move_to_work_coord_safe(x=x, y=-y, z=safe_z, speed=300)
         self.pipette_aspirate(volume=blow_out_air_volume, flow_rate=flow_rate)
+        xyz.move_to_work_coord_safe(z=z, speed=300)
+    else:
+        xyz.move_to_work_coord_safe(x=x, y=-y, z=z, speed=300)
+    # transfer_liquid / multi_transfer_reuse_tip 初次吸液时原位润洗，不抬 Z
+    # 允许枪头内仅有刚吸入的空气间隙（current_volume == blow_out_air_volume）
+    if (
+        backend_kwargs.get("pre_wet")
+        and ops[0].volume > 0
+        and self.hardware_interface.current_volume <= blow_out_air_volume
+    ):
+      self._pre_wet_tip(volume=ops[0].volume, flow_rate=flow_rate)
+    self.pipette_aspirate(volume=ops[0].volume, flow_rate=flow_rate)
+    xyz.move_to_work_coord_safe(z=safe_z)
 
 
 
@@ -404,14 +428,12 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
         return
 
     
-    # 移动到排液位置  
+    # 移动到排液位置：先排液体，再吹出空气，最后抬 Z
     self.hardware_interface.xyz_controller.move_to_work_coord_safe(x=x, y=-y, z=z,speed=300)
     self.pipette_dispense(volume=ops[0].volume, flow_rate=flow_rate)
-
-
-    self.hardware_interface.xyz_controller.move_to_work_coord_safe(z=self.hardware_interface.xyz_controller.machine_config.safe_z_height)
-    if blow_out_air_volume > 0: 
+    if blow_out_air_volume > 0:
         self.pipette_dispense(volume=blow_out_air_volume, flow_rate=flow_rate)
+    self.hardware_interface.xyz_controller.move_to_work_coord_safe(z=self.hardware_interface.xyz_controller.machine_config.safe_z_height)
     # self.joint_state_publisher.send_resource_action(ops[0].resource.name, x, y, z, "",channels=use_channels)
 
   async def pick_up_tips96(self, pickup: PickupTipRack, **backend_kwargs):

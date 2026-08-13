@@ -140,6 +140,8 @@ class TransformXYZHandler(LiquidHandlerAbstract):
                     **backend_kwargs,
                 )
         super().__init__(backend=self._unilabos_backend, deck=deck, simulator=simulator, channel_num=channel_num)
+        # transfer_liquid 期间为 True：源孔吸液前用待取液体润洗枪头；mix 会临时关闭
+        self._pre_wet_on_aspirate = False
 
     def _normalize_use_channels(self, use_channels: Optional[Sequence[int]]) -> Optional[List[int]]:
         if use_channels is None:
@@ -211,6 +213,8 @@ class TransformXYZHandler(LiquidHandlerAbstract):
         spread: Literal["wide", "tight", "custom"] = "wide",
         **backend_kwargs,
     ):
+        if "pre_wet" not in backend_kwargs:
+            backend_kwargs["pre_wet"] = self._pre_wet_on_aspirate
         return await super().aspirate(
             resources,
             vols,
@@ -273,7 +277,13 @@ class TransformXYZHandler(LiquidHandlerAbstract):
         mix_rate: Optional[float] = None,
         none_keys: List[str] = [],
     ):
-        return await super().mix(targets, mix_time, mix_vol, height_to_bottom, offsets, mix_rate, none_keys)
+        # mix 内部也走 aspirate/dispense，不能当成「初次吸液」去润洗
+        saved = self._pre_wet_on_aspirate
+        self._pre_wet_on_aspirate = False
+        try:
+            return await super().mix(targets, mix_time, mix_vol, height_to_bottom, offsets, mix_rate, none_keys)
+        finally:
+            self._pre_wet_on_aspirate = saved
 
     async def pick_up_tips(
         self,
@@ -316,29 +326,34 @@ class TransformXYZHandler(LiquidHandlerAbstract):
     ):
         if not sources or not targets or asp_vols is None or dis_vols is None:
             return None
-        return await super().transfer_liquid(
-            sources=sources,
-            targets=targets,
-            tip_racks=tip_racks,
-            use_channels=self._normalize_use_channels(use_channels),
-            asp_vols=asp_vols,
-            dis_vols=dis_vols,
-            asp_flow_rates=self._none_if_empty(asp_flow_rates),
-            dis_flow_rates=self._none_if_empty(dis_flow_rates),
-            offsets=self._none_if_empty(offsets),
-            touch_tip=touch_tip,
-            liquid_height=self._none_if_empty(liquid_height),
-            blow_out_air_volume=self._none_if_empty(blow_out_air_volume),
-            spread=spread,
-            is_96_well=is_96_well,
-            mix_stage=mix_stage,
-            mix_times=mix_times,
-            mix_vol=mix_vol,
-            mix_rate=mix_rate,
-            mix_liquid_height=mix_liquid_height,
-            delays=delays,
-            none_keys=none_keys,
-        )
+        # 每根新枪头的源孔吸液前润洗；mix 已在 mix() 中排除
+        self._pre_wet_on_aspirate = True
+        try:
+            return await super().transfer_liquid(
+                sources=sources,
+                targets=targets,
+                tip_racks=tip_racks,
+                use_channels=self._normalize_use_channels(use_channels),
+                asp_vols=asp_vols,
+                dis_vols=dis_vols,
+                asp_flow_rates=self._none_if_empty(asp_flow_rates),
+                dis_flow_rates=self._none_if_empty(dis_flow_rates),
+                offsets=self._none_if_empty(offsets),
+                touch_tip=touch_tip,
+                liquid_height=self._none_if_empty(liquid_height),
+                blow_out_air_volume=self._none_if_empty(blow_out_air_volume),
+                spread=spread,
+                is_96_well=is_96_well,
+                mix_stage=mix_stage,
+                mix_times=mix_times,
+                mix_vol=mix_vol,
+                mix_rate=mix_rate,
+                mix_liquid_height=mix_liquid_height,
+                delays=delays,
+                none_keys=none_keys,
+            )
+        finally:
+            self._pre_wet_on_aspirate = False
 
     async def return_tips(
         self,
@@ -492,6 +507,7 @@ class TransformXYZHandler(LiquidHandlerAbstract):
                         [blow_out_air_volume[i]] if blow_out_air_volume and len(blow_out_air_volume) > i else None
                     ),
                     spread=spread or "wide",
+                    pre_wet=(i == 0),  # 复用枪头：仅第一次吸液前润洗
                 )
                 await self._custom_delay_if_configured(delays, 0)
                 await self.dispense(
