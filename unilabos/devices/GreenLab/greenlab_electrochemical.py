@@ -133,6 +133,9 @@ class GreenLabElectrochemical(UniversalDriver):
     # 当前转速读取
     REG_SPEED_READ = 68              # 当前转速
 
+    # 台面位置号 → 电通道号（传参 1..6 分别对应电通道 3,4,5,6,1,2）
+    POSITION_TO_CHANNEL = {1: 3, 2: 4, 3: 5, 4: 6, 5: 1, 6: 2}
+
     def __init__(self,
                  port: str = 'COM8',
                  baudrate: int = 115200,
@@ -267,6 +270,22 @@ class GreenLabElectrochemical(UniversalDriver):
 
     def _normalize_output_mode(self, mode: Any) -> Optional[OutputMode]:
         return self._normalize_enum(mode, OutputMode, "输出模式")  # type: ignore[return-value]
+
+    def _resolve_reaction_channel(self, position: int) -> Optional[int]:
+        """将反应动作传入的台面位置号映射为电通道号。
+
+        传参 1,2,3,4,5,6 → 电通道 3,4,5,6,1,2。
+        """
+        try:
+            position_int = int(position)
+        except (TypeError, ValueError):
+            self.logger.error(f"位置号无效: {position}")
+            return None
+        electrical = self.POSITION_TO_CHANNEL.get(position_int)
+        if electrical is None:
+            self.logger.error(f"位置号超出范围: {position}")
+            return None
+        return electrical
 
     def _normalize_alternate_mode(self, mode: Any) -> Optional[AlternateMode]:
         return self._normalize_enum(mode, AlternateMode, "交替模式")  # type: ignore[return-value]
@@ -628,7 +647,7 @@ class GreenLabElectrochemical(UniversalDriver):
         """设置电化学反应参数，不打开反应通道。
 
         Args:
-            channel[通道号]: GreenLab 通道号，范围 1-6。
+            channel[位置号]: 台面位置号 1-6，对应电通道 3,4,5,6,1,2。
             mode[输出模式]: 0=恒压，1=恒流，也支持 OutputMode 枚举名。
             voltage[电压(V)]: 恒压模式下的目标电压，范围 0-30V。
             current[电流(mA)]: 恒流模式下的目标电流，范围 0-100mA。
@@ -647,9 +666,10 @@ class GreenLabElectrochemical(UniversalDriver):
             self.return_info = "反应参数无效"
             return {"success": False, "message": self.return_info}
 
-        if not (1 <= channel <= 6):
+        electrical_channel = self._resolve_reaction_channel(channel)
+        if electrical_channel is None:
             self.success = False
-            self.return_info = f"通道号超出范围: {channel}"
+            self.return_info = f"位置号超出范围: {channel}"
             return {"success": False, "message": self.return_info}
 
         if not self.set_output_mode(normalized_mode):
@@ -663,12 +683,12 @@ class GreenLabElectrochemical(UniversalDriver):
             return {"success": False, "message": self.return_info}
 
         if normalized_mode == OutputMode.CONSTANT_VOLTAGE:
-            if not self.set_channel_voltage(channel, voltage):
+            if not self.set_channel_voltage(electrical_channel, voltage):
                 self.success = False
                 self.return_info = "设置电压失败"
                 return {"success": False, "message": self.return_info}
         else:
-            if not self.set_channel_current(channel, current):
+            if not self.set_channel_current(electrical_channel, current):
                 self.success = False
                 self.return_info = "设置电流失败"
                 return {"success": False, "message": self.return_info}
@@ -685,6 +705,7 @@ class GreenLabElectrochemical(UniversalDriver):
 
         saved_parameters = {
             "channel": channel,
+            "electrical_channel": electrical_channel,
             "mode": normalized_mode.name,
             "mode_value": normalized_mode.value,
             "voltage": voltage,
@@ -697,7 +718,9 @@ class GreenLabElectrochemical(UniversalDriver):
         }
         self._reaction_parameters[channel] = saved_parameters
         self.success = True
-        self.return_info = f"通道{channel}反应参数已设置"
+        self.return_info = (
+            f"位置{channel}(电通道{electrical_channel})反应参数已设置"
+        )
         return {
             "success": True,
             "message": self.return_info,
@@ -713,7 +736,7 @@ class GreenLabElectrochemical(UniversalDriver):
         """启动电化学反应
 
         Args:
-            channel: 通道号 (1-6)
+            channel: 台面位置号 (1-6)，对应电通道 3,4,5,6,1,2
             mode: 输出模式 (CONSTANT_VOLTAGE或CONSTANT_CURRENT)，为空时使用已设置参数
             voltage: 电压值(V)，恒压模式时使用，空值使用已设置参数
             current: 电流值(mA)，恒流模式时使用，空值使用已设置参数
@@ -722,6 +745,12 @@ class GreenLabElectrochemical(UniversalDriver):
         Returns:
             包含操作结果的字典
         """
+        electrical_channel = self._resolve_reaction_channel(channel)
+        if electrical_channel is None:
+            self.success = False
+            self.return_info = f"位置号超出范围: {channel}"
+            return {"success": False, "message": self.return_info}
+
         saved_parameters = self._reaction_parameters.get(channel, {})
         if mode is None:
             if not saved_parameters:
@@ -743,7 +772,8 @@ class GreenLabElectrochemical(UniversalDriver):
             return {"success": False, "message": self.return_info}
 
         self.logger.info(
-            f"启动通道{channel}反应: 模式={normalized_mode.name}, 电压={voltage}V, 电流={current}mA"
+            f"启动位置{channel}(电通道{electrical_channel})反应: "
+            f"模式={normalized_mode.name}, 电压={voltage}V, 电流={current}mA"
         )
 
         # 设置输出模式
@@ -754,12 +784,12 @@ class GreenLabElectrochemical(UniversalDriver):
 
         # 设置电压或电流
         if normalized_mode == OutputMode.CONSTANT_VOLTAGE:
-            if not self.set_channel_voltage(channel, voltage):
+            if not self.set_channel_voltage(electrical_channel, voltage):
                 self.success = False
                 self.return_info = "设置电压失败"
                 return {"success": False, "message": "设置电压失败"}
         else:
-            if not self.set_channel_current(channel, current):
+            if not self.set_channel_current(electrical_channel, current):
                 self.success = False
                 self.return_info = "设置电流失败"
                 return {"success": False, "message": "设置电流失败"}
@@ -770,17 +800,18 @@ class GreenLabElectrochemical(UniversalDriver):
                 self.logger.warning("启动搅拌失败，继续执行")
 
         # 打开通道
-        if not self.set_channel_switch(channel, True):
+        if not self.set_channel_switch(electrical_channel, True):
             self.success = False
             self.return_info = "打开通道失败"
             return {"success": False, "message": "打开通道失败"}
 
         self.success = True
-        self.return_info = f"通道{channel}反应已启动"
+        self.return_info = f"位置{channel}(电通道{electrical_channel})反应已启动"
         return {
             "success": True,
-            "message": f"通道{channel}反应已启动",
+            "message": self.return_info,
             "channel": channel,
+            "electrical_channel": electrical_channel,
             "mode": normalized_mode.name,
             "voltage": voltage,
             "current": current,
@@ -791,16 +822,24 @@ class GreenLabElectrochemical(UniversalDriver):
         """停止电化学反应
 
         Args:
-            channel: 通道号 (1-6)
+            channel: 台面位置号 (1-6)，对应电通道 3,4,5,6,1,2
             stop_stirrer: 是否同时停止搅拌
 
         Returns:
             包含操作结果的字典
         """
-        self.logger.info(f"停止通道{channel}反应")
+        electrical_channel = self._resolve_reaction_channel(channel)
+        if electrical_channel is None:
+            self.success = False
+            self.return_info = f"位置号超出范围: {channel}"
+            return {"success": False, "message": self.return_info}
+
+        self.logger.info(
+            f"停止位置{channel}(电通道{electrical_channel})反应"
+        )
 
         # 关闭通道
-        if not self.set_channel_switch(channel, False):
+        if not self.set_channel_switch(electrical_channel, False):
             self.success = False
             self.return_info = "关闭通道失败"
             return {"success": False, "message": "关闭通道失败"}
@@ -810,18 +849,19 @@ class GreenLabElectrochemical(UniversalDriver):
             self.set_stirrer(StirrerControl.OFF)
 
         self.success = True
-        self.return_info = f"通道{channel}反应已停止"
+        self.return_info = f"位置{channel}(电通道{electrical_channel})反应已停止"
         return {
             "success": True,
-            "message": f"通道{channel}反应已停止",
-            "channel": channel
+            "message": self.return_info,
+            "channel": channel,
+            "electrical_channel": electrical_channel,
         }
 
     def end_reaction(self, channel: int, stop_stirrer: bool = True) -> Dict[str, Any]:
         """结束电化学反应。
 
         Args:
-            channel[通道号]: GreenLab 通道号，范围 1-6。
+            channel[位置号]: 台面位置号 1-6，对应电通道 3,4,5,6,1,2。
             stop_stirrer[停止搅拌]: 是否同时停止搅拌。
 
         Returns:
@@ -882,6 +922,39 @@ class GreenLabElectrochemical(UniversalDriver):
             self.logger.error("紧急停止部分失败")
 
         return success
+
+    def delay(self, time: float = 0) -> Dict[str, Any]:
+        """工作流延时节点：停留指定秒数后继续执行下一节点。
+
+        Args:
+            time[延时时间(s)]: 工作流在此节点停留的秒数。
+        """
+        # 参数名 time 会遮蔽标准库模块，这里按数值处理并显式取 sleep
+        from time import sleep
+
+        try:
+            seconds = float(time) if time is not None else 0.0
+        except (TypeError, ValueError):
+            self.success = False
+            self.return_info = f"延时时间无效: {time}"
+            return {"success": False, "message": self.return_info}
+
+        if seconds < 0:
+            self.success = False
+            self.return_info = f"延时时间不能为负数: {seconds}"
+            return {"success": False, "message": self.return_info}
+
+        self.logger.info(f"开始延时 {seconds} 秒")
+        if seconds > 0:
+            sleep(seconds)
+
+        self.success = True
+        self.return_info = f"延时完成: {seconds} 秒"
+        return {
+            "success": True,
+            "message": self.return_info,
+            "time": seconds,
+        }
 
     def __del__(self):
         """析构函数，确保断开连接"""

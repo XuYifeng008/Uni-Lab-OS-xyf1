@@ -962,6 +962,53 @@ class ResourceTreeSet(object):
 
         return self
 
+    def apply_remote_uuids_by_id(self, remote_nodes: List[Dict[str, Any]]) -> Dict[str, str]:
+        """
+        按稳定键（优先 id，其次 name）将远端物料 UUID 应用到本地树。
+
+        用于实验室重启时复用云端已有物料 UUID，避免工作流中已选 slot 失效。
+
+        Args:
+            remote_nodes: 云端物料节点列表（含 id/name/uuid）
+
+        Returns:
+            Dict[str, str]: 发生变更的 {old_uuid: new_uuid}；未变更的节点不进入映射
+        """
+        remote_by_key: Dict[str, Dict[str, Any]] = {}
+        for remote in remote_nodes:
+            remote_uuid = remote.get("uuid")
+            if not remote_uuid:
+                continue
+            for key in (remote.get("id"), remote.get("name")):
+                if key and key not in remote_by_key:
+                    remote_by_key[key] = remote
+
+        mapping: Dict[str, str] = {}
+        matched = 0
+        for node in self.all_nodes:
+            content = node.res_content
+            remote = remote_by_key.get(content.id) or remote_by_key.get(content.name)
+            if remote is None:
+                continue
+            matched += 1
+            new_uuid = remote["uuid"]
+            old_uuid = content.uuid
+            if old_uuid != new_uuid:
+                mapping[old_uuid] = new_uuid
+                content.uuid = new_uuid
+
+        # 父节点 UUID 变更后，同步子节点 parent_uuid 字段
+        for node in self.all_nodes:
+            parent = node.res_content.parent
+            if parent is not None:
+                node.res_content.parent_uuid = parent.uuid
+
+        logger.info(
+            f"[UUID复用] 远端节点 {len(remote_nodes)}，本地匹配 {matched}，"
+            f"实际更新 UUID {len(mapping)}"
+        )
+        return mapping
+
     def dump(self, old_position=False) -> List[List[ResourceDictType]]:
         """
         将 ResourceTreeSet 序列化为嵌套列表格式

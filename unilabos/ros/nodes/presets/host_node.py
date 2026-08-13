@@ -243,6 +243,8 @@ class HostNode(BaseROS2DeviceNode):
                     resource_start_time = time.time()
                     # 传递 ResourceTreeSet 对象，在 client 中转换为字典并获取 UUID 映射
                     uuid_mapping = client.resource_tree_add(resources_config, "", True)
+                    # host_node_dict 中的 uuid 是创建时的临时值；以实例上同步后的为准
+                    host_node_dict["uuid"] = host_node_instance.res_content.uuid
                     device_uuid = resources_config.root_nodes[0].res_content.uuid
                     resource_end_time = time.time()
                     logger.info(
@@ -278,7 +280,7 @@ class HostNode(BaseROS2DeviceNode):
             driver_instance=self,
             device_id=device_id,
             registry_name="host_node",
-            device_uuid=host_node_dict["uuid"],
+            device_uuid=host_node_instance.res_content.uuid,
             status_types={},
             action_value_mappings=lab_registry.device_type_registry["host_node"]["class"]["action_value_mappings"],
             hardware_interface={},

@@ -75,8 +75,8 @@ class MachineConfig:
     
     # 运动参数
     default_speed: int = 50         # 默认运动速度 (mm/s)
-    xy_speed_factor: float = 0.3    # XY轴运动速度缩放系数
-    z_speed_factor: float = 2.5     # Z轴运动速度缩放系数
+    xy_speed_factor: float = 0.8    # XY轴运动速度缩放系数
+    z_speed_factor: float = 3.5     # Z轴运动速度缩放系数
     default_acceleration: int = 500 # 默认加速度
 
 

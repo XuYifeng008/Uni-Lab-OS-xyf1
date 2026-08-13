@@ -4841,7 +4841,7 @@
           },
           "metadata": {
             "description": "12管试管架，2行6列",
-            "max_volume_ul": 10000,
+            "max_volume_ul": 50000,
             "well_count": 12,
             "tube_type": "10ml_tube"
           },
@@ -4881,103 +4881,103 @@
             "water"
           ],
           "liquid_volume": [
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0,
-            10000.0
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0,
+            50000000.0
           ],
           "well_liquids": [
             {
-              "slot": 0,
-              "well": "A1",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A1",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 0,
+              "volume_ul": 50000000.0,
+              "well": "A1"
             },
             {
-              "slot": 1,
-              "well": "A2",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A2",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 1,
+              "volume_ul": 50000000.0,
+              "well": "A2"
             },
             {
-              "slot": 2,
-              "well": "A3",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A3",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 2,
+              "volume_ul": 50000000.0,
+              "well": "A3"
             },
             {
-              "slot": 3,
-              "well": "A4",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A4",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 3,
+              "volume_ul": 50000000.0,
+              "well": "A4"
             },
             {
-              "slot": 4,
-              "well": "A5",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A5",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 4,
+              "volume_ul": 50000000.0,
+              "well": "A5"
             },
             {
-              "slot": 5,
-              "well": "A6",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_A6",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 5,
+              "volume_ul": 50000000.0,
+              "well": "A6"
             },
             {
-              "slot": 6,
-              "well": "B1",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_B1",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 6,
+              "volume_ul": 50000000.0,
+              "well": "B1"
             },
             {
-              "slot": 7,
-              "well": "B2",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_B2",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 7,
+              "volume_ul": 50000000.0,
+              "well": "B2"
             },
             {
-              "slot": 8,
-              "well": "B3",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_B3",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 8,
+              "volume_ul": 50000000.0,
+              "well": "B3"
             },
             {
-              "slot": 9,
-              "well": "B4",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_B4",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 9,
+              "volume_ul": 50000000.0,
+              "well": "B4"
             },
             {
-              "slot": 10,
-              "well": "B5",
+              "liquid_type": "water",
               "resource_id": "module_2_12tubes_B5",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 10,
+              "volume_ul": 50000000.0,
+              "well": "B5"
             },
             {
-              "slot": 11,
-              "well": "B6",
-              "resource_id": "module_2_12tubes_B6",
               "liquid_type": "water",
-              "volume_ul": 10000.0
+              "resource_id": "module_2_12tubes_B6",
+              "slot": 11,
+              "volume_ul": 50000000.0,
+              "well": "B6"
             }
           ]
         }
@@ -4991,8 +4991,8 @@
       "class": "",
       "position": {
         "x": -12.8,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5008,7 +5008,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5019,19 +5019,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5040,15 +5040,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": -12.8,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 0,
-            "well": "A1",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 0,
+            "volume_ul": 50000000.0,
+            "well": "A1"
           }
         }
       }
@@ -5061,8 +5061,8 @@
       "class": "",
       "position": {
         "x": 9.0,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5078,7 +5078,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5089,19 +5089,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5110,15 +5110,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 9.0,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 1,
-            "well": "A2",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 1,
+            "volume_ul": 50000000.0,
+            "well": "A2"
           }
         }
       }
@@ -5131,8 +5131,8 @@
       "class": "",
       "position": {
         "x": 30.8,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5148,7 +5148,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5159,19 +5159,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5180,15 +5180,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 30.8,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 2,
-            "well": "A3",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 2,
+            "volume_ul": 50000000.0,
+            "well": "A3"
           }
         }
       }
@@ -5201,8 +5201,8 @@
       "class": "",
       "position": {
         "x": 52.6,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5218,7 +5218,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5229,19 +5229,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5250,15 +5250,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 52.6,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 3,
-            "well": "A4",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 3,
+            "volume_ul": 50000000.0,
+            "well": "A4"
           }
         }
       }
@@ -5271,8 +5271,8 @@
       "class": "",
       "position": {
         "x": 74.4,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5288,7 +5288,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5299,19 +5299,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5320,15 +5320,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 74.4,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 4,
-            "well": "A5",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 4,
+            "volume_ul": 50000000.0,
+            "well": "A5"
           }
         }
       }
@@ -5341,8 +5341,8 @@
       "class": "",
       "position": {
         "x": 96.2,
-        "y": 28.0,
-        "z": 40.0
+        "y": 27.0,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5358,7 +5358,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5369,19 +5369,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5390,15 +5390,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 96.2,
-            "y": -28.0,
+            "y": -27.0,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 5,
-            "well": "A6",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 5,
+            "volume_ul": 50000000.0,
+            "well": "A6"
           }
         }
       }
@@ -5411,8 +5411,8 @@
       "class": "",
       "position": {
         "x": -12.8,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5428,7 +5428,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5439,19 +5439,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5460,15 +5460,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": -12.8,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 6,
-            "well": "B1",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 6,
+            "volume_ul": 50000000.0,
+            "well": "B1"
           }
         }
       }
@@ -5481,8 +5481,8 @@
       "class": "",
       "position": {
         "x": 9.0,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5498,7 +5498,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5509,19 +5509,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5530,15 +5530,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 9.0,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 7,
-            "well": "B2",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 7,
+            "volume_ul": 50000000.0,
+            "well": "B2"
           }
         }
       }
@@ -5551,8 +5551,8 @@
       "class": "",
       "position": {
         "x": 30.8,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5568,7 +5568,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5579,19 +5579,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5600,15 +5600,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 30.8,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 8,
-            "well": "B3",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 8,
+            "volume_ul": 50000000.0,
+            "well": "B3"
           }
         }
       }
@@ -5621,8 +5621,8 @@
       "class": "",
       "position": {
         "x": 52.6,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5638,7 +5638,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5649,19 +5649,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5670,15 +5670,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 52.6,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 9,
-            "well": "B4",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 9,
+            "volume_ul": 50000000.0,
+            "well": "B4"
           }
         }
       }
@@ -5691,8 +5691,8 @@
       "class": "",
       "position": {
         "x": 74.4,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5708,7 +5708,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5719,19 +5719,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5740,15 +5740,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 74.4,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 10,
-            "well": "B5",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 10,
+            "volume_ul": 50000000.0,
+            "well": "B5"
           }
         }
       }
@@ -5761,8 +5761,8 @@
       "class": "",
       "position": {
         "x": 96.2,
-        "y": 6.2,
-        "z": 40.0
+        "y": 5.2,
+        "z": 20.0
       },
       "children": [],
       "config": {
@@ -5778,7 +5778,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 10000.0,
+        "max_volume": 50000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -5789,19 +5789,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            50000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            50000000.0,
             "ul"
           ]
         ]
@@ -5810,15 +5810,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 96.2,
-            "y": -6.2,
+            "y": -5.2,
             "z": 40.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 11,
-            "well": "B6",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 11,
+            "volume_ul": 50000000.0,
+            "well": "B6"
           }
         }
       }
@@ -7859,7 +7859,7 @@
           },
           "metadata": {
             "description": "3瓶架",
-            "max_volume_ul": 50000,
+            "max_volume_ul": 500000,
             "well_count": 3,
             "tube_type": "50ml_tube"
           },
@@ -7881,31 +7881,31 @@
             "water"
           ],
           "liquid_volume": [
-            10000.0,
-            10000.0,
-            10000.0
+            500000000.0,
+            500000000.0,
+            500000000.0
           ],
           "well_liquids": [
             {
-              "slot": 0,
-              "well": "A01",
+              "liquid_type": "water",
               "resource_id": "module_4_3tubes_A01",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 0,
+              "volume_ul": 500000000.0,
+              "well": "A01"
             },
             {
-              "slot": 1,
-              "well": "A02",
+              "liquid_type": "water",
               "resource_id": "module_4_3tubes_A02",
-              "liquid_type": "water",
-              "volume_ul": 10000.0
+              "slot": 1,
+              "volume_ul": 500000000.0,
+              "well": "A02"
             },
             {
-              "slot": 2,
-              "well": "A03",
-              "resource_id": "module_4_3tubes_A03",
               "liquid_type": "water",
-              "volume_ul": 10000.0
+              "resource_id": "module_4_3tubes_A03",
+              "slot": 2,
+              "volume_ul": 500000000.0,
+              "well": "A03"
             }
           ]
         }
@@ -7919,8 +7919,8 @@
       "class": "",
       "position": {
         "x": -0.2,
-        "y": -10.0,
-        "z": 50.0
+        "y": -11.0,
+        "z": 30.0
       },
       "children": [],
       "config": {
@@ -7936,7 +7936,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 50000.0,
+        "max_volume": 500000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -7947,19 +7947,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            500000000.0,
             "ul"
           ]
         ]
@@ -7968,15 +7968,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 130.0,
-            "y": -205.0,
+            "y": -204.0,
             "z": 50.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 0,
-            "well": "A01",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 0,
+            "volume_ul": 500000000.0,
+            "well": "A01"
           }
         }
       }
@@ -7989,8 +7989,8 @@
       "class": "",
       "position": {
         "x": 49.8,
-        "y": -10.0,
-        "z": 50.0
+        "y": -11.0,
+        "z": 30.0
       },
       "children": [],
       "config": {
@@ -8006,7 +8006,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 50000.0,
+        "max_volume": 500000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8017,19 +8017,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            500000000.0,
             "ul"
           ]
         ]
@@ -8038,15 +8038,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 180.0,
-            "y": -205.0,
+            "y": -204.0,
             "z": 50.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 1,
-            "well": "A02",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 1,
+            "volume_ul": 500000000.0,
+            "well": "A02"
           }
         }
       }
@@ -8059,8 +8059,8 @@
       "class": "",
       "position": {
         "x": 99.8,
-        "y": -10.0,
-        "z": 50.0
+        "y": -11.0,
+        "z": 30.0
       },
       "children": [],
       "config": {
@@ -8076,7 +8076,7 @@
         },
         "category": "tube",
         "model": null,
-        "max_volume": 50000.0,
+        "max_volume": 500000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8087,19 +8087,19 @@
         "liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "pending_liquids": [
           [
             "water",
-            10000.0
+            500000000.0
           ]
         ],
         "liquid_history": [
           [
             "water",
-            10000.0,
+            500000000.0,
             "ul"
           ]
         ]
@@ -8108,15 +8108,15 @@
         "electro_deck_well": {
           "deck_position": {
             "x": 230.0,
-            "y": -205.0,
+            "y": -204.0,
             "z": 50.0
           },
           "shape": "circular",
           "liquid_setup": {
-            "slot": 2,
-            "well": "A03",
             "liquid_type": "water",
-            "volume_ul": 10000.0
+            "slot": 2,
+            "volume_ul": 500000000.0,
+            "well": "A03"
           }
         }
       }
@@ -8169,7 +8169,7 @@
           "grid": null,
           "metadata": {
             "description": "GreenLab电合成仪，6个不规则加样口",
-            "max_volume_ul": 15000,
+            "max_volume_ul": 150000,
             "well_count": 6,
             "device_type": "electrochemistry_synthesizer",
             "access_from_top": true
@@ -8182,51 +8182,72 @@
             "volume_key": "liquid_volume",
             "volume_unit": "uL"
           },
-          "liquid_input_slot": [],
-          "liquid_type": [],
-          "liquid_volume": [],
+          "liquid_input_slot": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "liquid_type": [
+            "water",
+            "water",
+            "water",
+            "water",
+            "water",
+            "water"
+          ],
+          "liquid_volume": [
+            50000.0,
+            50000.0,
+            50000.0,
+            50000.0,
+            50000.0,
+            50000.0
+          ],
           "well_liquids": [
             {
-              "slot": 0,
-              "well": "P1",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P1",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 0,
+              "volume_ul": 50000.0,
+              "well": "P1"
             },
             {
-              "slot": 1,
-              "well": "P2",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P2",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 1,
+              "volume_ul": 50000.0,
+              "well": "P2"
             },
             {
-              "slot": 2,
-              "well": "P3",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P3",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 2,
+              "volume_ul": 50000.0,
+              "well": "P3"
             },
             {
-              "slot": 3,
-              "well": "P4",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P4",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 3,
+              "volume_ul": 50000.0,
+              "well": "P4"
             },
             {
-              "slot": 4,
-              "well": "P5",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P5",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 4,
+              "volume_ul": 50000.0,
+              "well": "P5"
             },
             {
-              "slot": 5,
-              "well": "P6",
+              "liquid_type": "water",
               "resource_id": "module_5_GreenLab_P6",
-              "liquid_type": "",
-              "volume_ul": 0.0
+              "slot": 5,
+              "volume_ul": 50000.0,
+              "well": "P6"
             }
           ]
         }
@@ -8257,7 +8278,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8265,9 +8286,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8279,10 +8316,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 0,
-            "well": "P1",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P1"
           }
         }
       }
@@ -8312,7 +8349,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8320,9 +8357,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8334,10 +8387,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 1,
-            "well": "P2",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P2"
           }
         }
       }
@@ -8367,7 +8420,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8375,9 +8428,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8389,10 +8458,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 2,
-            "well": "P3",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P3"
           }
         }
       }
@@ -8422,7 +8491,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8430,9 +8499,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8444,10 +8529,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 3,
-            "well": "P4",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P4"
           }
         }
       }
@@ -8477,7 +8562,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8485,9 +8570,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8499,10 +8600,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 4,
-            "well": "P5",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P5"
           }
         }
       }
@@ -8532,7 +8633,7 @@
         },
         "category": "reagent_inlet",
         "model": null,
-        "max_volume": 15000.0,
+        "max_volume": 150000.0,
         "bottom_type": "unknown",
         "cross_section_type": "circle",
         "material_z_thickness": null,
@@ -8540,9 +8641,25 @@
         "compute_height_from_volume": null
       },
       "data": {
-        "liquids": [],
-        "pending_liquids": [],
-        "liquid_history": []
+        "liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "pending_liquids": [
+          [
+            "water",
+            50000.0
+          ]
+        ],
+        "liquid_history": [
+          [
+            "water",
+            50000.0,
+            "ul"
+          ]
+        ]
       },
       "extra": {
         "electro_deck_well": {
@@ -8554,10 +8671,10 @@
           "shape": "circular",
           "port_type": "reagent_inlet",
           "liquid_setup": {
+            "liquid_type": "water",
             "slot": 5,
-            "well": "P6",
-            "liquid_type": "",
-            "volume_ul": 0.0
+            "volume_ul": 50000.0,
+            "well": "P6"
           }
         }
       }

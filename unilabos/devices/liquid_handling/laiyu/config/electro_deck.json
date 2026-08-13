@@ -1237,144 +1237,144 @@
           "id": "A1",
           "position": {
             "x": -8.3,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "A2",
           "position": {
             "x": 13.5,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "A3",
           "position": {
             "x": 35.3,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "A4",
           "position": {
             "x": 57.1,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "A5",
           "position": {
             "x": 78.9,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "A6",
           "position": {
             "x": 100.7,
-            "y": 123.7,
-            "z": 125.0
+            "y": 122.7,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B1",
           "position": {
             "x": -8.3,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B2",
           "position": {
             "x": 13.5,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B3",
           "position": {
             "x": 35.3,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B4",
           "position": {
             "x": 57.1,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B5",
           "position": {
             "x": 78.9,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         },
         {
           "id": "B6",
           "position": {
             "x": 100.7,
-            "y": 101.9,
-            "z": 125.0
+            "y": 100.9,
+            "z": 105.0
           },
           "diameter": 16.6,
           "depth": 105.0,
-          "volume": 10000.0,
+          "volume": 50000.0,
           "shape": "circular"
         }
       ],
@@ -1400,7 +1400,7 @@
       },
       "metadata": {
         "description": "12管试管架，2行6列",
-        "max_volume_ul": 10000,
+        "max_volume_ul": 50000,
         "well_count": 12,
         "tube_type": "10ml_tube"
       }
@@ -1844,36 +1844,36 @@
           "id": "A01",
           "position": {
             "x": 160.0,
-            "y": 195.0,
-            "z": 110.0
+            "y": 194.0,
+            "z": 90.0
           },
           "diameter": 40.0,
           "depth": 60.0,
-          "volume": 50000.0,
+          "volume": 500000.0,
           "shape": "circular"
         },
         {
           "id": "A02",
           "position": {
             "x": 210.0,
-            "y": 195.0,
-            "z": 110.0
+            "y": 194.0,
+            "z": 90.0
           },
           "diameter": 40.0,
           "depth": 60.0,
-          "volume": 50000.0,
+          "volume": 500000.0,
           "shape": "circular"
         },
         {
           "id": "A03",
           "position": {
             "x": 260.0,
-            "y": 195.0,
-            "z": 110.0
+            "y": 194.0,
+            "z": 90.0
           },
           "diameter": 40.0,
           "depth": 60.0,
-          "volume": 50000.0,
+          "volume": 500000.0,
           "shape": "circular"
         }
       ],
@@ -1895,7 +1895,7 @@
       },
       "metadata": {
         "description": "3瓶架",
-        "max_volume_ul": 50000,
+        "max_volume_ul": 500000,
         "well_count": 3,
         "tube_type": "50ml_tube"
       }
@@ -1924,7 +1924,7 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         },
@@ -1937,7 +1937,7 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         },
@@ -1950,7 +1950,7 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         },
@@ -1963,7 +1963,7 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         },
@@ -1976,7 +1976,7 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         },
@@ -1989,14 +1989,14 @@
           },
           "diameter": 7.0,
           "depth": 90.0,
-          "volume": 15000.0,
+          "volume": 150000.0,
           "shape": "circular",
           "port_type": "reagent_inlet"
         }
       ],
       "metadata": {
         "description": "GreenLab电合成仪，6个不规则加样口",
-        "max_volume_ul": 15000,
+        "max_volume_ul": 150000,
         "well_count": 6,
         "device_type": "electrochemistry_synthesizer",
         "access_from_top": true

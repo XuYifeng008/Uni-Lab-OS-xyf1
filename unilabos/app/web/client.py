@@ -76,11 +76,33 @@ class HTTPClient:
             mount_uuid: 要挂载的资源的uuid
             first_add: 是否为首次添加资源，可以是host也可以是slave来的
         Returns:
-            Dict[str, str]: 旧UUID到新UUID的映射关系 {old_uuid: new_uuid}
+            Dict[str, str]: 启动时本地旧UUID到最终UUID的映射 {old_uuid: final_uuid}
         """
+        # 记录上传前的本地 UUID，供边/下游做完整 old→final 映射
+        uuid_snapshots = [(n, n.res_content.uuid) for n in resources.all_nodes]
+
+        # 方案E（边端）：启动首次同步时先拉云端物料，按 id 复用已有 UUID；
+        # 若云端已有物料则走 PUT 更新，避免 POST first_add 整树重建换号。
+        reuse_existing = False
+        if first_add or not self.initialized:
+            try:
+                remote_startup = self.request_startup_json()
+                remote_nodes = (remote_startup or {}).get("nodes") or []
+                if remote_nodes:
+                    applied = resources.apply_remote_uuids_by_id(remote_nodes)
+                    reuse_existing = True
+                    info(
+                        f"复用云端物料 UUID：远端 {len(remote_nodes)} 个节点，"
+                        f"本地更新 {len(applied)} 个，改用 PUT 同步"
+                    )
+                else:
+                    info("云端暂无物料，将按首次创建（POST）上传本地物料树")
+            except Exception as e:
+                logger.warning(f"拉取云端物料以复用 UUID 失败，回退为常规上传: {e}")
+
         # dump() 只调用一次，复用给文件保存和 HTTP 请求
         nodes_info = [x for xs in resources.dump() for x in xs]
-        old_uuids = {n.res_content.uuid: n for n in resources.all_nodes}
+        sent_uuid_to_node = {n.res_content.uuid: n for n in resources.all_nodes}
         payload = {"nodes": nodes_info, "mount_uuid": mount_uuid}
         body_bytes = _fast_dumps(payload)
         with open(os.path.join(BasicConfig.working_dir, "req_resource_tree_add.json"), "wb") as f:
@@ -88,13 +110,22 @@ class HTTPClient:
         http_headers = {"Content-Type": "application/json"}
         if not self.initialized or first_add:
             self.initialized = True
-            info(f"首次添加资源，当前远程地址: {self.remote_addr}")
-            response = self._session.post(
-                f"{self.remote_addr}/edge/material",
-                data=body_bytes,
-                headers=http_headers,
-                timeout=60,
-            )
+            if reuse_existing:
+                info(f"实验室重连同步资源（PUT），当前远程地址: {self.remote_addr}")
+                response = self._session.put(
+                    f"{self.remote_addr}/edge/material",
+                    data=body_bytes,
+                    headers=http_headers,
+                    timeout=60,
+                )
+            else:
+                info(f"首次添加资源（POST），当前远程地址: {self.remote_addr}")
+                response = self._session.post(
+                    f"{self.remote_addr}/edge/material",
+                    data=body_bytes,
+                    headers=http_headers,
+                    timeout=60,
+                )
         else:
             response = self._session.put(
                 f"{self.remote_addr}/edge/material",
@@ -105,7 +136,7 @@ class HTTPClient:
 
         with open(os.path.join(BasicConfig.working_dir, "res_resource_tree_add.json"), "w", encoding="utf-8") as f:
             f.write(f"{response.status_code}" + "\n" + response.text)
-        # 处理响应，构建UUID映射
+        # 处理响应，构建UUID映射（请求中的 uuid → 云端 cloud_uuid）
         uuid_mapping = {}
         if response.status_code == 200:
             res = response.json()
@@ -118,14 +149,17 @@ class HTTPClient:
         else:
             logger.error(f"添加物料失败: {response.text}")
             logger.trace(f"添加物料失败: {nodes_info}")
-        for u, n in old_uuids.items():
+        for u, n in sent_uuid_to_node.items():
             if u in uuid_mapping:
                 n.res_content.uuid = uuid_mapping[u]
                 for c in n.children:
                     c.res_content.parent_uuid = n.res_content.uuid
-            else:
+            elif not reuse_existing:
                 logger.warning(f"资源UUID未更新: {u}")
-        return uuid_mapping
+
+        # 返回「启动时本地旧 UUID → 最终 UUID」，保证 edge / 下游 remap 正确
+        combined_mapping = {start_uuid: node.res_content.uuid for node, start_uuid in uuid_snapshots}
+        return combined_mapping
 
     def resource_tree_get(self, uuid_list: List[str], with_children: bool) -> List[Dict[str, Any]]:
         """

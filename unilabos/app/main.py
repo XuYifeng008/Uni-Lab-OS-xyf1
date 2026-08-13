@@ -842,6 +842,17 @@ def main():
         print_status("开始同步远端物料到本地...", "info")
         remote_tree_set = ResourceTreeSet.from_raw_dict_list(request_startup_json["nodes"])
         resource_tree_set.merge_remote_resources(remote_tree_set)
+        # 按 id 复用云端 UUID，避免重启后工作流已选 slot 失效
+        uuid_map = resource_tree_set.apply_remote_uuids_by_id(request_startup_json["nodes"])
+        if uuid_map:
+            for edge in resource_edge_info:
+                src = edge.get("source_uuid")
+                tgt = edge.get("target_uuid")
+                if src in uuid_map:
+                    edge["source_uuid"] = uuid_map[src]
+                if tgt in uuid_map:
+                    edge["target_uuid"] = uuid_map[tgt]
+            print_status(f"已按 id 复用云端 UUID: {len(uuid_map)} 个节点", "info")
         print_status("远端物料同步完成", "info")
 
     # 第二次设备包依赖检查：云端物料同步后，community 包可能引入新的 requirements

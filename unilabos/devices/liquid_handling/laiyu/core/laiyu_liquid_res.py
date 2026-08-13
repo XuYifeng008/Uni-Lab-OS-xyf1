@@ -785,14 +785,14 @@ class LaiYu12TubeRack(LaiYuLiquidContainer):
             size_z=105.0,
             container_type="tube_rack",
             volume=0.0,
-            max_volume=10000.0
+            max_volume=50000.0
         )
 
         _create_tube_rack_wells(
             self,
             rows=2,
             cols=6,
-            well_volume=10000.0,
+            well_volume=50000.0,
             well_spacing=21.8,
             well_diameter=16.6,
             well_depth=self.get_size_z()
@@ -855,14 +855,14 @@ class LaiYu3TubeRack(LaiYuLiquidContainer):
             size_z=100.0,
             container_type="tube_rack",
             volume=0.0,
-            max_volume=50000.0
+            max_volume=500000.0
         )
 
         _create_tube_rack_wells(
             self,
             rows=1,
             cols=3,
-            well_volume=50000.0,
+            well_volume=500000.0,
             well_spacing=50.0,
             well_diameter=40.0,
             well_depth=self.get_size_z()

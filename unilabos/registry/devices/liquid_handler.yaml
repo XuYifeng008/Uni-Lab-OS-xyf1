@@ -7073,6 +7073,436 @@ liquid_handler.laiyu:
         type: LiquidHandlerPickUpTips
       transfer_liquid:
         <<: *liquid_handler_transfer_liquid
+      multi_transfer_reuse_tip:
+        feedback: {}
+        goal:
+          blow_out_air_volume: blow_out_air_volume
+          delays: delays
+          is_96_well: is_96_well
+          liquid_height: liquid_height
+          mix_liquid_height: mix_liquid_height
+          mix_rate: mix_rate
+          mix_stage: mix_stage
+          mix_times: mix_times
+          mix_vol: mix_vol
+          none_keys: none_keys
+          offsets: offsets
+          sources: sources
+          spread: spread
+          targets: targets
+          tip_racks: tip_racks
+          touch_tip: touch_tip
+          use_channels: use_channels
+          volumes: volumes
+        goal_default:
+          blow_out_air_volume: []
+          delays: []
+          is_96_well: false
+          liquid_height: []
+          mix_liquid_height: 0.0
+          mix_rate: 0
+          mix_stage: ''
+          mix_times: 0
+          mix_vol: 0
+          none_keys: []
+          offsets: []
+          sources: []
+          spread: ''
+          targets: []
+          tip_racks: []
+          touch_tip: false
+          use_channels: []
+          volumes: []
+        handles:
+          input:
+          - data_key: sources
+            data_source: handle
+            data_type: resource
+            handler_key: sources
+            label: 待移动液体
+          - data_key: targets
+            data_source: handle
+            data_type: resource
+            handler_key: targets
+            label: 转移目标
+          - data_key: tip_racks
+            data_source: handle
+            data_type: resource
+            handler_key: tip_rack
+            label: 枪头盒
+          output:
+          - data_key: sources.@flatten
+            data_source: executor
+            data_type: resource
+            handler_key: sources_out
+            label: 移液后源孔
+          - data_key: targets.@flatten
+            data_source: executor
+            data_type: resource
+            handler_key: targets_out
+            label: 移液后目标孔
+        placeholder_keys:
+          sources: unilabos_resources
+          targets: unilabos_resources
+          tip_racks: unilabos_resources
+        result:
+          return_info: return_info
+          success: success
+        schema:
+          description: 一根枪头多次吸放液，完成后枪头放回取枪头原位；吸/放流速固定 50
+          properties:
+            feedback:
+              additionalProperties: true
+              title: MultiTransferReuseTip_Feedback
+              type: object
+            goal:
+              additionalProperties: false
+              properties:
+                blow_out_air_volume:
+                  items:
+                    type: number
+                  type: array
+                delays:
+                  items:
+                    type: integer
+                  type: array
+                is_96_well:
+                  type: boolean
+                liquid_height:
+                  items:
+                    type: number
+                  type: array
+                mix_liquid_height:
+                  maximum: 1.7976931348623157e+308
+                  minimum: -1.7976931348623157e+308
+                  type: number
+                mix_rate:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                mix_stage:
+                  type: string
+                mix_times:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                mix_vol:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                none_keys:
+                  items:
+                    type: string
+                  type: array
+                offsets:
+                  items:
+                    properties:
+                      x:
+                        type: number
+                      y:
+                        type: number
+                      z:
+                        type: number
+                    required:
+                    - x
+                    - y
+                    - z
+                    type: object
+                  type: array
+                sources:
+                  items:
+                    properties:
+                      category:
+                        type: string
+                      children:
+                        items:
+                          type: string
+                        type: array
+                      config:
+                        type: string
+                      data:
+                        type: string
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      parent:
+                        type: string
+                      pose:
+                        properties:
+                          orientation:
+                            properties:
+                              w:
+                                type: number
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            - w
+                            title: orientation
+                            type: object
+                          position:
+                            properties:
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            title: position
+                            type: object
+                        required:
+                        - position
+                        - orientation
+                        title: pose
+                        type: object
+                      sample_id:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                    - id
+                    - name
+                    - sample_id
+                    - children
+                    - parent
+                    - type
+                    - category
+                    - pose
+                    - config
+                    - data
+                    type: object
+                  type: array
+                spread:
+                  type: string
+                targets:
+                  items:
+                    properties:
+                      category:
+                        type: string
+                      children:
+                        items:
+                          type: string
+                        type: array
+                      config:
+                        type: string
+                      data:
+                        type: string
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      parent:
+                        type: string
+                      pose:
+                        properties:
+                          orientation:
+                            properties:
+                              w:
+                                type: number
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            - w
+                            title: orientation
+                            type: object
+                          position:
+                            properties:
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            title: position
+                            type: object
+                        required:
+                        - position
+                        - orientation
+                        title: pose
+                        type: object
+                      sample_id:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                    - id
+                    - name
+                    - sample_id
+                    - children
+                    - parent
+                    - type
+                    - category
+                    - pose
+                    - config
+                    - data
+                    type: object
+                  type: array
+                tip_racks:
+                  items:
+                    properties:
+                      category:
+                        type: string
+                      children:
+                        items:
+                          type: string
+                        type: array
+                      config:
+                        type: string
+                      data:
+                        type: string
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      parent:
+                        type: string
+                      pose:
+                        properties:
+                          orientation:
+                            properties:
+                              w:
+                                type: number
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            - w
+                            title: orientation
+                            type: object
+                          position:
+                            properties:
+                              x:
+                                type: number
+                              y:
+                                type: number
+                              z:
+                                type: number
+                            required:
+                            - x
+                            - y
+                            - z
+                            title: position
+                            type: object
+                        required:
+                        - position
+                        - orientation
+                        title: pose
+                        type: object
+                      sample_id:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                    - id
+                    - name
+                    - sample_id
+                    - children
+                    - parent
+                    - type
+                    - category
+                    - pose
+                    - config
+                    - data
+                    type: object
+                  type: array
+                touch_tip:
+                  type: boolean
+                use_channels:
+                  items:
+                    type: integer
+                  type: array
+                volumes:
+                  items:
+                    type: number
+                  type: array
+                  description: 每次 transfer 的吸/放液体积(uL)，吸液与放液体积相等；流速固定为 50
+              title: MultiTransferReuseTip_Goal
+              type: object
+            result:
+              additionalProperties: false
+              properties:
+                return_info:
+                  type: string
+                success:
+                  type: boolean
+              title: MultiTransferReuseTip_Result
+              type: object
+          required:
+          - goal
+          title: MultiTransferReuseTip
+          type: object
+        type: UniLabJsonCommandAsync
+      return_tips:
+        feedback: {}
+        goal:
+          allow_nonzero_volume: allow_nonzero_volume
+          use_channels: use_channels
+        goal_default:
+          allow_nonzero_volume: false
+          use_channels: []
+        handles: {}
+        result:
+          name: name
+        schema:
+          description: ''
+          properties:
+            feedback:
+              additionalProperties: true
+              title: LiquidHandlerReturnTips_Feedback
+              type: object
+            goal:
+              additionalProperties: false
+              properties:
+                allow_nonzero_volume:
+                  type: boolean
+                use_channels:
+                  items:
+                    type: integer
+                  type: array
+              title: LiquidHandlerReturnTips_Goal
+              type: object
+            result:
+              additionalProperties: false
+              properties:
+                return_info:
+                  type: string
+                success:
+                  type: boolean
+              title: LiquidHandlerReturnTips_Result
+              type: object
+          required:
+          - goal
+          title: LiquidHandlerReturnTips
+          type: object
+        type: LiquidHandlerReturnTips
     module: unilabos.devices.liquid_handling.laiyu.laiyu:TransformXYZHandler
     properties:
       support_touch_tip: bool

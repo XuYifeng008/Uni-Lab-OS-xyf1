@@ -40,8 +40,11 @@ logger = logging.getLogger(__name__)
 class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
   """Chatter box backend for device-free testing. Prints out all operations."""
 
-  _greenlab_dispense_wells = {f"module_5_GreenLab_P{i}" for i in range(1, 7)}
-  _greenlab_dispense_z_offset_mm = -20.0
+  # GreenLab 孔位 Z 偏移（工作坐标：safe_z≈0 为最高，数值越大枪头越低）
+  # source(吸液) 比 target(排液) 再低 30mm；占位值，现场可再标定
+  _greenlab_wells = {f"module_5_GreenLab_P{i}" for i in range(1, 7)}
+  _greenlab_aspirate_z_offset_mm = -15.0  # GreenLab 为 source：枪头更深
+  _greenlab_dispense_z_offset_mm = -50.0   # GreenLab 为 target：相对吸液浅 30mm
   _default_flow_rate = 2000
   _min_flow_rate = 100
   _max_flow_rate = 2000
@@ -149,8 +152,20 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     print(f"Resource {name} was unassigned from the liquid handler.")
 
   @classmethod
-  def _is_greenlab_dispense_target(cls, resource: Resource) -> bool:
-    return resource.name in cls._greenlab_dispense_wells
+  def _is_greenlab_well(cls, resource: Resource) -> bool:
+    return resource.name in cls._greenlab_wells
+
+  @classmethod
+  def _greenlab_z_offset(cls, resource: Resource, role: str) -> float:
+    """按 GreenLab 作为 source/target 返回 Z 偏移。
+
+    role: \"aspirate\"（source，更深）或 \"dispense\"（target，较浅）
+    """
+    if not cls._is_greenlab_well(resource):
+      return 0.0
+    if role == "aspirate":
+      return cls._greenlab_aspirate_z_offset_mm
+    return cls._greenlab_dispense_z_offset_mm
 
   async def pick_up_tips(self, ops: List[Pickup], use_channels: List[int], **backend_kwargs):
     print("Picking up tips:")
@@ -301,6 +316,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     x = coordinate.x + offset_xyz.x
     y = coordinate.y + offset_xyz.y
     z = self.total_height - (coordinate.z + self.tip_length) + offset_xyz.z
+    z += self._greenlab_z_offset(ops[0].resource, "aspirate")
     # print(x, y, z)
     # print("moving")
 
@@ -309,7 +325,8 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
         raise RuntimeError("无枪头，无法吸液")
     # 判断吸液量是否超过枪头容量
     flow_rate = self._normalize_flow_rate(backend_kwargs.get("flow_rate"))
-    blow_out_air_volume = backend_kwargs["blow_out_air_volume"] if "blow_out_air_volume" in backend_kwargs else 0
+    # PyLabRobot 将 blow_out_air_volume 写入 op，而非 backend_kwargs
+    blow_out_air_volume = ops[0].blow_out_air_volume if ops[0].blow_out_air_volume is not None else 0
     if self.hardware_interface.current_volume + ops[0].volume + blow_out_air_volume > self.hardware_interface.max_volume:
         logger.error(f"吸液量超过枪头容量: {self.hardware_interface.current_volume + ops[0].volume} > {self.hardware_interface.max_volume}")
         return
@@ -371,8 +388,7 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
     x = coordinate.x + offset_xyz.x
     y = coordinate.y + offset_xyz.y
     z = self.total_height - (coordinate.z + self.tip_length) + offset_xyz.z
-    if self._is_greenlab_dispense_target(ops[0].resource):
-      z += self._greenlab_dispense_z_offset_mm
+    z += self._greenlab_z_offset(ops[0].resource, "dispense")
     # print(x, y, z)
     # print("moving")
 
@@ -381,7 +397,8 @@ class UniLiquidHandlerLaiyuBackend(LiquidHandlerBackend):
         raise RuntimeError("无枪头，无法排液")
     # 判断排液量是否超过枪头容量
     flow_rate = self._normalize_flow_rate(backend_kwargs.get("flow_rate"))
-    blow_out_air_volume = backend_kwargs["blow_out_air_volume"] if "blow_out_air_volume" in backend_kwargs else 0
+    # PyLabRobot 将 blow_out_air_volume 写入 op，而非 backend_kwargs
+    blow_out_air_volume = ops[0].blow_out_air_volume if ops[0].blow_out_air_volume is not None else 0
     if self.hardware_interface.current_volume - ops[0].volume - blow_out_air_volume < 0:
         logger.error(f"排液量超过枪头容量: {self.hardware_interface.current_volume - ops[0].volume - blow_out_air_volume} < 0")
         return

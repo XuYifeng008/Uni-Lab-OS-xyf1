@@ -40,8 +40,8 @@ greenlab_electrochemical:
               properties:
                 channel:
                   type: integer
-                  title: "通道号"
-                  description: "GreenLab 通道号，范围 1-6"
+                  title: "位置号"
+                  description: "台面位置号 1-6，对应电通道 3,4,5,6,1,2"
                   minimum: 1
                   maximum: 6
                   default: 1
@@ -121,8 +121,8 @@ greenlab_electrochemical:
               properties:
                 channel:
                   type: integer
-                  title: "通道号"
-                  description: "GreenLab 通道号，范围 1-6"
+                  title: "位置号"
+                  description: "台面位置号 1-6，对应电通道 3,4,5,6,1,2"
                   minimum: 1
                   maximum: 6
                   default: 1
@@ -181,15 +181,15 @@ greenlab_electrochemical:
         handles: {}
         placeholder_keys: {}
         schema:
-          description: "结束反应：关闭指定通道，并可同时停止搅拌"
+          description: "结束反应：关闭指定位置对应电通道，并可同时停止搅拌"
           properties:
             feedback: {}
             goal:
               properties:
                 channel:
                   type: integer
-                  title: "通道号"
-                  description: "GreenLab 通道号，范围 1-6"
+                  title: "位置号"
+                  description: "台面位置号 1-6，对应电通道 3,4,5,6,1,2"
                   minimum: 1
                   maximum: 6
                   default: 1
@@ -206,6 +206,37 @@ greenlab_electrochemical:
           required:
             - goal
           title: "结束反应"
+          type: object
+      delay:
+        type: UniLabJsonCommand
+        goal:
+          time: time
+        feedback: {}
+        result: {}
+        goal_default:
+          time: 0
+        handles: {}
+        placeholder_keys: {}
+        schema:
+          description: "延时节点：工作流在此节点停留指定秒数后继续执行下一节点"
+          properties:
+            feedback: {}
+            goal:
+              properties:
+                time:
+                  type: number
+                  title: "延时时间(s)"
+                  description: "工作流在此节点停留的秒数"
+                  minimum: 0
+                  default: 0
+              required:
+                - time
+              type: object
+            result:
+              type: object
+          required:
+            - goal
+          title: "延时"
           type: object
     type: python
 
@@ -438,6 +469,17 @@ greenlab_electrochemical:
           type: boolean
           description: "是否同时停止搅拌"
           default: true
+      returns:
+        type: object
+
+    delay:
+      description: "延时节点：工作流停留指定秒数后继续"
+      parameters:
+        time:
+          type: number
+          description: "延时时间(秒)"
+          minimum: 0
+          default: 0
       returns:
         type: object
 

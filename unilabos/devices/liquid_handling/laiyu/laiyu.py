@@ -3,7 +3,7 @@ import collections
 import contextlib
 import json
 import time
-from typing import Any, List, Dict, Optional, TypedDict, Union, Sequence, Iterator, Literal
+from typing import Any, List, Dict, Optional, TypedDict, Union, Sequence, Iterator, Literal, cast
 
 from pylabrobot.liquid_handling import (
     LiquidHandlerBackend,
@@ -25,9 +25,14 @@ from pylabrobot.liquid_handling.standard import (
 )
 from pylabrobot.resources import Tip, Deck, Plate, Well, TipRack, Resource, Container, Coordinate, TipSpot, Trash
 
-from unilabos.devices.liquid_handling.liquid_handler_abstract import LiquidHandlerAbstract
+from unilabos.devices.liquid_handling.liquid_handler_abstract import (
+    LiquidHandlerAbstract,
+    TransferLiquidReturn,
+)
 from unilabos.devices.liquid_handling.rviz_backend import UniLiquidHandlerRvizBackend
 from unilabos.devices.liquid_handling.laiyu.backend.laiyu_v_backend import UniLiquidHandlerLaiyuBackend
+from unilabos.registry.placeholder_type import ResourceSlot
+from unilabos.resources.resource_tracker import ResourceTreeSet
 
 
 
@@ -334,4 +339,192 @@ class TransformXYZHandler(LiquidHandlerAbstract):
             delays=delays,
             none_keys=none_keys,
         )
-    
+
+    async def return_tips(
+        self,
+        use_channels: Optional[List[int]] = None,
+        allow_nonzero_volume: bool = False,
+        offsets: Optional[List[Coordinate]] = None,
+        **backend_kwargs,
+    ):
+        return await super().return_tips(
+            use_channels=self._normalize_use_channels(use_channels),
+            allow_nonzero_volume=allow_nonzero_volume,
+            offsets=self._none_if_empty(offsets),
+            **backend_kwargs,
+        )
+
+    async def multi_transfer_reuse_tip(
+        self,
+        sources: List[ResourceSlot],
+        targets: List[ResourceSlot],
+        tip_racks: List[ResourceSlot],
+        *,
+        use_channels: Optional[List[int]] = None,
+        volumes: Union[List[float], float],
+        offsets: Optional[List[Coordinate]] = None,
+        touch_tip: bool = False,
+        liquid_height: Optional[List[Optional[float]]] = None,
+        blow_out_air_volume: Optional[List[Optional[float]]] = None,
+        spread: Literal["wide", "tight", "custom"] = "wide",
+        is_96_well: bool = False,
+        mix_stage: Optional[Literal["none", "before", "after", "both"]] = "none",
+        mix_times: Optional[Union[List[int], int]] = None,
+        mix_vol: Optional[int] = None,
+        mix_rate: Optional[int] = None,
+        mix_liquid_height: Optional[float] = None,
+        delays: Optional[List[int]] = None,
+        none_keys: List[str] = [],
+    ) -> Optional[TransferLiquidReturn]:
+        """一根枪头完成多次吸放液，结束后放回取枪头原位。
+
+        volumes[i] 同时作为第 i 次吸液与放液体积；吸/放流速固定为 50。
+        sources/targets/tip_racks 需标注 ResourceSlot，以便 JsonCommandAsync 解析为 PLR 实例。
+        """
+        _ = none_keys
+        if is_96_well:
+            raise ValueError("multi_transfer_reuse_tip 暂不支持 96 通道模式")
+        if not sources or not targets or volumes is None:
+            return None
+
+        # JsonCommandAsync 解析后应为 PLR Container / TipRack 实例
+        source_containers = cast(Sequence[Container], sources)
+        target_containers = cast(Sequence[Container], targets)
+        tip_rack_list = cast(Sequence[TipRack], tip_racks)
+        if any(isinstance(x, dict) for x in list(source_containers) + list(target_containers) + list(tip_rack_list)):
+            raise TypeError(
+                "sources/targets/tip_racks 未解析为资源实例（仍为 dict）。"
+                "请确认参数类型为 List[ResourceSlot] 且走 UniLabJsonCommandAsync。"
+            )
+
+        use_channels = self._normalize_use_channels(use_channels)
+        if use_channels is None:
+            use_channels = list(range(self.channel_num)) if self.channel_num > 0 else [0]
+        if len(use_channels) != 1:
+            raise ValueError("multi_transfer_reuse_tip 仅支持单通道（use_channels 长度为 1）")
+
+        offsets = self._none_if_empty(offsets)
+        liquid_height = self._none_if_empty(liquid_height)
+        blow_out_air_volume = self._none_if_empty(blow_out_air_volume)
+
+        if isinstance(volumes, (int, float)):
+            vol_list = [float(volumes)]
+        else:
+            vol_list = [float(v) for v in volumes]
+
+        if mix_times is not None and not isinstance(mix_times, (int, float)):
+            try:
+                mix_times = mix_times[0] if len(mix_times) > 0 else None
+            except Exception:
+                try:
+                    mix_times = next(iter(mix_times))
+                except Exception:
+                    mix_times = None
+        if mix_times is not None:
+            mix_times = int(mix_times)
+
+        if not tip_rack_list:
+            raise ValueError("`tip_racks` 至少需要提供一个 TipRack")
+        # 与 transfer_liquid 相同：按 tip_rack 自动取下一个未用枪头
+        if not hasattr(self, "current_tip") or getattr(self, "tip_racks", None) != tip_rack_list:
+            self.set_tiprack(tip_rack_list)
+
+        num_sources = len(source_containers)
+        num_targets = len(target_containers)
+        flow_rate = 50.0
+        pairs: List[tuple] = []
+
+        if num_sources == 1:
+            if len(vol_list) == 1 and num_targets > 1:
+                vol_list = vol_list * num_targets
+            if len(vol_list) != num_targets:
+                raise ValueError(f"`volumes` 长度 {len(vol_list)} 必须与 `targets` 长度 {num_targets} 一致")
+            pairs = [(source_containers[0], target_containers[i], vol_list[i]) for i in range(num_targets)]
+        elif num_targets == 1 and num_sources > 1:
+            if len(vol_list) == 1 and num_sources > 1:
+                vol_list = vol_list * num_sources
+            if len(vol_list) != num_sources:
+                raise ValueError(f"`volumes` 长度 {len(vol_list)} 必须与 `sources` 长度 {num_sources} 一致")
+            pairs = [(source_containers[i], target_containers[0], vol_list[i]) for i in range(num_sources)]
+        elif num_sources == num_targets:
+            if len(vol_list) == 1 and num_targets > 1:
+                vol_list = vol_list * num_targets
+            if len(vol_list) != num_targets:
+                raise ValueError(f"`volumes` 长度 {len(vol_list)} 必须与 `targets` 长度 {num_targets} 一致")
+            pairs = [(source_containers[i], target_containers[i], vol_list[i]) for i in range(num_targets)]
+        else:
+            raise ValueError(
+                f"不支持的移液模式: {num_sources} sources -> {num_targets} targets。"
+                "支持 1->N、N->1 或 N->N。"
+            )
+
+        tip: List[TipSpot] = []
+        for _ in range(len(use_channels)):
+            next_tip = next(self.current_tip)
+            if isinstance(next_tip, TipSpot):
+                tip.append(next_tip)
+            elif isinstance(next_tip, (list, tuple)):
+                tip.extend(next_tip)
+            else:
+                raise TypeError(f"从 tip_rack 取到的不是 TipSpot: {type(next_tip)} / {next_tip!r}")
+        await self.pick_up_tips(tip, use_channels=use_channels)
+
+        try:
+            for i, (src, tgt, vol) in enumerate(pairs):
+                if mix_stage in ["before", "both"] and mix_times is not None and mix_times > 0:
+                    await self.mix(
+                        targets=[tgt],
+                        mix_time=mix_times,
+                        mix_vol=mix_vol,
+                        offsets=offsets if offsets else None,
+                        height_to_bottom=mix_liquid_height if mix_liquid_height else None,
+                        mix_rate=mix_rate if mix_rate else None,
+                    )
+
+                await self.aspirate(
+                    resources=[src],
+                    vols=[vol],
+                    use_channels=use_channels,
+                    flow_rates=[flow_rate],
+                    offsets=[offsets[i]] if offsets and len(offsets) > i else None,
+                    liquid_height=[liquid_height[i]] if liquid_height and len(liquid_height) > i else None,
+                    blow_out_air_volume=(
+                        [blow_out_air_volume[i]] if blow_out_air_volume and len(blow_out_air_volume) > i else None
+                    ),
+                    spread=spread or "wide",
+                )
+                await self._custom_delay_if_configured(delays, 0)
+                await self.dispense(
+                    resources=[tgt],
+                    vols=[vol],
+                    use_channels=use_channels,
+                    flow_rates=[flow_rate],
+                    offsets=[offsets[i]] if offsets and len(offsets) > i else None,
+                    liquid_height=[liquid_height[i]] if liquid_height and len(liquid_height) > i else None,
+                    blow_out_air_volume=(
+                        [blow_out_air_volume[i]] if blow_out_air_volume and len(blow_out_air_volume) > i else None
+                    ),
+                    spread=spread or "wide",
+                )
+                await self._custom_delay_if_configured(delays, 1)
+
+                if mix_stage in ["after", "both"] and mix_times is not None and mix_times > 0:
+                    await self.mix(
+                        targets=[tgt],
+                        mix_time=mix_times,
+                        mix_vol=mix_vol,
+                        offsets=offsets if offsets else None,
+                        height_to_bottom=mix_liquid_height if mix_liquid_height else None,
+                        mix_rate=mix_rate if mix_rate else None,
+                    )
+                await self._custom_delay_if_configured(delays, 1)
+                if touch_tip:
+                    await self.touch_tip([tgt])
+        finally:
+            # 全部移液完成后，枪头放回取枪头原位
+            await self.return_tips(use_channels=use_channels)
+
+        return TransferLiquidReturn(
+            sources=ResourceTreeSet.from_plr_resources(list(source_containers), known_newly_created=False).dump(),  # type: ignore
+            targets=ResourceTreeSet.from_plr_resources(list(target_containers), known_newly_created=False).dump(),  # type: ignore
+        )
