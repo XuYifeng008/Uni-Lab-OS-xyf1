@@ -820,14 +820,14 @@ class LaiYu30TubeRack(LaiYuLiquidContainer):
             size_z=55.0,
             container_type="tube_rack",
             volume=0.0,
-            max_volume=3000.0
+            max_volume=15000.0
         )
 
         _create_tube_rack_wells(
             self,
             rows=5,
             cols=6,
-            well_volume=3000.0,
+            well_volume=15000.0,
             well_spacing=17.2,
             well_diameter=12.3,
             well_depth=self.get_size_z()

@@ -47,9 +47,9 @@ LC小瓶间距1.72cm
 - 默认 name：30_tube_rack
 - 描述：5行6列
 - 外形尺寸 size_x/y/z：11.56 cm / 9.23 cm / 5.50 cm
-- 最大容量：每个试管的最大容量为3 mL
+- 最大容量：每个试管的最大容量为15 mL
 - 孔位布局：5行6列，相邻孔间距为1.72 cm
-- 单孔容量/直径/深度：单孔容量3 mL，直径1.23cm，深度5.50 cm
+- 单孔容量/直径/深度：单孔容量15 mL，直径1.23cm，深度5.50 cm
 - deckconfig type：tube_rack
 - 是否需要创建函数/别名：否
 
@@ -184,7 +184,7 @@ deck：
 
 - 孔位E06坐标：101 / -162 / 30.5 mm
 
-\- 单孔 diameter/depth/volume：8.2 mm / 25.0 mm / 1500 uL
+\- 单孔 diameter/depth/volume：8.2 mm / 25.0 mm / 15000 uL
 
 \- description：LC_30瓶架，禁用A01~A06
 
