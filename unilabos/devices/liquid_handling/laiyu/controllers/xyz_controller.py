@@ -566,7 +566,9 @@ class XYZController(XYZStepperController):
         rps = velocity_mms / lead_mm
         # rps -> rpm
         rpm = int(rps * 60.0)
-        return min(max(rpm, 0), 150)
+        # Z 导程仅 5mm，同样线速度需要更高转速；XY 保持 150，Z 单独放宽
+        max_rpm = 300 if axis == MotorAxis.Z else 150
+        return min(max(rpm, 0), max_rpm)
 
         
     # ==================== 高级运动控制方法 ====================
